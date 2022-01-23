@@ -14,11 +14,10 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(PlayerInput))]
 [RequireComponent(typeof(KeybindInputHandler))]
-public class ThirdPersonController : MonoBehaviour
+public class ThirdPersonController : MonoBehaviour, IDamagable
 {
 	#region Variables
 	#region Player
-	[Header("Player")]
 	/// <summary>
 	/// Overall player speed (x and y axis).
 	/// </summary>
@@ -27,6 +26,7 @@ public class ThirdPersonController : MonoBehaviour
 	private float animationBlend;
 
 	#region Flat Movement
+	[Header("Horizontal Movement")]
 	[Tooltip("Move speed of the character in m/s")]
 	[Range(0, 50)]
 	[SerializeField]
@@ -97,6 +97,7 @@ public class ThirdPersonController : MonoBehaviour
     #endregion
 
     #region Player Grounding
+	/*
     [Header("Player Grounded")]
 	/// <summary>
 	/// Holds reference to if the player is grounded. NOT the built in character controller grounded.
@@ -115,7 +116,7 @@ public class ThirdPersonController : MonoBehaviour
 
 	[Tooltip("What layers the character uses as ground")]
 	[SerializeField]
-	private LayerMask groundLayers;
+	private LayerMask groundLayers;*/
 
 	#region Time out deltas
 	/// <summary>
@@ -240,6 +241,14 @@ public class ThirdPersonController : MonoBehaviour
 	/// The players gun.
 	/// </summary>
 	private Gun gun;
+
+	[SerializeField]
+	private AbilityAction[] abilities;
+
+	public AbilityAction[] Abilities
+    {
+		get => abilities;
+    }
 	#endregion
 	#endregion
 
@@ -255,6 +264,11 @@ public class ThirdPersonController : MonoBehaviour
 		controller = GetComponent<CharacterController>();
 		input = GetComponent<KeybindInputHandler>();
 		gun = GetComponentInChildren<Gun>();
+
+		gameObject.AddComponent<GravityPull>();
+		gameObject.AddComponent<FreezeEnemy>();
+		gameObject.AddComponent<Shield>();
+		abilities = GetComponents<AbilityAction>();
 	}
 
 	/// <summary>
@@ -381,9 +395,19 @@ public class ThirdPersonController : MonoBehaviour
     #endregion
 
     #region Abilities
-    private void AltAbility()
+    public void AltAbility()
     {
+		abilities[0].TriggerAbility();
+    }
 
+	public void EAbility()
+    {
+		abilities[1].TriggerAbility();
+    }
+
+	public void QAbility()
+    {
+		abilities[2].TriggerAbility();
     }
     #endregion
 

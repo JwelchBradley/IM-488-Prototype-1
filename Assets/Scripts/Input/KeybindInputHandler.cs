@@ -130,25 +130,40 @@ public class KeybindInputHandler : MonoBehaviour
 
 	public void OnShoot(InputValue value)
     {
-		Shoot(value.isPressed);
+		ShootInput(value.isPressed);
     }
 
 	public void OnPause()
     {
 		pmb.PauseGame();
     }
-    #endregion
 
-    #region Input Updaters
-    #region Movement
-    public void MoveInput(Vector2 newMoveDirection)
+	public void OnAltAbility(InputValue value)
+    {
+		AltAbilityInput(value.isPressed);
+    }
+
+	public void OnEAbility(InputValue value)
+    {
+		EAbilityInput(value.isPressed);
+	}
+
+	public void OnQAbility(InputValue value)
+	{
+		QAbilityInput(value.isPressed);
+	}
+	#endregion
+
+	#region Input Updaters
+	#region Movement
+	public void MoveInput(Vector2 newMoveDirection)
 	{
 		move = newMoveDirection;
 	}
 
 	private void DashInput(Vector2 newDashDirection)
     {
-		Debug.Log(newDashDirection);
+		
     }
 
 	public void LookInput(Vector2 newLookDirection)
@@ -168,9 +183,29 @@ public class KeybindInputHandler : MonoBehaviour
     #endregion
 
     #region Shoot
-    private void Shoot(bool shouldShoot)
+    private void ShootInput(bool shouldShoot)
 	{
 		tpc.Shoot(shouldShoot);
+	}
+    #endregion
+
+    #region Abilities
+	private void AltAbilityInput(bool shouldUseAbility)
+    {
+		if(shouldUseAbility)
+		tpc.AltAbility();
+    }
+
+	private void EAbilityInput(bool shouldUseAbility)
+    {
+		if(shouldUseAbility)
+		tpc.EAbility();
+    }
+
+	private void QAbilityInput(bool shouldUseAbility)
+	{
+		if(shouldUseAbility)
+		tpc.QAbility();
 	}
 	#endregion
 	#endregion
