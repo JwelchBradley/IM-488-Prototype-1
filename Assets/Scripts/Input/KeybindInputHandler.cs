@@ -59,19 +59,6 @@ public class KeybindInputHandler : MonoBehaviour
 	{
 		get => look;
 	}
-
-	/// <summary>
-	/// Holds true if the player wants to shoot.
-	/// </summary>
-	private bool shoot;
-
-	/// <summary>
-	/// Holds true if the player wants to shoot.
-	/// </summary>
-	public bool Shoot
-    {
-		get => shoot;
-    }
     #endregion
     #endregion
 
@@ -86,6 +73,13 @@ public class KeybindInputHandler : MonoBehaviour
 	/// The pause menu in this scene.
 	/// </summary>
 	private PauseMenuBehavior pmb;
+
+	/// <summary>
+	/// The gun attached to this player.
+	/// </summary>
+	private Gun gun;
+
+	private ThirdPersonController tpc;
 	#endregion
 
 	#region Functions
@@ -93,7 +87,9 @@ public class KeybindInputHandler : MonoBehaviour
 	private void Awake()
     {
 		pmb = GameObject.Find("Pause Menu Templates Canvas").GetComponent<PauseMenuBehavior>();
-    }
+		gun = GetComponentInChildren<Gun>();
+		tpc = GetComponent<ThirdPersonController>();
+	}
     #endregion
 
     #region Input recievers
@@ -134,7 +130,7 @@ public class KeybindInputHandler : MonoBehaviour
 
 	public void OnShoot(InputValue value)
     {
-		ShootInput(value.isPressed);
+		Shoot(value.isPressed);
     }
 
 	public void OnPause()
@@ -144,6 +140,7 @@ public class KeybindInputHandler : MonoBehaviour
     #endregion
 
     #region Input Updaters
+    #region Movement
     public void MoveInput(Vector2 newMoveDirection)
 	{
 		move = newMoveDirection;
@@ -168,11 +165,14 @@ public class KeybindInputHandler : MonoBehaviour
 	{
 		moveFast = newMoveFastState;
 	}
-
-	private void ShootInput(bool newShootState)
-    {
-		shoot = newShootState;
-    }
-    #endregion	
     #endregion
+
+    #region Shoot
+    private void Shoot(bool shouldShoot)
+	{
+		tpc.Shoot(shouldShoot);
+	}
+	#endregion
+	#endregion
+	#endregion
 }

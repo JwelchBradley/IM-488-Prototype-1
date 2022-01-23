@@ -83,8 +83,8 @@ public class ThirdPersonController : MonoBehaviour
 	private float targetRotation = 0.0f;
 	#endregion
 
-	#region Health
-	[Header("Health")]
+    #region Health
+    [Header("Health")]
 	[Tooltip("The amount of health the player starts with")]
 	[SerializeField]
 	[Range(0, 500)]
@@ -237,9 +237,9 @@ public class ThirdPersonController : MonoBehaviour
 	private GameObject mainCamera;
 
 	/// <summary>
-	/// The gun attached to this player.
+	/// The players gun.
 	/// </summary>
-	private GameObject gun;
+	private Gun gun;
 	#endregion
 	#endregion
 
@@ -254,6 +254,7 @@ public class ThirdPersonController : MonoBehaviour
 
 		controller = GetComponent<CharacterController>();
 		input = GetComponent<KeybindInputHandler>();
+		gun = GetComponentInChildren<Gun>();
 	}
 
 	/// <summary>
@@ -286,7 +287,6 @@ public class ThirdPersonController : MonoBehaviour
 	{
 		MoveVertically();
 		Move();
-		Shoot();
 	}
 
 	/// <summary>
@@ -374,13 +374,10 @@ public class ThirdPersonController : MonoBehaviour
     #endregion
 
     #region Shoot
-	private void Shoot()
+	public void Shoot(bool shouldShoot)
     {
-        if (input.Shoot)
-        {
-
-        }
-    }
+		gun.Shoot(shouldShoot);
+	}
     #endregion
 
     #region Abilities

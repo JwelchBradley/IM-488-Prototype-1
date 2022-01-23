@@ -3,17 +3,20 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - CinemachineTarget
+  - Bullet
+  - Gun
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Enemy Bullet
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Player Bullet
+  - Player
+  - Gun
   - 
   - 
   - 
