@@ -5,6 +5,7 @@
 //
 // Brief Description : Handles the movement of the player.
 *****************************************************************************/
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -26,6 +27,14 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	private float animationBlend;
 
 	#region Flat Movement
+	private enum moveState
+		{
+		normal,
+		fast
+    }
+
+	private moveState currentMoveState = moveState.normal;
+
 	[Header("Horizontal Movement")]
 	[Tooltip("Move speed of the character in m/s")]
 	[Range(0, 50)]
@@ -173,6 +182,14 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	#endregion
 
 	#region Aim
+	[Tooltip("The camera used for normal movement")]
+	[SerializeField]
+	private CinemachineVirtualCamera normalCam;
+
+	[Tooltip("The camera used for fast movement")]
+	[SerializeField]
+	private CinemachineVirtualCamera fastCam;
+
 	/// <summary>
 	/// The current target rotation of the cinemachine follow object.
 	/// </summary>
@@ -315,7 +332,30 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	#region Movement
 	private void Move()
 	{
-		// set target speed based on move speed, sprint speed and if sprint is pressed
+        if (input.MoveFast)
+        {
+			if(currentMoveState == moveState.normal)
+            {
+				currentMoveState = moveState.fast;
+				fastCam.Priority = normalCam.Priority + 1;
+			}
+
+			FastMove();
+        }
+        else
+        {
+			if (currentMoveState == moveState.fast)
+			{
+				currentMoveState = moveState.normal;
+				fastCam.Priority = normalCam.Priority - 1;
+			}
+
+			NormalMove();
+        }
+	}
+
+	private void NormalMove()
+    {
 		float targetSpeed = input.MoveFast ? fastSpeed : normalSpeed;
 
 		// a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
@@ -328,7 +368,9 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 		float currentHorizontalSpeed = new Vector3(controller.velocity.x, 0.0f, controller.velocity.z).magnitude;
 
 		float speedOffset = 0.1f;
-		float inputMagnitude = input.analogMovement ? input.Move.magnitude : 1f;
+		//float inputMagnitude = input.analogMovement ? input.Move.magnitude : 1f;
+
+		float inputMagnitude = input.Move.magnitude;
 
 		// accelerate or decelerate to target speed
 		if (currentHorizontalSpeed < targetSpeed - speedOffset || currentHorizontalSpeed > targetSpeed + speedOffset)
@@ -368,11 +410,42 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 		controller.Move(horizontalMovement + verticalMovement);
 	}
 
+	float activeForwardSpeed = 0;
+	float activeStrafeSpeed = 0;
+	float activeHoverSpeed = 0;
+	private void FastMove()
+    {
+		float forwardSpeed = 10f, strafeSpeed = 7.5f, hoverSpeed = 10;
+		float forwardAcceleration = 2.5f, strafeAcceleration = 2.0f, hoverAcceleration = 2.0f; 
+		Quaternion targetRotation = Quaternion.LookRotation(Camera.main.transform.forward)*Quaternion.Euler(90, 0, 0);
+		transform.rotation = targetRotation;
+		//transform.rotation = Mathf.Lerp(transform.rotation, targetRotation, ;
+
+		activeForwardSpeed = Mathf.Lerp(activeForwardSpeed, (1 * forwardSpeed), forwardAcceleration * Time.deltaTime);
+		Debug.Log(activeForwardSpeed);
+
+
+		activeStrafeSpeed = Mathf.Lerp(activeStrafeSpeed, (input.Move.x * strafeSpeed), strafeAcceleration * Time.deltaTime);
+
+		activeHoverSpeed = Mathf.Lerp(activeHoverSpeed, (input.Move.y * hoverSpeed), hoverAcceleration * Time.deltaTime);
+
+		Vector3 forwardMovement = Camera.main.transform.forward * activeForwardSpeed * Time.deltaTime;
+		Vector3 strafeMovement = Camera.main.transform.right * activeStrafeSpeed * Time.deltaTime;
+		Vector3 hoverMovement = Camera.main.transform.up * activeHoverSpeed * Time.deltaTime;
+
+		controller.Move(forwardMovement + strafeMovement + hoverMovement);
+		//Vector3 verticalMovement = 
+		//controller.Move(horizontalMovement);
+	}
+
 	private void Dash()
     {
 
     }
 
+	/// <summary>
+	/// Moves the player up and down on the y axis.
+	/// </summary>
 	private void MoveVertically()
     {
 		if (input.MoveVertical == 0)
@@ -395,16 +468,25 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
     #endregion
 
     #region Abilities
+	/// <summary>
+	/// Activates the alt click ability.
+	/// </summary>
     public void AltAbility()
     {
 		abilities[0].TriggerAbility();
     }
 
+	/// <summary>
+	/// Activates the e click ability.
+	/// </summary>
 	public void EAbility()
     {
 		abilities[1].TriggerAbility();
     }
 
+	/// <summary>
+	/// Activatest the q click ability.
+	/// </summary>
 	public void QAbility()
     {
 		abilities[2].TriggerAbility();

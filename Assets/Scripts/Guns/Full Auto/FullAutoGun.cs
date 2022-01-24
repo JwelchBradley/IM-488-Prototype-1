@@ -24,7 +24,7 @@ public class FullAutoGun : Gun
     {
         if (shouldShoot)
         {
-            float potentialShootTime = timeLastShot + (1 / fireRate);
+            float potentialShootTime = timeLastShot + (1 / gunData.FireRate);
 
             continueShooting = true;
 
@@ -32,7 +32,7 @@ public class FullAutoGun : Gun
             {
                 shootRoutine = StartCoroutine(ShootRoutine());
             }
-            else if (!shotQueued && tapStaggerTime + Time.time >= potentialShootTime)
+            else if (!shotQueued && gunData.TapStaggerTime + Time.time >= potentialShootTime)
             {
                 shotQueued = true;
                 StartCoroutine(QueueShot(potentialShootTime - Time.time));
@@ -69,7 +69,7 @@ public class FullAutoGun : Gun
         {
             ShootBullet();
 
-            yield return new WaitForSeconds(1.0f/fireRate);
+            yield return new WaitForSeconds(1.0f / gunData.FireRate);
         }
 
         shootRoutine = null;
