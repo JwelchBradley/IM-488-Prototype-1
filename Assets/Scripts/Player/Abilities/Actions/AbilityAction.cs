@@ -22,6 +22,10 @@ public abstract class AbilityAction : MonoBehaviour
     public Ability Ability
     {
         get => ability;
+        set
+        {
+            ability = value;
+        }
     }
 
     /// <summary>
@@ -45,6 +49,11 @@ public abstract class AbilityAction : MonoBehaviour
     private bool canUse = true;
 
     /// <summary>
+    /// Holds true if the user is currently casting.
+    /// </summary>
+    protected bool isCasting = false;
+
+    /// <summary>
     /// Holds reference to the cooldown timer.
     /// </summary>
     private Coroutine cooldownTimerReference;
@@ -56,27 +65,35 @@ public abstract class AbilityAction : MonoBehaviour
     /// </summary>
     protected virtual void Start()
     {
-        currentCharges = ability.charges;
+        ability.mainCam = Camera.main;
+        currentCharges = ability.Charges;
     }
 
     /// <summary>
     /// Attempts to use this ability.
     /// </summary>
-    public void TriggerAbility()
+    public bool TriggerAbility(ref Ability ability)
     {
         if (canUse)
         {
-            if (--currentCharges == 0)
-            {
-                canUse = false;
-            }
-
             if (AbilityActivate())
             {
                 OnAbilityUse.Invoke();
+                ability = this.ability;
+                isCasting = true;
+
+                if (--currentCharges == 0)
+                {
+                    canUse = false;
+                }
+
                 StartCooldown();
+
+                return true;
             }
         }
+
+        return false;
     }
 
     /// <summary>
@@ -96,14 +113,14 @@ public abstract class AbilityAction : MonoBehaviour
         // Refreshes a charge until max charges are gained.
         IEnumerator Cooldown()
         {
-            yield return new WaitForSeconds(ability.cooldown);
+            yield return new WaitForSeconds(ability.Cooldown);
 
             currentCharges++;
             canUse = true;
 
-            while(currentCharges != ability.charges)
+            while(currentCharges != ability.Charges)
             {
-                yield return new WaitForSeconds(ability.cooldown);
+                yield return new WaitForSeconds(ability.Cooldown);
                 currentCharges++;
                 canUse = true;
             }

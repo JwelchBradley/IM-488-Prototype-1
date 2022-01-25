@@ -22,10 +22,50 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Dash",
+                    "name": "DashRight",
                     "type": "PassThrough",
                     "id": "d6a8c612-bef6-4c94-930e-035c1bfa325d",
-                    "expectedControlType": "Vector2",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "MultiTap"
+                },
+                {
+                    "name": "DashLeft",
+                    "type": "PassThrough",
+                    "id": "e77c36fc-e31c-4306-ab05-7040f17f871c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "MultiTap"
+                },
+                {
+                    "name": "DashForward",
+                    "type": "PassThrough",
+                    "id": "eb8792e2-da08-4b4c-bfdf-a9b33574cb82",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "MultiTap"
+                },
+                {
+                    "name": "DashBack",
+                    "type": "PassThrough",
+                    "id": "04df4168-3cca-4152-9882-73ee5836ba71",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "MultiTap"
+                },
+                {
+                    "name": "DashUp",
+                    "type": "PassThrough",
+                    "id": "65dff368-b569-4a7e-b46c-2a1e94aaf56c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "MultiTap"
+                },
+                {
+                    "name": "DashDown",
+                    "type": "PassThrough",
+                    "id": "06dee592-cc67-419d-a466-c70b821420bf",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "MultiTap"
                 },
@@ -231,116 +271,6 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "WASD",
-                    "id": "360a731d-5741-4a35-84d3-5639205d0279",
-                    "path": "2DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Dash",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "bae38389-72b5-46c5-9fae-c86f37f756f5",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "Dash",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "7e9b9f51-c53f-4fab-9e06-b0b05a9534eb",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "Dash",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "5cff0db6-2d88-4e36-b6fc-ba80a5dea42d",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "Dash",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "bddbf5ae-a220-4abf-8958-11473d015f7d",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "Dash",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Arrow Keys",
-                    "id": "790e8269-8753-48f3-b944-9bb2bab36e57",
-                    "path": "2DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Dash",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "58719d56-2659-49a0-a2f6-a60602802815",
-                    "path": "<Keyboard>/upArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "Dash",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "46fd264f-2515-4041-88aa-8365adaba08d",
-                    "path": "<Keyboard>/downArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "Dash",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "a103118d-52af-4356-ad6e-46c3aabef6ea",
-                    "path": "<Keyboard>/leftArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "Dash",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "c64abd4d-caf6-4132-9175-f636e992ab89",
-                    "path": "<Keyboard>/rightArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "Dash",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "1D Axis",
                     "id": "af391bc6-86cf-4d9a-82f1-af987f543c4a",
                     "path": "1DAxis",
@@ -447,6 +377,72 @@
                     "processors": "",
                     "groups": "KeyboardMouse",
                     "action": "QAbility",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d00a4a63-086a-4543-9864-582e12d8164b",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "DashRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0c50679a-74c7-476d-9175-236a5c493ad0",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "DashLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "15bf6e93-bd41-4598-8f82-9a00961204ea",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "DashForward",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1adb41cb-f94a-4ffe-a68f-c9db84ec2fd4",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "DashBack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b75bc68c-6589-46bb-8c02-084d65290b04",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "DashUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d17c3929-daad-431b-b41a-75e14279403d",
+                    "path": "<Keyboard>/leftCtrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "DashDown",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

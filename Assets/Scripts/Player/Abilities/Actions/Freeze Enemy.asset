@@ -12,7 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 266584e6ce9d9214ea03cfbe9869a358, type: 3}
   m_Name: Freeze Enemy
   m_EditorClassIdentifier: 
+  mainCam: {fileID: 0}
   name: Freeze Enemy
   icon: {fileID: 21300000, guid: 198cf07d14346f14bac461ecdf4d6def, type: 3}
   charges: 1
   cooldown: 4
+  duration: 2
+  castStartupTime: 5
+  movementDuringCastStartup: 0
+  castDuration: 7.56
+  moveDuringCast: 0
+  uncastTime: 3.63
+  moveDuringUncast: 0
+  newCastMoveSpeed: 5
+  abilityType: 1
+  pushPullableMask:
+    serializedVersion: 2
+    m_Bits: 0
+  pushPullSpeed: 5
+  aimAssist: 0
+  pushPullDist: 0
+  health: 1000
+  size: 5
+  shield: {fileID: 0}

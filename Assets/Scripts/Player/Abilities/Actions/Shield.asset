@@ -12,14 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 266584e6ce9d9214ea03cfbe9869a358, type: 3}
   m_Name: Shield
   m_EditorClassIdentifier: 
+  mainCam: {fileID: 0}
   name: Shield
   icon: {fileID: 21300000, guid: 265db36361008df43a7d972afb930815, type: 3}
   charges: 1
-  cooldown: 4
-  duration: 2
-  castTime: 0.5
-  uncastTime: 0.3
-  movementDuringCast: 0
+  cooldown: 3.1
+  duration: 3
+  castStartupTime: 0
+  movementDuringCastStartup: 1
+  castDuration: 0
+  moveDuringCast: 0
+  uncastTime: 0
+  moveDuringUncast: 0
   newCastMoveSpeed: 5
-  abilityType: 0
-  pullSpeed: 0
+  abilityType: 2
+  pushPullableMask:
+    serializedVersion: 2
+    m_Bits: 0
+  pushPullSpeed: 5
+  aimAssist: 0
+  pushPullDist: 0
+  health: 100
+  size: 10
+  shield: {fileID: 481069023034421229, guid: 3e6f36c74ac2e5e4a86d42a003665815, type: 3}

@@ -29,7 +29,7 @@ public class InterfaceManager : MonoBehaviour
         {
             AbilityUI abilityUi = Instantiate(abilityIconPrefab, abilityIconSlot[i]);
             player.Abilities[i].OnAbilityUse.AddListener(abilityUi.ShowCoolDown);
-            abilityUi.SetIcon(player.Abilities[i].Ability.icon, player.Abilities[i].Ability.charges, player.Abilities[i].Ability.cooldown);
+            abilityUi.SetIcon(player.Abilities[i].Ability.Icon, player.Abilities[i].Ability.Charges, player.Abilities[i].Ability.Cooldown);
         }
     }
 }

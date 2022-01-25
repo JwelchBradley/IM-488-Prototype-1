@@ -14,7 +14,9 @@ public class Shield : AbilityAction
     /// </summary>
     protected override bool AbilityActivate()
     {
-        Debug.Log(ability.name);
+        GameObject shield = Instantiate(ability.shield, transform.position, Quaternion.identity);
+        shield.GetComponent<ShieldBehaviour>().Initialization(ability.Duration, ability.health);
+        shield.transform.localScale *= ability.size;
         return true;
     }
 }

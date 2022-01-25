@@ -30,6 +30,8 @@ public class Gun : MonoBehaviour
     /// </summary>
     private float bulletDist = 1000.0f;
 
+    private LayerMask shootMask;
+
     #region References
     /// <summary>
     /// The transform of the scenes main camera.
@@ -56,6 +58,15 @@ public class Gun : MonoBehaviour
         mainCam = Camera.main.transform;
         aud = GetComponent<AudioSource>();
         bulletSpawnPos = transform.Find("Bullet Spawn Pos");
+        InitializeShootMask();
+    }
+    
+    private void InitializeShootMask()
+    {
+        shootMask = ~0;
+        shootMask = shootMask ^ (1 << LayerMask.NameToLayer("Player"));
+        shootMask = shootMask ^ (1 << LayerMask.NameToLayer("Player Bullet"));
+        shootMask = shootMask ^ (1 << LayerMask.NameToLayer("Shield"));
     }
 
     /// <summary>
@@ -94,8 +105,8 @@ public class Gun : MonoBehaviour
         bulletController.GunData = gunData;
 
         // Checks if there is a target on the reticle.
-        if (Physics.Raycast(mainCam.position, mainCam.forward, out hit, Mathf.Infinity))
-        {    
+        if (Physics.Raycast(mainCam.position, mainCam.forward, out hit, Mathf.Infinity, shootMask))
+        {
             bulletController.Target = hit.point;
         }
         else

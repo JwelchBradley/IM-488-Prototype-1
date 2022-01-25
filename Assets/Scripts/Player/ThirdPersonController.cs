@@ -6,6 +6,7 @@
 // Brief Description : Handles the movement of the player.
 *****************************************************************************/
 using Cinemachine;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -29,14 +30,18 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 
 	#region Flat Movement
 	private enum moveState
-		{
+	{
 		normal,
-		fast
+		fast,
+		dash,
+		casting,
+		nomovecasting
     }
 
 	private moveState currentMoveState = moveState.normal;
 
 	[Header("Horizontal Movement")]
+	[Header("-------------Movement-------------")]
 	[Tooltip("Move speed of the character in m/s")]
 	[Range(0, 50)]
 	[SerializeField]
@@ -76,8 +81,30 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	private float verticalStopSpeed = 5.0f;
 	#endregion
 
-	#region Character Rotation
-	[Tooltip("How fast the character turns to face movement direction")]
+	#region Dash
+	[Header("Dash")]
+	[Tooltip("How fast the player is while dashing")]
+	[SerializeField]
+	private float dashSpeed = 10.0f;
+
+	[Tooltip("How long the dash lasts")]
+	[Range(0.0f, 1.0f)]
+	[SerializeField]
+	private float dashTime = 0.5f;
+
+	[Tooltip("How long before the player can dash again")]
+	[Range(0.0f, 2.0f)]
+	[SerializeField]
+	private float dashStaggerTime = 0.5f;
+
+	/// <summary>
+	/// Holds true if the player can dash.
+	/// </summary>
+	private bool canDash = true;
+    #endregion
+
+    #region Character Rotation
+    [Tooltip("How fast the character turns to face movement direction")]
 	[Range(0.0f, 0.3f)]
 	[SerializeField]
 	private float rotationSmoothTime = 0.12f;
@@ -144,44 +171,6 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 
 	#region Cinemachine
 	[Header("Cinemachine")]
-	[Tooltip("The follow target set in the Cinemachine Virtual Camera that the camera will follow")]
-	[SerializeField]
-	private GameObject cinemachineCameraTarget = null;
-
-	#region Aim limits
-	[Tooltip("How far in degrees can you move the camera up")]
-	[SerializeField]
-	[Range(30.0f, 90.0f)]
-	private float topClamp = 70.0f;
-
-	[Tooltip("How far in degrees can you move the camera down")]
-	[SerializeField]
-	[Range(-50.0f, 0.0f)]
-	private float bottomClamp = -30.0f;
-
-	[Tooltip("For locking the camera position on all axis")]
-	[SerializeField]
-	private bool lockCameraPosition = false;
-
-	/// <summary>
-	/// Additional degress to override the camera. Useful for fine tuning camera position when locked.
-	/// </summary>
-	private float cameraAngleOverride = 0.0f;
-
-	/// <summary>
-	/// Additional degress to override the camera. Useful for fine tuning camera position when locked.
-	/// </summary>
-	public float CameraAngleOverride
-	{
-		get => cameraAngleOverride;
-	}
-
-	/// <summary>
-	/// Amount of mouse movement before any aim is updated.
-	/// </summary>
-	private const float lookAmountThreshold = 0.01f;
-	#endregion
-
 	#region Aim
 	[Tooltip("The camera used for normal movement")]
 	[SerializeField]
@@ -260,13 +249,15 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	/// </summary>
 	private Gun gun;
 
-	[SerializeField]
 	private AbilityAction[] abilities;
 
 	public AbilityAction[] Abilities
     {
 		get => abilities;
     }
+
+	[SerializeField]
+	private Ability[] abilityData;
 
 	public class MoveFastEvent : UnityEvent<bool> { }
 
@@ -287,10 +278,9 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 		input = GetComponent<KeybindInputHandler>();
 		gun = GetComponentInChildren<Gun>();
 
-		gameObject.AddComponent<GravityPull>();
-		gameObject.AddComponent<FreezeEnemy>();
-		gameObject.AddComponent<Shield>();
 		abilities = GetComponents<AbilityAction>();
+
+		AddAbilities();
 	}
 
 	/// <summary>
@@ -302,6 +292,21 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 		Cursor.visible = false;
 
 		AssignAnimationIDs();
+	}
+
+	private void AddAbilities()
+    {
+		GravityPull gp = gameObject.AddComponent<GravityPull>();
+		FreezeEnemy fe = gameObject.AddComponent<FreezeEnemy>();
+		Shield s = gameObject.AddComponent<Shield>();
+
+		GameObject abilityManager = transform.Find("Ability Manager").gameObject;
+
+		gp.Ability = abilityManager.GetComponent<GravityPull>().Ability;
+		fe.Ability = abilityManager.GetComponent<FreezeEnemy>().Ability;
+		s.Ability = abilityManager.GetComponent<Shield>().Ability;
+
+		abilities = GetComponents<AbilityAction>();
 	}
 
 	/// <summary>
@@ -322,6 +327,8 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	private void Update()
 	{
 		MoveVertically();
+
+		if(currentMoveState != moveState.dash && currentMoveState != moveState.nomovecasting)
 		Move();
 	}
 
@@ -378,16 +385,13 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 		float currentHorizontalSpeed = new Vector3(controller.velocity.x, 0.0f, controller.velocity.z).magnitude;
 
 		float speedOffset = 0.1f;
-		//float inputMagnitude = input.analogMovement ? input.Move.magnitude : 1f;
-
-		float inputMagnitude = input.Move.magnitude;
 
 		// accelerate or decelerate to target speed
 		if (currentHorizontalSpeed < targetSpeed - speedOffset || currentHorizontalSpeed > targetSpeed + speedOffset)
 		{
 			// creates curved result rather than a linear one giving a more organic speed change
 			// note T in Lerp is clamped, so we don't need to clamp our speed
-			currentSpeed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude, Time.deltaTime * speedChangeRate);
+			currentSpeed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * input.Move.magnitude, Time.deltaTime * speedChangeRate);
 
 			// round speed to 3 decimal places
 			currentSpeed = Mathf.Round(currentSpeed * 1000f) / 1000f;
@@ -404,7 +408,7 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 		// if there is a move input rotate player when the player is moving
 		if (input.Move != Vector2.zero)
 		{
-			targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + mainCamera.transform.eulerAngles.y;
+			CalculateTargetRotation(inputDirection);
 			float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref rotationVelocity, rotationSmoothTime);
 
 			// rotate to face input direction relative to camera position
@@ -442,19 +446,52 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 		Vector3 hoverMovement = Camera.main.transform.up * activeHoverSpeed * Time.deltaTime;
 
 		controller.Move(forwardMovement + strafeMovement + hoverMovement);
-		//Vector3 verticalMovement = 
-		//controller.Move(horizontalMovement);
 	}
 
-	private void Dash()
+    #region Dash
+    public void Dash(Vector3 dashDir)
     {
-
+		if(currentMoveState == moveState.normal && canDash)
+        {
+			currentMoveState = moveState.dash;
+			canDash = false;
+			StartCoroutine(DashRoutine(dashDir));
+		}
     }
 
-	/// <summary>
-	/// Moves the player up and down on the y axis.
-	/// </summary>
-	private void MoveVertically()
+	private IEnumerator DashRoutine(Vector3 dashDir)
+    {
+		float startTime = Time.time;
+
+		CalculateTargetRotation(dashDir);
+
+		while (Time.time < startTime + dashTime)
+        {
+			Vector3 targetDirection = dashDir;
+			if (dashDir.y == 0)
+            {
+				targetDirection = Quaternion.Euler(0.0f, targetRotation, 0.0f) * Vector3.forward;
+			}
+			
+			//targetDirection.normalized
+			controller.Move(targetDirection.normalized * dashSpeed * Time.deltaTime);
+
+			yield return new WaitForEndOfFrame();
+        }
+
+		currentMoveState = moveState.normal;
+
+		yield return new WaitForSeconds(dashStaggerTime);
+
+		canDash = true;
+    }
+
+    #endregion
+
+    /// <summary>
+    /// Moves the player up and down on the y axis.
+    /// </summary>
+    private void MoveVertically()
     {
 		if (input.MoveVertical == 0)
 		{
@@ -466,6 +503,11 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 			verticalVelocity = Mathf.Clamp(verticalVelocity, -verticalSpeed, verticalSpeed);
 		}
     }
+
+	private void CalculateTargetRotation(Vector3 inputDirection)
+    {
+		targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + mainCamera.transform.eulerAngles.y;
+	}
     #endregion
 
     #region Shoot
@@ -481,7 +523,13 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	/// </summary>
     public void AltAbility()
     {
-		abilities[0].TriggerAbility();
+		Ability ability = null;
+
+		if (abilities[0].TriggerAbility(ref ability))
+		{
+			StartCoroutine(CastMoveHandler(ability));
+			//SetCastMoveState(ability.MoveDuringCast);
+		}
     }
 
 	/// <summary>
@@ -489,7 +537,13 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	/// </summary>
 	public void EAbility()
     {
-		abilities[1].TriggerAbility();
+		Ability ability = null;
+
+		if(abilities[1].TriggerAbility(ref ability))
+        {
+			StartCoroutine(CastMoveHandler(ability));
+			//SetCastMoveState(ability.MoveDuringCast);
+		}
     }
 
 	/// <summary>
@@ -497,8 +551,39 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	/// </summary>
 	public void QAbility()
     {
-		abilities[2].TriggerAbility();
+		Ability ability = null;
+
+		if (abilities[2].TriggerAbility(ref ability))
+        {
+			StartCoroutine(CastMoveHandler(ability));
+			//SetCastMoveState(ability.MoveDuringCast);
+		}
     }
+
+	private void SetCastMoveState(bool canMove)
+    {
+        if (canMove)
+        {
+			currentMoveState = moveState.casting;
+        }
+        else
+        {
+			currentMoveState = moveState.nomovecasting;
+        }
+    }
+
+	private IEnumerator CastMoveHandler(Ability ability)
+    {
+		currentMoveState = ability.MovementDuringCastStartup ? moveState.casting : moveState.nomovecasting;
+		yield return new WaitForSeconds(ability.CastStartupTime);
+
+		currentMoveState = ability.MoveDuringCast ? moveState.casting : moveState.nomovecasting;
+		yield return new WaitForSeconds(ability.CastDuration);
+
+		currentMoveState = ability.MovementDuringUncast ? moveState.casting : moveState.nomovecasting;
+		yield return new WaitForSeconds(ability.UncastTime);
+		currentMoveState = moveState.normal;
+	}
     #endregion
 
     #region Health
@@ -525,43 +610,6 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 
     }
     #endregion
-
-    #region Camera Rotation
-    /// <summary>
-    /// Rotates the objects that the cinemachine camera is following.
-    /// </summary>
-    private void CameraRotation()
-	{
-		// Updates the target look values
-		if (input.Look.sqrMagnitude >= lookAmountThreshold && !lockCameraPosition)
-		{
-			cinemachineTargetXRot += input.Look.x * Time.deltaTime * xSens;
-			cinemachineTargetYRot += input.Look.y * Time.deltaTime * ySens;
-		}
-
-		// clamp our rotations so our values are limited 360 degrees
-		cinemachineTargetXRot = ClampAngle(cinemachineTargetXRot, float.MinValue, float.MaxValue);
-		cinemachineTargetYRot = ClampAngle(cinemachineTargetYRot, bottomClamp, topClamp);
-
-		// Updates cinemachine follow target rotation (essentially rotates the camera)
-		cinemachineCameraTarget.transform.rotation = Quaternion.Euler(cinemachineTargetYRot + cameraAngleOverride, cinemachineTargetXRot, 0.0f);
-	}
-
-	/// <summary>
-	/// Clamps the camera angle between given values.
-	/// </summary>
-	/// <param name="targetAngle">The current targeted angle.</param>
-	/// <param name="angleMin">The current minimum angle for this axis.</param>
-	/// <param name="angleMax">The current maximum angle for this axis.</param>
-	/// <returns></returns>
-	private float ClampAngle(float targetAngle, float angleMin, float angleMax)
-	{
-		if (targetAngle < -360f) targetAngle += 360f;
-		if (targetAngle > 360f) targetAngle -= 360f;
-
-		return Mathf.Clamp(targetAngle, angleMin, angleMax);
-	}
-	#endregion
 	#endregion
 	#endregion
 }

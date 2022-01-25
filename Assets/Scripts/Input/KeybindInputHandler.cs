@@ -5,6 +5,7 @@
 //
 // Brief Description : Handles user inputs.
 *****************************************************************************/
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -75,11 +76,6 @@ public class KeybindInputHandler : MonoBehaviour
 	private PauseMenuBehavior pmb;
 
 	/// <summary>
-	/// The gun attached to this player.
-	/// </summary>
-	private Gun gun;
-
-	/// <summary>
 	/// The player's controller.
 	/// </summary>
 	private ThirdPersonController tpc;
@@ -93,7 +89,6 @@ public class KeybindInputHandler : MonoBehaviour
 	private void Awake()
     {
 		pmb = GameObject.Find("Pause Menu Templates Canvas").GetComponent<PauseMenuBehavior>();
-		gun = GetComponentInChildren<Gun>();
 		tpc = GetComponent<ThirdPersonController>();
 	}
     #endregion
@@ -118,14 +113,61 @@ public class KeybindInputHandler : MonoBehaviour
 		MoveFastInput(value.isPressed);
 	}
 
+    #region Dash
+    /// <summary>
+    /// Gets the input dash values.
+    /// </summary>
+    /// <param name="value">Input dash value.</param>
+    public void OnDashRight(InputValue value)
+    {
+		DashInput(new Vector3(1, 0, 0));
+    }
+
 	/// <summary>
 	/// Gets the input dash values.
 	/// </summary>
 	/// <param name="value">Input dash value.</param>
-	public void OnDash(InputValue value)
-    {
-		DashInput(value.Get<Vector2>());
-    }
+	public void OnDashLeft(InputValue value)
+	{
+		DashInput(new Vector3(-1, 0, 0));
+	}
+
+	/// <summary>
+	/// Gets the input dash values.
+	/// </summary>
+	/// <param name="value">Input dash value.</param>
+	public void OnDashForward(InputValue value)
+	{
+		DashInput(new Vector3(0, 0, 1));
+	}
+
+	/// <summary>
+	/// Gets the input dash values.
+	/// </summary>
+	/// <param name="value">Input dash value.</param>
+	public void OnDashBack(InputValue value)
+	{
+		DashInput(new Vector3(0, 0, -1));
+	}
+
+	/// <summary>
+	/// Gets the input dash values.
+	/// </summary>
+	/// <param name="value">Input dash value.</param>
+	public void OnDashUp(InputValue value)
+	{
+		DashInput(new Vector3(0, 1, 0));
+	}
+
+	/// <summary>
+	/// Gets the input dash values.
+	/// </summary>
+	/// <param name="value">Input dash value.</param>
+	public void OnDashDown(InputValue value)
+	{
+		DashInput(new Vector3(0, -1, 0));
+	}
+	#endregion
 
 	/// <summary>
 	/// Gets the input move vertically values.
@@ -137,6 +179,7 @@ public class KeybindInputHandler : MonoBehaviour
 	}
 	#endregion
 
+	#region Shoot
 	/// <summary>
 	/// Gets the input look values.
 	/// </summary>
@@ -154,12 +197,13 @@ public class KeybindInputHandler : MonoBehaviour
     {
 		ShootInput(value.isPressed);
     }
+    #endregion
 
-	/// <summary>
-	/// Gets the input pause values.
-	/// </summary>
-	/// <param name="value">Input pause value.</param>
-	public void OnPause()
+    /// <summary>
+    /// Gets the input pause values.
+    /// </summary>
+    /// <param name="value">Input pause value.</param>
+    public void OnPause()
     {
 		pmb.PauseGame();
     }
@@ -209,9 +253,9 @@ public class KeybindInputHandler : MonoBehaviour
 	/// Gets the dash input values.
 	/// </summary>
 	/// <param name="newDashDirection"></param>
-	private void DashInput(Vector2 newDashDirection)
+	private void DashInput(Vector3 newDashDirection)
     {
-		
+		tpc.Dash(newDashDirection);
     }
 
 	/// <summary>

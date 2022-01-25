@@ -14,7 +14,24 @@ public class GravityPull : AbilityAction
     /// </summary>
     protected override bool AbilityActivate()
     {
-        //Debug.Log(ability.pullSpeed);
-        return true;
+        Debug.Log(true);
+        RaycastHit hit;
+        bool foundTarget = Physics.Raycast(ability.mainCam.transform.position, ability.mainCam.transform.forward, out hit, ability.PushPullDist, ability.PushPullableMask) ||
+                           Physics.BoxCast(transform.position, Vector3.one * ability.AimAssist, ability.mainCam.transform.forward, out hit, Quaternion.identity, ability.PushPullDist, ability.PushPullableMask);
+        if (foundTarget)
+        {
+            Rigidbody rb = hit.transform.gameObject.GetComponent<Rigidbody>();
+
+            Vector3 dir = transform.position - hit.transform.localPosition;
+
+            Debug.Log(hit.transform.gameObject.name);
+            Debug.Log(hit.transform.localPosition);
+
+            rb.velocity = dir.normalized * ability.PushPullSpeed;
+
+            return true;
+        }
+
+        return false;
     }
 }
