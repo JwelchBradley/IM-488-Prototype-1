@@ -7,6 +7,7 @@
 *****************************************************************************/
 using Cinemachine;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 /* Note: animations are called via the controller for both the character and capsule using animator null checks
@@ -266,6 +267,10 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
     {
 		get => abilities;
     }
+
+	public class MoveFastEvent : UnityEvent<bool> { }
+
+	public MoveFastEvent MoveFast = new MoveFastEvent();
 	#endregion
 	#endregion
 
@@ -336,8 +341,7 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
         {
 			if(currentMoveState == moveState.normal)
             {
-				currentMoveState = moveState.fast;
-				fastCam.Priority = normalCam.Priority + 1;
+				ChangeBetweenMoveStates(moveState.fast, 1, true);
 			}
 
 			FastMove();
@@ -346,12 +350,18 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
         {
 			if (currentMoveState == moveState.fast)
 			{
-				currentMoveState = moveState.normal;
-				fastCam.Priority = normalCam.Priority - 1;
+				ChangeBetweenMoveStates(moveState.normal, -1, false);
 			}
 
 			NormalMove();
         }
+	}
+
+	private void ChangeBetweenMoveStates(moveState newMoveState, int camPriorityMod, bool isFast)
+    {
+		MoveFast.Invoke(isFast);
+		currentMoveState = newMoveState;
+		fastCam.Priority = normalCam.Priority + camPriorityMod;
 	}
 
 	private void NormalMove()
@@ -422,8 +432,6 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 		//transform.rotation = Mathf.Lerp(transform.rotation, targetRotation, ;
 
 		activeForwardSpeed = Mathf.Lerp(activeForwardSpeed, (1 * forwardSpeed), forwardAcceleration * Time.deltaTime);
-		Debug.Log(activeForwardSpeed);
-
 
 		activeStrafeSpeed = Mathf.Lerp(activeStrafeSpeed, (input.Move.x * strafeSpeed), strafeAcceleration * Time.deltaTime);
 

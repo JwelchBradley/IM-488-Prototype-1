@@ -49,7 +49,8 @@ public class PauseMenuBehavior : MenuBehavior
     [Tooltip("The pause menu gameobject")]
     private GameObject pauseMenu = null;
 
-    private CinemachineVirtualCamera vCam;
+    //private CinemachineVirtualCamera vCam;
+    private CinemachineVirtualCamera[] vCams;
     #endregion
 
     #region Functions
@@ -58,7 +59,8 @@ public class PauseMenuBehavior : MenuBehavior
     /// </summary>
     private void Awake()
     {
-        vCam = GameObject.Find("PlayerFollowCamera").GetComponent<CinemachineVirtualCamera>(); ;
+        //vCam = GameObject.Find("PlayerFollowCamera").GetComponent<CinemachineVirtualCamera>(); ;
+        vCams = GameObject.FindObjectsOfType<CinemachineVirtualCamera>();
         StartCoroutine(WaitFadeIn());
     }
 
@@ -107,7 +109,10 @@ public class PauseMenuBehavior : MenuBehavior
 
     private void PauseAim()
     {
-        vCam.enabled = isPaused;
+        foreach(CinemachineVirtualCamera vcam in vCams)
+        {
+            vcam.enabled = isPaused;
+        }
     }
 
     public void CanClosePauseMenu(bool canClose)
