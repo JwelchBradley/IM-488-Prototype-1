@@ -16,15 +16,15 @@ MonoBehaviour:
   name: Shield
   icon: {fileID: 21300000, guid: 265db36361008df43a7d972afb930815, type: 3}
   charges: 1
-  cooldown: 3.1
+  cooldown: 8
   duration: 3
   castStartupTime: 0
   movementDuringCastStartup: 1
   castDuration: 0
-  moveDuringCast: 0
+  moveDuringCast: 1
   uncastTime: 0
-  moveDuringUncast: 0
-  newCastMoveSpeed: 5
+  moveDuringUncast: 1
+  newUncastMoveSpeed: 5
   abilityType: 2
   pushPullableMask:
     serializedVersion: 2
@@ -33,5 +33,5 @@ MonoBehaviour:
   aimAssist: 0
   pushPullDist: 0
   health: 100
-  size: 10
-  shield: {fileID: 481069023034421229, guid: 3e6f36c74ac2e5e4a86d42a003665815, type: 3}
+  size: 2
+  shield: {fileID: 6302014149799497526, guid: bca1886e4e66d964a9b43422c19697f2, type: 3}

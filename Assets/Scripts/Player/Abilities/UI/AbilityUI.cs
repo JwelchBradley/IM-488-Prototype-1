@@ -22,6 +22,9 @@ public class AbilityUI : MonoBehaviour
     [Tooltip("The text showing the number of charges for this ability")]
     [SerializeField] private TextMeshProUGUI chargesText;
 
+    [Tooltip("The text showing the keybind")]
+    [SerializeField] private TextMeshProUGUI keyBindText;
+
     /// <summary>
     /// How fast charges of this ability recharge.
     /// </summary>
@@ -48,12 +51,13 @@ public class AbilityUI : MonoBehaviour
     /// <param name="sprite">The sprite of the UI.</param>
     /// <param name="totalCharges">The starting number of charges for this ability.</param>
     /// /// <param name="cooldown">How fast charges recharge.</param>
-    public void SetIcon(Sprite sprite, int totalCharges, float cooldown)
+    public void SetIcon(Sprite sprite, int totalCharges, float cooldown, char binding)
     {
         icon.sprite = sprite;
         this.totalCharges = totalCharges;
         charges = totalCharges;
         this.cooldown = cooldown;
+        keyBindText.text = binding.ToString();
         UpdateText();
     }
 

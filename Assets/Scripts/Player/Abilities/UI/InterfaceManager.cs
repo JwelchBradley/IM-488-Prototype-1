@@ -18,6 +18,8 @@ public class InterfaceManager : MonoBehaviour
     [SerializeField]
     private Transform[] abilityIconSlot;
 
+    private string keybind = "QEX";
+
     /// <summary>
     /// Initializes the ability UI.
     /// </summary>
@@ -29,7 +31,7 @@ public class InterfaceManager : MonoBehaviour
         {
             AbilityUI abilityUi = Instantiate(abilityIconPrefab, abilityIconSlot[i]);
             player.Abilities[i].OnAbilityUse.AddListener(abilityUi.ShowCoolDown);
-            abilityUi.SetIcon(player.Abilities[i].Ability.Icon, player.Abilities[i].Ability.Charges, player.Abilities[i].Ability.Cooldown);
+            abilityUi.SetIcon(player.Abilities[i].Ability.Icon, player.Abilities[i].Ability.Charges, player.Abilities[i].Ability.Cooldown, keybind[i]);
         }
     }
 }

@@ -70,16 +70,20 @@ public class BulletController : MonoBehaviour
         }
     }
 
+    private Vector3 spawnPos;
+
     /// <summary>
     /// Sets the bullet to be destroyed after a specified amount of time.
     /// </summary>
     private void OnEnable()
     {
+        spawnPos = transform.position;
         Invoke("DestroyTimer", 0.2f);
     }
 
     private void DestroyTimer()
     {
+        //GetComponent<Rigidbody>().velocity = speed * (target - transform.position).normalized;
         Destroy(gameObject, gunData.TimeToDestroy);
     }
 
@@ -96,7 +100,14 @@ public class BulletController : MonoBehaviour
     /// </summary>
     private void MoveBullet()
     {
+        
+        /*
         transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
+
+        if((transform.position-target).sqrMagnitude <= 0.1f)
+        {
+            target = (target - spawnPos).normalized * 10000;
+        }*/
     }
 
     /// <summary>
@@ -108,17 +119,37 @@ public class BulletController : MonoBehaviour
         CollisionEvent(other);
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        //CollisionEvent(other);
+    }
+
     /// <summary>
     /// Handles what ever is supposed to happen during this bullets collision.
     /// </summary>
     /// <param name="other"></param>
     protected virtual void CollisionEvent(Collision other)
     {
-        ContactPoint contact = other.GetContact(0);
+        /*
+        Vector3 hitPoint = other.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
+        Vector3 originalDir = transform.position - spawnPos;
+
+        RaycastHit contact;
+        LayerMask mask = ~0;
+
+        if (Physics.Raycast(transform.position - originalDir.normalized * .98f, originalDir.normalized, out contact, Mathf.Infinity, mask))
+        {
+            Vector3 targetDir = hitPoint - (transform.position - originalDir * .75f);
+
+            //Physics.Raycast(hitPoint - targetDir.normalized * .98f, targetDir.normalized, out contact, Mathf.Infinity, mask);
+        }*/
+        ContactPoint contact = other.contacts[0];
+
         GameObject decal = Instantiate(gunData.BulletDecal, contact.point + contact.normal * 0.01f, Quaternion.LookRotation(contact.normal));
         decal.transform.parent = other.gameObject.transform;
         decal.GetComponent<DecalBehaviour>().StartFadeOut(gunData.DecalEffectLifetime, gunData.DecalTimeBeforeFadeOut);
-        GameObject particalEffect = Instantiate(gunData.HitEffect, contact.point + contact.normal * 0.01f, Quaternion.LookRotation(contact.normal));
+        GameObject particalEffect = Instantiate(gunData.HitEffect, contact.point + contact.normal * .5f, Quaternion.LookRotation(contact.normal));
+        particalEffect.transform.parent = other.gameObject.transform;
 
         Destroy(decal, gunData.DecalEffectLifetime);
         Destroy(particalEffect, gunData.HitEffectLifetime);

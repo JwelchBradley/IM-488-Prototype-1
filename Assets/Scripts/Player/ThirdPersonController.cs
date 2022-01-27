@@ -35,7 +35,8 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 		fast,
 		dash,
 		casting,
-		nomovecasting
+		nomovecasting,
+		ADS
     }
 
 	private moveState currentMoveState = moveState.normal;
@@ -79,6 +80,18 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	[Range(2.0f, 100.0f)]
 	[SerializeField]
 	private float verticalStopSpeed = 5.0f;
+	#endregion
+
+	#region FastMovement
+	[Header("Fast move")]
+	[Tooltip("How fast the player can move left or right during fast moves")]
+	[SerializeField] float strafeSpeed = 7.5f;
+	[Tooltip("How fast the player can move up or down during fast moves")]
+	[SerializeField] float hoverSpeed = 10;
+	[Tooltip("How much the camera looks ahead while strafing")]
+	[SerializeField] private float strafeLookAhead = 1.0f;
+	[Tooltip("How much the camera looks ahead while hovering")]
+	[SerializeField] private float hoverLookAhead = 1.0f;
 	#endregion
 
 	#region Dash
@@ -176,9 +189,26 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	[SerializeField]
 	private CinemachineVirtualCamera normalCam;
 
+	private CinemachinePOV normalCamPOV;
+
 	[Tooltip("The camera used for fast movement")]
 	[SerializeField]
 	private CinemachineVirtualCamera fastCam;
+
+	private CinemachinePOV fastCamPOV;
+
+	[Tooltip("The camera used for ADS")]
+	[SerializeField]
+	private CinemachineVirtualCamera adsCam;
+
+	private CinemachinePOV adsCamPOV;
+
+	private CinemachineVirtualCamera oldCam;
+
+	private CinemachinePOV oldCamPOV;
+
+	[SerializeField]
+	private GameObject cinemachineCameraTarget;
 
 	/// <summary>
 	/// The current target rotation of the cinemachine follow object.
@@ -274,6 +304,12 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	{
 		mainCamera = Camera.main.gameObject;
 
+		normalCamPOV = normalCam.GetCinemachineComponent<CinemachinePOV>();
+		fastCamPOV = fastCam.GetCinemachineComponent<CinemachinePOV>();
+		adsCamPOV = adsCam.GetCinemachineComponent<CinemachinePOV>();
+		oldCam = normalCam;
+		oldCamPOV = normalCamPOV;
+
 		controller = GetComponent<CharacterController>();
 		input = GetComponent<KeybindInputHandler>();
 		gun = GetComponentInChildren<Gun>();
@@ -337,7 +373,8 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	/// </summary>
 	private void LateUpdate()
 	{
-		//CameraRotation();
+		if(currentMoveState != moveState.fast)
+		RotatePlayerDuringMove();
 	}
 	#endregion
 
@@ -346,29 +383,30 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	{
         if (input.MoveFast)
         {
-			if(currentMoveState == moveState.normal)
+			if(currentMoveState == moveState.normal || currentMoveState == moveState.ADS)
             {
-				ChangeBetweenMoveStates(moveState.fast, 1, true);
+				ChangeBetweenMoveStates(moveState.fast, fastCamPOV, fastCam);
+				/*
+				currentMoveState = moveState.fast;
+				fastCam.Priority = oldCam.Priority + 1;*/
 			}
 
+			if(currentMoveState == moveState.fast)
 			FastMove();
-        }
+			else
+            {
+				input.MoveFast = false;
+			}
+		}
         else
         {
 			if (currentMoveState == moveState.fast)
 			{
-				ChangeBetweenMoveStates(moveState.normal, -1, false);
+				ChangeBetweenMoveStates(moveState.normal, normalCamPOV, normalCam);
 			}
 
 			NormalMove();
         }
-	}
-
-	private void ChangeBetweenMoveStates(moveState newMoveState, int camPriorityMod, bool isFast)
-    {
-		MoveFast.Invoke(isFast);
-		currentMoveState = newMoveState;
-		fastCam.Priority = normalCam.Priority + camPriorityMod;
 	}
 
 	private void NormalMove()
@@ -412,7 +450,7 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 			float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref rotationVelocity, rotationSmoothTime);
 
 			// rotate to face input direction relative to camera position
-			transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+			//transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
 		}
 
 
@@ -424,32 +462,89 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 		controller.Move(horizontalMovement + verticalMovement);
 	}
 
+	private void RotatePlayerDuringMove()
+    {
+			float targetAngle = mainCamera.transform.eulerAngles.y;
+			Quaternion rot = Quaternion.Euler(0, targetAngle, 0);;
+			transform.rotation = Quaternion.Lerp(transform.rotation, rot, rotationSpeed * Time.deltaTime);
+	}
+
+	float rotationSpeed = 10;
 	float activeForwardSpeed = 0;
 	float activeStrafeSpeed = 0;
 	float activeHoverSpeed = 0;
+
 	private void FastMove()
     {
-		float forwardSpeed = 10f, strafeSpeed = 7.5f, hoverSpeed = 10;
+		//RotateCamera();
+
+		
 		float forwardAcceleration = 2.5f, strafeAcceleration = 2.0f, hoverAcceleration = 2.0f; 
 		Quaternion targetRotation = Quaternion.LookRotation(Camera.main.transform.forward)*Quaternion.Euler(90, 0, 0);
-		transform.rotation = targetRotation;
+		
+		if(fastCamPOV.m_VerticalAxis.Value >= 90 || fastCamPOV.m_VerticalAxis.Value <= -90)
+        {
+			targetRotation *= Quaternion.Euler(0, 180, 0);
+			fastCamPOV.m_HorizontalAxis.m_InvertInput = true;
+        }
+        else
+        {
+			fastCamPOV.m_HorizontalAxis.m_InvertInput = false;
+		}
+
+		
 		//transform.rotation = Mathf.Lerp(transform.rotation, targetRotation, ;
 
-		activeForwardSpeed = Mathf.Lerp(activeForwardSpeed, (1 * forwardSpeed), forwardAcceleration * Time.deltaTime);
-
+		activeForwardSpeed = Mathf.Lerp(activeForwardSpeed, fastSpeed, forwardAcceleration * Time.deltaTime);
+		
 		activeStrafeSpeed = Mathf.Lerp(activeStrafeSpeed, (input.Move.x * strafeSpeed), strafeAcceleration * Time.deltaTime);
-
+		targetRotation *= Quaternion.Euler(new Vector3(0, 0, input.Move.x*-30));
 		activeHoverSpeed = Mathf.Lerp(activeHoverSpeed, (input.Move.y * hoverSpeed), hoverAcceleration * Time.deltaTime);
+		targetRotation *= Quaternion.Euler(new Vector3(input.Move.y * -30, 0, 0));
 
 		Vector3 forwardMovement = Camera.main.transform.forward * activeForwardSpeed * Time.deltaTime;
 		Vector3 strafeMovement = Camera.main.transform.right * activeStrafeSpeed * Time.deltaTime;
 		Vector3 hoverMovement = Camera.main.transform.up * activeHoverSpeed * Time.deltaTime;
 
 		controller.Move(forwardMovement + strafeMovement + hoverMovement);
+		transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+		/*
+		CinemachineFramingTransposer cft = fastCam.GetCinemachineComponent<CinemachineFramingTransposer>();
+		cft.m_ScreenX = 0.5f + -input.Move.x * strafeLookAhead;
+		cft.m_ScreenY = 0.7f + input.Move.y * hoverLookAhead;*/
+		//transform.rotation = targetRotation;
 	}
 
-    #region Dash
-    public void Dash(Vector3 dashDir)
+	private void RotateCamera()
+    {
+		Vector2 mouseDistance;
+		Vector2 screenCenter = new Vector2(Screen.width, Screen.height) / 2;
+		mouseDistance.x = (input.Look.x - screenCenter.x) / screenCenter.y;
+		mouseDistance.y = (input.Look.y - screenCenter.y) / screenCenter.y;
+
+		mouseDistance = Vector2.ClampMagnitude(mouseDistance, 1);
+
+		//Camera.main.transform.Rotate(-mouseDistance.y*Time.deltaTime, mouseDistance.x *Time.deltaTime);
+
+		/*
+		float lookAmountThreshold = .01f;
+
+		// Updates the target look values
+		if (input.Look.sqrMagnitude >= lookAmountThreshold)
+		{
+			cinemachineTargetXRot += input.Look.x * Time.deltaTime * xSens;
+			cinemachineTargetYRot += input.Look.y * Time.deltaTime * ySens;
+		}
+
+		// Updates cinemachine follow target rotation (essentially rotates the camera)
+		cinemachineCameraTarget.transform.rotation = Quaternion.Euler(cinemachineTargetYRot, cinemachineTargetXRot, 0.0f);
+		mainCamera.transform.rotation = Quaternion.Euler(cinemachineTargetYRot, cinemachineTargetXRot, 0.0f);
+	*/
+	}
+
+	#region Dash
+	public void Dash(Vector3 dashDir)
     {
 		if(currentMoveState == moveState.normal && canDash)
         {
@@ -511,24 +606,46 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
     #endregion
 
     #region Shoot
+	/// <summary>
+	/// Shoots the player's gun.
+	/// </summary>
+	/// <param name="shouldShoot">Holds true if the player should shoot.</param>
 	public void Shoot(bool shouldShoot)
     {
 		gun.Shoot(shouldShoot);
 	}
+
+	public void ADS(bool shouldADS)
+    {
+        if (shouldADS && currentMoveState == moveState.normal)
+        {
+			Debug.Log(currentMoveState);
+			currentMoveState = moveState.ADS;
+			ChangeBetweenMoveStates(moveState.ADS, adsCamPOV, adsCam);
+		}
+        else if(currentMoveState == moveState.ADS)
+        {
+			currentMoveState = moveState.normal;
+			ChangeBetweenMoveStates(moveState.normal, normalCamPOV, normalCam);
+		}
+    }
     #endregion
 
     #region Abilities
 	/// <summary>
 	/// Activates the alt click ability.
 	/// </summary>
-    public void AltAbility()
+    public void XAbility()
     {
-		Ability ability = null;
+		if(currentMoveState == moveState.normal || currentMoveState == moveState.ADS)
+        {
+			Ability ability = null;
 
-		if (abilities[0].TriggerAbility(ref ability))
-		{
-			StartCoroutine(CastMoveHandler(ability));
-			//SetCastMoveState(ability.MoveDuringCast);
+			if (abilities.Length > 2 && abilities[2].TriggerAbility(ref ability))
+			{
+				StartCoroutine(CastMoveHandler(ability));
+				//SetCastMoveState(ability.MoveDuringCast);
+			}
 		}
     }
 
@@ -537,12 +654,15 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	/// </summary>
 	public void EAbility()
     {
-		Ability ability = null;
+		if (currentMoveState == moveState.normal || currentMoveState == moveState.ADS)
+		{
+			Ability ability = null;
 
-		if(abilities[1].TriggerAbility(ref ability))
-        {
-			StartCoroutine(CastMoveHandler(ability));
-			//SetCastMoveState(ability.MoveDuringCast);
+			if (abilities[1].TriggerAbility(ref ability))
+			{
+				StartCoroutine(CastMoveHandler(ability));
+				//SetCastMoveState(ability.MoveDuringCast);
+			}
 		}
     }
 
@@ -551,12 +671,15 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	/// </summary>
 	public void QAbility()
     {
-		Ability ability = null;
+		if (currentMoveState == moveState.normal || currentMoveState == moveState.ADS)
+		{
+			Ability ability = null;
 
-		if (abilities[2].TriggerAbility(ref ability))
-        {
-			StartCoroutine(CastMoveHandler(ability));
-			//SetCastMoveState(ability.MoveDuringCast);
+			if (abilities[0].TriggerAbility(ref ability))
+			{
+				StartCoroutine(CastMoveHandler(ability));
+				//SetCastMoveState(ability.MoveDuringCast);
+			}
 		}
     }
 
@@ -610,6 +733,22 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 
     }
     #endregion
-	#endregion
-	#endregion
+
+    #region Change Move States
+    private void ChangeBetweenMoveStates(moveState newMoveState, CinemachinePOV currentCamPOV, CinemachineVirtualCamera currentCam)
+	{
+		MoveFast.Invoke(newMoveState == moveState.fast);
+		currentMoveState = newMoveState;
+		currentCamPOV.enabled = true;
+		oldCamPOV.enabled = false;
+		currentCam.Priority = oldCam.Priority + 1;
+		currentCamPOV.m_HorizontalAxis.Value = oldCamPOV.m_HorizontalAxis.Value;
+		currentCamPOV.m_VerticalAxis.Value = oldCamPOV.m_VerticalAxis.Value;
+
+		oldCam = currentCam;
+		oldCamPOV = currentCamPOV;
+	}
+    #endregion
+    #endregion
+    #endregion
 }

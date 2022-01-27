@@ -17,21 +17,25 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 13e7087488c4e1a4fb43df423a440625, type: 3}
   charges: 3
   cooldown: 12
-  duration: 33.2
+  duration: 6
   castStartupTime: 2
-  movementDuringCastStartup: 0
+  movementDuringCastStartup: 1
   castDuration: 2
   moveDuringCast: 1
   uncastTime: 2
-  moveDuringUncast: 0
-  newCastMoveSpeed: 5
+  moveDuringUncast: 1
+  newUncastMoveSpeed: 5
+  canZoomWhileCasting: 0
   abilityType: 0
   pushPullableMask:
     serializedVersion: 2
-    m_Bits: 2048
-  pushPullSpeed: 4
-  aimAssist: 1
+    m_Bits: 3072
+  pushPullSpeed: 50
+  aimAssist: 4
   pushPullDist: 81.5
+  distMod: 100
+  followTetherSpeed: 1000
+  lineMaterial: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
   health: 1000
   size: 5
   shield: {fileID: 0}

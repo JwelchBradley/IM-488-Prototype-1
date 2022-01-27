@@ -51,6 +51,10 @@ public class KeybindInputHandler : MonoBehaviour
 	public bool MoveFast
 	{
 		get => moveFast;
+        set
+        {
+			moveFast = value;
+        }
 	}
     #endregion
 
@@ -213,9 +217,9 @@ public class KeybindInputHandler : MonoBehaviour
     /// Gets the input alt ability values.
     /// </summary>
     /// <param name="value">Input alt ability value.</param>
-    public void OnAltAbility(InputValue value)
+    public void OnXAbility(InputValue value)
     {
-		AltAbilityInput(value.isPressed);
+		XAbilityInput(value.isPressed);
     }
 
 	/// <summary>
@@ -235,6 +239,11 @@ public class KeybindInputHandler : MonoBehaviour
 	{
 		QAbilityInput(value.isPressed);
 	}
+
+	public void OnADS(InputValue value)
+    {
+		OnADSInput(value.isPressed);
+    }
     #endregion
     #endregion
 
@@ -282,7 +291,8 @@ public class KeybindInputHandler : MonoBehaviour
 	/// <param name="newMoveFastState">Holds true if the player wants to move fast.</param>
 	public void MoveFastInput(bool newMoveFastState)
 	{
-		moveFast = newMoveFastState;
+		moveFast = !moveFast;
+		//moveFast = newMoveFastState;
 	}
 	#endregion
 
@@ -295,6 +305,12 @@ public class KeybindInputHandler : MonoBehaviour
 	{
 		tpc.Shoot(shouldShoot);
 	}
+
+	private void OnADSInput(bool shouldADS)
+    {
+		Debug.Log(shouldADS);
+		tpc.ADS(shouldADS);
+    }
 	#endregion
 
 	#region Abilities
@@ -302,10 +318,10 @@ public class KeybindInputHandler : MonoBehaviour
 	/// Calls for the ability in the alt click position to be used.
 	/// </summary>
 	/// <param name="shouldUseAbility">Holds true if the ability should be used.</param>
-	private void AltAbilityInput(bool shouldUseAbility)
+	private void XAbilityInput(bool shouldUseAbility)
     {
 		if(shouldUseAbility)
-		tpc.AltAbility();
+		tpc.XAbility();
     }
 
 	/// <summary>

@@ -15,10 +15,11 @@ MonoBehaviour:
   fireRate: 10
   damage: 5
   tapStaggerTime: 0.2
+  zoomMod: 2
   shootShound: {fileID: 8300000, guid: a68b871de9fdd7545aefa1f40baba0c7, type: 3}
   hitSound: {fileID: 11400000, guid: 377434b8e9c85b04d9136134b9ef55be, type: 2}
   bulletInaccuracy: 0
-  bulletVelocity: 75
+  bulletVelocity: 90
   bullet: {fileID: 2574761780501521635, guid: 11e21371a2fbafa47931cf0040d28298, type: 3}
   bulletDecal: {fileID: 5958606127806489753, guid: 80c920d4b01eaac4c891801ac0e34773, type: 3}
   decalEffectLifetime: 5

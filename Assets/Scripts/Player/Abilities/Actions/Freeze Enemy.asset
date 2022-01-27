@@ -18,13 +18,13 @@ MonoBehaviour:
   charges: 1
   cooldown: 4
   duration: 2
-  castStartupTime: 5
-  movementDuringCastStartup: 0
-  castDuration: 7.56
-  moveDuringCast: 0
-  uncastTime: 3.63
-  moveDuringUncast: 0
-  newCastMoveSpeed: 5
+  castStartupTime: 0
+  movementDuringCastStartup: 1
+  castDuration: 0
+  moveDuringCast: 1
+  uncastTime: 0
+  moveDuringUncast: 1
+  newUncastMoveSpeed: 5
   abilityType: 1
   pushPullableMask:
     serializedVersion: 2

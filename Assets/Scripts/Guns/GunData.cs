@@ -47,6 +47,16 @@ public class GunData : ScriptableObject
     }
     #endregion
 
+    #region ADS
+    [Header("ADS")]
+    #region Camera Settings
+    [Tooltip("How zoomed in the ADS is")]
+    [Range(0.0f, 10.0f)]
+    [SerializeField]
+    private float zoomMod = 2.0f;
+    #endregion
+    #endregion
+
     #region Sound
     [Header("Audio")]
     [Tooltip("The sound made when the gun is fired")]

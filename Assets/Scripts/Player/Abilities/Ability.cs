@@ -139,6 +139,18 @@ public class Ability : ScriptableObject
     private float newUncastMoveSpeed = 5.0f;
 
     public float NewUncastMoveSpeed { get => newUncastMoveSpeed; }
+
+    [Tooltip("Holds true if the player can zoom it while using this ability")]
+    [SerializeField]
+    private bool canZoomWhileCasting = false;
+
+    /// <summary>
+    /// Holds true if the player can zoom it while using this ability.
+    /// </summary>
+    public bool CanZoomWhileCasting
+    {
+        get => canZoomWhileCasting;
+    }
     #endregion
 
     #region Specific
@@ -201,6 +213,44 @@ public class Ability : ScriptableObject
     public float PushPullDist
     {
         get => pushPullDist;
+    }
+
+    [ConditionalField("abilityType", type.gravity)]
+    [Tooltip("How much the distance from the current tether point affect follow speed")]
+    [Range(0.0f, 1000.0f)]
+    [SerializeField]
+    private float distMod = 100.0f;
+
+    /// <summary>
+    /// How much the distance from the current tether point affect follow speed.
+    /// </summary>
+    public float DistMod
+    {
+        get => distMod;
+    }
+
+    [ConditionalField("abilityType", type.gravity)]
+    [Tooltip("How fast the object follows the tether")]
+    [Range(0.0f, 10000.0f)]
+    [SerializeField]
+    private float followTetherSpeed = 1000.0f;
+
+    public float FollowTetherSpeed
+    {
+        get => followTetherSpeed;
+    }
+
+    [ConditionalField("abilityType", type.gravity)]
+    [Tooltip("The material of the line")]
+    [SerializeField]
+    private Material lineMaterial;
+
+    /// <summary>
+    /// The material of the line.
+    /// </summary>
+    public Material LineMaterial
+    {
+        get => lineMaterial;
     }
     #endregion
 

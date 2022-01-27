@@ -103,6 +103,7 @@ public class Gun : MonoBehaviour
         aud.PlayOneShot(gunData.ShootShound);
         shotQueued = false;
         bulletController.GunData = gunData;
+        
 
         // Checks if there is a target on the reticle.
         if (Physics.Raycast(mainCam.position, mainCam.forward, out hit, Mathf.Infinity, shootMask))
@@ -113,6 +114,8 @@ public class Gun : MonoBehaviour
         {
             bulletController.Target = mainCam.position + mainCam.forward * bulletDist;
         }
+
+        bulletController.GetComponent<Rigidbody>().velocity = gunData.BulletVelocity * (bulletController.Target - bullet.transform.position).normalized;
 
         // Sets values of the bullet
         bulletController.Damage = gunData.Damage;
