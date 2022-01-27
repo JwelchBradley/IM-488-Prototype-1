@@ -25,6 +25,7 @@ MonoBehaviour:
   uncastTime: 0
   moveDuringUncast: 1
   newUncastMoveSpeed: 5
+  canZoomWhileCasting: 0
   abilityType: 2
   pushPullableMask:
     serializedVersion: 2
@@ -32,6 +33,9 @@ MonoBehaviour:
   pushPullSpeed: 5
   aimAssist: 0
   pushPullDist: 0
+  distMod: 100
+  followTetherSpeed: 1000
+  lineMaterial: {fileID: 0}
   health: 100
   size: 2
   shield: {fileID: 6302014149799497526, guid: bca1886e4e66d964a9b43422c19697f2, type: 3}

@@ -364,8 +364,8 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 		adsCamPOV.m_HorizontalAxis.m_MaxSpeed = PlayerPrefs.GetFloat("X Sens ADS");
 		adsCamPOV.m_VerticalAxis.m_MaxSpeed = PlayerPrefs.GetFloat("Y Sens ADS");
 
-		fastCamPOV.enabled = false;
-		adsCamPOV.enabled = false;
+		//fastCamPOV.enabled = false;
+		//adsCamPOV.enabled = false;
 	}
 
 	private void AddAbilities()
@@ -407,6 +407,11 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 
 		if (currentMoveState != moveState.fast)
 			RotatePlayerDuringMove();
+
+        if (currentMoveState.Equals(moveState.dash))
+        {
+			DashRoutine();
+        }
 	}
 
 
@@ -591,10 +596,41 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
         {
 			currentMoveState = moveState.dash;
 			canDash = false;
-			StartCoroutine(DashRoutine(dashDir));
+			startTime = Time.time;
+			this.dashDir = dashDir;
+			//StartCoroutine(DashRoutine(dashDir));
 		}
     }
+	float startTime;
+	Vector3 dashDir;
+	
+	private void DashRoutine()
+    {
+		if(Time.time > startTime + dashTime)
+        {
+			currentMoveState = moveState.normal;
+			StartCoroutine(DashStagger());
+			return;
+        }
 
+		Vector3 targetDirection = dashDir;
+		if (dashDir.y == 0)
+		{
+			targetDirection = Quaternion.Euler(0.0f, targetRotation, 0.0f) * Vector3.forward;
+		}
+
+		//targetDirection.normalized
+		controller.Move(targetDirection.normalized * dashSpeed * Time.fixedDeltaTime);
+	}
+
+	private IEnumerator DashStagger()
+    {
+		yield return new WaitForSeconds(dashStaggerTime);
+
+		canDash = true;
+	}
+
+	/*
 	private IEnumerator DashRoutine(Vector3 dashDir)
     {
 		float startTime = Time.time;
@@ -603,6 +639,8 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 
 		while (Time.time < startTime + dashTime)
         {
+			yield return new WaitForFixedUpdate();
+
 			Vector3 targetDirection = dashDir;
 			if (dashDir.y == 0)
             {
@@ -611,8 +649,6 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 			
 			//targetDirection.normalized
 			controller.Move(targetDirection.normalized * dashSpeed * Time.fixedDeltaTime);
-
-			yield return new WaitForFixedUpdate();
         }
 
 		currentMoveState = moveState.normal;
@@ -620,7 +656,7 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 		yield return new WaitForSeconds(dashStaggerTime);
 
 		canDash = true;
-    }
+    }*/
 
     #endregion
 
@@ -786,6 +822,8 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 
 		currentCamPOV.enabled = true;
 		oldCamPOV.enabled = false;
+
+		Debug.Log(currentCam);
 
 		oldCam = currentCam;
 		oldCamPOV = currentCamPOV;
