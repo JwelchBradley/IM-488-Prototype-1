@@ -107,11 +107,25 @@ public class PauseMenuBehavior : MenuBehavior
         }
     }
 
+    private CinemachineVirtualCamera currentCam;
+
     private void PauseAim()
     {
+        if(currentCam == null)
         foreach(CinemachineVirtualCamera vcam in vCams)
         {
-            vcam.enabled = isPaused;
+                if (vcam.enabled) 
+                {
+                    vcam.enabled = false;
+                    currentCam = vcam;
+                    break;
+                }
+        }
+
+        else
+        {
+            currentCam.enabled = true;
+            currentCam = null;
         }
     }
 

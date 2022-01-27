@@ -191,17 +191,35 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 
 	private CinemachinePOV normalCamPOV;
 
+	public CinemachinePOV NormalCamPOV
+    {
+		get => normalCamPOV;
+
+	}
+
 	[Tooltip("The camera used for fast movement")]
 	[SerializeField]
 	private CinemachineVirtualCamera fastCam;
 
 	private CinemachinePOV fastCamPOV;
 
+	public CinemachinePOV FastCamPOV
+	{
+		get => fastCamPOV;
+
+	}
+
 	[Tooltip("The camera used for ADS")]
 	[SerializeField]
 	private CinemachineVirtualCamera adsCam;
 
 	private CinemachinePOV adsCamPOV;
+
+	public CinemachinePOV AdsCamPOV
+	{
+		get => adsCamPOV;
+
+	}
 
 	private CinemachineVirtualCamera oldCam;
 
@@ -310,6 +328,8 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 		oldCam = normalCam;
 		oldCamPOV = normalCamPOV;
 
+		InitializeCameras();
+
 		controller = GetComponent<CharacterController>();
 		input = GetComponent<KeybindInputHandler>();
 		gun = GetComponentInChildren<Gun>();
@@ -328,6 +348,24 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 		Cursor.visible = false;
 
 		AssignAnimationIDs();
+	}
+
+	private void InitializeCameras()
+    {
+		normalCamPOV.m_HorizontalAxis.m_MaxSpeed = PlayerPrefs.GetFloat("X Sens");
+		normalCamPOV.m_VerticalAxis.m_MaxSpeed = PlayerPrefs.GetFloat("Y Sens");
+
+		Debug.Log(PlayerPrefs.GetFloat("X Sens Fast"));
+		Debug.Log(PlayerPrefs.GetFloat("Y Sens Fast"));
+
+		fastCamPOV.m_HorizontalAxis.m_MaxSpeed = PlayerPrefs.GetFloat("X Sens Fast")/10;
+		fastCamPOV.m_VerticalAxis.m_MaxSpeed = PlayerPrefs.GetFloat("Y Sens Fast")/10;
+
+		adsCamPOV.m_HorizontalAxis.m_MaxSpeed = PlayerPrefs.GetFloat("X Sens ADS");
+		adsCamPOV.m_VerticalAxis.m_MaxSpeed = PlayerPrefs.GetFloat("Y Sens ADS");
+
+		fastCamPOV.enabled = false;
+		adsCamPOV.enabled = false;
 	}
 
 	private void AddAbilities()
@@ -360,21 +398,24 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	/// <summary>
 	/// Calls movement functions every frame.
 	/// </summary>
-	private void Update()
+	private void FixedUpdate()
 	{
 		MoveVertically();
 
 		if(currentMoveState != moveState.dash && currentMoveState != moveState.nomovecasting)
 		Move();
+
+		if (currentMoveState != moveState.fast)
+			RotatePlayerDuringMove();
 	}
+
 
 	/// <summary>
 	/// Updates the camera after all movements have been made.
 	/// </summary>
 	private void LateUpdate()
 	{
-		if(currentMoveState != moveState.fast)
-		RotatePlayerDuringMove();
+
 	}
 	#endregion
 
@@ -457,8 +498,8 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 		Vector3 targetDirection = Quaternion.Euler(0.0f, targetRotation, 0.0f) * Vector3.forward;
 
 		// move the player
-		Vector3 verticalMovement = new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime;
-		Vector3 horizontalMovement = targetDirection.normalized * (currentSpeed * Time.deltaTime);
+		Vector3 verticalMovement = new Vector3(0.0f, verticalVelocity, 0.0f) * Time.fixedDeltaTime;
+		Vector3 horizontalMovement = targetDirection.normalized * (currentSpeed * Time.fixedDeltaTime);
 		controller.Move(horizontalMovement + verticalMovement);
 	}
 
@@ -495,19 +536,19 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 		
 		//transform.rotation = Mathf.Lerp(transform.rotation, targetRotation, ;
 
-		activeForwardSpeed = Mathf.Lerp(activeForwardSpeed, fastSpeed, forwardAcceleration * Time.deltaTime);
+		activeForwardSpeed = Mathf.Lerp(activeForwardSpeed, fastSpeed, forwardAcceleration * Time.fixedDeltaTime);
 		
-		activeStrafeSpeed = Mathf.Lerp(activeStrafeSpeed, (input.Move.x * strafeSpeed), strafeAcceleration * Time.deltaTime);
+		activeStrafeSpeed = Mathf.Lerp(activeStrafeSpeed, (input.Move.x * strafeSpeed), strafeAcceleration * Time.fixedDeltaTime);
 		targetRotation *= Quaternion.Euler(new Vector3(0, 0, input.Move.x*-30));
-		activeHoverSpeed = Mathf.Lerp(activeHoverSpeed, (input.Move.y * hoverSpeed), hoverAcceleration * Time.deltaTime);
+		activeHoverSpeed = Mathf.Lerp(activeHoverSpeed, (input.Move.y * hoverSpeed), hoverAcceleration * Time.fixedDeltaTime);
 		targetRotation *= Quaternion.Euler(new Vector3(input.Move.y * -30, 0, 0));
 
-		Vector3 forwardMovement = Camera.main.transform.forward * activeForwardSpeed * Time.deltaTime;
-		Vector3 strafeMovement = Camera.main.transform.right * activeStrafeSpeed * Time.deltaTime;
-		Vector3 hoverMovement = Camera.main.transform.up * activeHoverSpeed * Time.deltaTime;
+		Vector3 forwardMovement = Camera.main.transform.forward * activeForwardSpeed * Time.fixedDeltaTime;
+		Vector3 strafeMovement = Camera.main.transform.right * activeStrafeSpeed * Time.fixedDeltaTime;
+		Vector3 hoverMovement = Camera.main.transform.up * activeHoverSpeed * Time.fixedDeltaTime;
 
 		controller.Move(forwardMovement + strafeMovement + hoverMovement);
-		transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+		transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
 
 		/*
 		CinemachineFramingTransposer cft = fastCam.GetCinemachineComponent<CinemachineFramingTransposer>();
@@ -569,9 +610,9 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 			}
 			
 			//targetDirection.normalized
-			controller.Move(targetDirection.normalized * dashSpeed * Time.deltaTime);
+			controller.Move(targetDirection.normalized * dashSpeed * Time.fixedDeltaTime);
 
-			yield return new WaitForEndOfFrame();
+			yield return new WaitForFixedUpdate();
         }
 
 		currentMoveState = moveState.normal;
@@ -739,11 +780,12 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	{
 		MoveFast.Invoke(newMoveState == moveState.fast);
 		currentMoveState = newMoveState;
-		currentCamPOV.enabled = true;
-		oldCamPOV.enabled = false;
 		currentCam.Priority = oldCam.Priority + 1;
 		currentCamPOV.m_HorizontalAxis.Value = oldCamPOV.m_HorizontalAxis.Value;
 		currentCamPOV.m_VerticalAxis.Value = oldCamPOV.m_VerticalAxis.Value;
+
+		currentCamPOV.enabled = true;
+		oldCamPOV.enabled = false;
 
 		oldCam = currentCam;
 		oldCamPOV = currentCamPOV;

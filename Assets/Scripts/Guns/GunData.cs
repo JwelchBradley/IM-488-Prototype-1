@@ -135,6 +135,17 @@ public class GunData : ScriptableObject
         get => bulletDecal;
     }
 
+    [Tooltip("How large the decal is")]
+    [SerializeField] private float bulletDecalSize = 0.05f;
+
+    /// <summary>
+    /// How large the decal is.
+    /// </summary>
+    public float BulletDecalSize
+    {
+        get => bulletDecalSize;
+    }
+
     [Space(20)]
     [Tooltip("How long before the decal is despawned")]
     [Range(0.0f, 20.0f)]

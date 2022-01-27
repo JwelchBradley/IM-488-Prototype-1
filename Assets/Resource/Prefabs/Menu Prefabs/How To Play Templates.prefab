@@ -357,19 +357,22 @@ MonoBehaviour:
       m_Calls: []
   m_text: '<u>Controls</U>
 
-    <B>Move:</b> WASD
+    <b>Move:</b> WASD
 
-    <b>Crouch:</b> Shift
+    <b>Move Vertically</b> Space
+    & Shift
 
-    <b>Interact:</b>
-    F
+    <b>Fly:</b> Toggle ctrl
 
-    <b>Change State:</b> Q
+    <b>Dash:</b> multi-tap button WASD
+    Space or Shift
 
     <b>Aim:</b> Mouse
 
-    <b>Open Pause:</b>
-    - Esc
+    <b>Open Pause:</b> - Esc
+
+    <b>Abilities</b>
+    Q, E, & X
 
 '
   m_isRightToLeft: 0

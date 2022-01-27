@@ -10,104 +10,53 @@ using UnityEngine;
 
 public class BulletController : MonoBehaviour
 {
-    private GunData gunData;
-
-    public GunData GunData
-    {
-        set
-        {
-            gunData = value;
-        }
-    }
-
+    GunData gunData;
+    /*
     /// <summary>
     /// Holds the amount of damage this bullet deals.
     /// </summary>
     protected int damage = 0;
 
-    /// <summary>
-    /// Holds the amount of damage this bullet deals.
-    /// </summary>
-    public int Damage
+    private GameObject bulletDecal;
+
+    private float decalTimeBeforeFadeOut;
+
+    private float decalEffectLifetime;
+
+    private GameObject hitEffect;
+
+    private float hitEffectLifetime;*/
+
+    public void InitializeBullet(Vector3 target, GunData gunData)
     {
-        set
-        {
-            damage = value;
-        }
+        this.gunData = gunData;
+        SetBullet(target, gunData.TimeToDestroy, gunData.BulletVelocity);
     }
 
-    /// <summary>
-    /// Holds how fast the bullet travels.
-    /// </summary>
-    protected float speed = 0.0f;
-
-    /// <summary>
-    /// Holds how fast the bullet travels.
-    /// </summary>
-    public float Speed
+    /*
+    public void InitializeBullet(Vector3 target, int damage, float bulletVelocity, GameObject bulletDecal, float decalTimeBeforeFadeOut, float decalEffectLifetime, GameObject hitEffect, float hitEffectLifetime, float timeToDestroy)
     {
-        set
-        {
-            speed = value;
-        }
+        this.damage = damage;
+        this.bulletDecal = bulletDecal;
+        this.decalTimeBeforeFadeOut = decalTimeBeforeFadeOut;
+        this.decalEffectLifetime = decalEffectLifetime;
+        this.hitEffect = hitEffect;
+        this.hitEffectLifetime = hitEffectLifetime;
+
+        SetBullet(target, timeToDestroy, bulletVelocity);
+    }*/
+
+    private void SetBullet(Vector3 target, float timeToDestroy, float bulletVelocity)
+    {
+        GetComponent<Rigidbody>().velocity = (target - transform.position).normalized * bulletVelocity;
+        transform.LookAt(target);
+
+        DestroyTimer(timeToDestroy);
     }
 
-    /// <summary>
-    /// The target of this bullet.
-    /// </summary>
-    private Vector3 target;
-
-    /// <summary>
-    /// The target of this bullet.
-    /// </summary>
-    public Vector3 Target
+    private void DestroyTimer(float timeToDestroy)
     {
-        get => target;
-
-        set
-        {
-            target = value;
-        }
-    }
-
-    private Vector3 spawnPos;
-
-    /// <summary>
-    /// Sets the bullet to be destroyed after a specified amount of time.
-    /// </summary>
-    private void OnEnable()
-    {
-        spawnPos = transform.position;
-        Invoke("DestroyTimer", 0.2f);
-    }
-
-    private void DestroyTimer()
-    {
-        //GetComponent<Rigidbody>().velocity = speed * (target - transform.position).normalized;
-        Destroy(gameObject, gunData.TimeToDestroy);
-    }
-
-    /// <summary>
-    /// Moves the bullet to its target position.
-    /// </summary>
-    private void Update()
-    {
-        MoveBullet();
-    }
-
-    /// <summary>
-    /// Moves the bullet to its target position.
-    /// </summary>
-    private void MoveBullet()
-    {
-        
-        /*
-        transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
-
-        if((transform.position-target).sqrMagnitude <= 0.1f)
-        {
-            target = (target - spawnPos).normalized * 10000;
-        }*/
+        Destroy(gameObject, timeToDestroy);
     }
 
     /// <summary>
@@ -119,37 +68,18 @@ public class BulletController : MonoBehaviour
         CollisionEvent(other);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        //CollisionEvent(other);
-    }
-
     /// <summary>
     /// Handles what ever is supposed to happen during this bullets collision.
     /// </summary>
     /// <param name="other"></param>
     protected virtual void CollisionEvent(Collision other)
     {
-        /*
-        Vector3 hitPoint = other.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
-        Vector3 originalDir = transform.position - spawnPos;
-
-        RaycastHit contact;
-        LayerMask mask = ~0;
-
-        if (Physics.Raycast(transform.position - originalDir.normalized * .98f, originalDir.normalized, out contact, Mathf.Infinity, mask))
-        {
-            Vector3 targetDir = hitPoint - (transform.position - originalDir * .75f);
-
-            //Physics.Raycast(hitPoint - targetDir.normalized * .98f, targetDir.normalized, out contact, Mathf.Infinity, mask);
-        }*/
         ContactPoint contact = other.contacts[0];
 
-        GameObject decal = Instantiate(gunData.BulletDecal, contact.point + contact.normal * 0.01f, Quaternion.LookRotation(contact.normal));
-        decal.transform.parent = other.gameObject.transform;
+        GameObject decal = Instantiate(gunData.BulletDecal, contact.point + contact.normal * 0.1f, Quaternion.LookRotation(contact.normal), other.gameObject.transform);
+        decal.transform.localScale = gunData.BulletDecalSize * Vector3.one;
         decal.GetComponent<DecalBehaviour>().StartFadeOut(gunData.DecalEffectLifetime, gunData.DecalTimeBeforeFadeOut);
-        GameObject particalEffect = Instantiate(gunData.HitEffect, contact.point + contact.normal * .5f, Quaternion.LookRotation(contact.normal));
-        particalEffect.transform.parent = other.gameObject.transform;
+        GameObject particalEffect = Instantiate(gunData.HitEffect, contact.point + contact.normal * 0.2f, Quaternion.LookRotation(contact.normal));
 
         Destroy(decal, gunData.DecalEffectLifetime);
         Destroy(particalEffect, gunData.HitEffectLifetime);
@@ -164,7 +94,7 @@ public class BulletController : MonoBehaviour
 
         if (damagable != null)
         {
-            damagable.UpdateHealth(-damage);
+            damagable.UpdateHealth(-gunData.Damage);
         }
 
         Destroy(gameObject);

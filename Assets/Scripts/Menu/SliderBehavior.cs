@@ -40,12 +40,7 @@ public class SliderBehavior : MonoBehaviour
     [Tooltip("True if this is for horizontal sensitivity")]
     private bool isSens;
 
-    /// <summary>
-    /// The CinemachinePOV of the walk camera.
-    /// </summary>
-    private CinemachinePOV walkCamPOV;
-
-    private CinemachineFreeLook thirdPersonCamera;
+    private ThirdPersonController tpc;
     #endregion
 
     #region Volume
@@ -74,11 +69,11 @@ public class SliderBehavior : MonoBehaviour
         }        
         else if(isSens)
         {
-            GameObject vcam = GameObject.Find("Walk vcam");
-            
-            if(vcam != null)
+            GameObject player = GameObject.Find("Player");
+
+            if(player != null)
             {
-                walkCamPOV = vcam.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachinePOV>();
+                tpc = player.GetComponent<ThirdPersonController>();
             }
         }
     }
@@ -88,6 +83,12 @@ public class SliderBehavior : MonoBehaviour
         if (PlayerPrefs.HasKey(variableName))
         {
             slider.value = PlayerPrefs.GetFloat(variableName);
+
+            if (isSens)
+            {
+                slider.value *= 100;
+            }
+
             SetInputField();
         }
         else
@@ -101,19 +102,23 @@ public class SliderBehavior : MonoBehaviour
                 switch (variableName)
                 {
                     case "X Sens":
-                            PlayerPrefs.SetFloat(variableName, 400);
+                            PlayerPrefs.SetFloat(variableName, 0.01f);
                             break;
                     case "Y Sens":
-                            PlayerPrefs.SetFloat(variableName, 400);
+                            PlayerPrefs.SetFloat(variableName, 0.01f);
                             break;
-                    case "X Sens Hand":
-                        PlayerPrefs.SetFloat(variableName, 200);
+                    case "X Sens Fast":
+                        PlayerPrefs.SetFloat(variableName, 0.001f);
                         break;
-                    case "Y Sens Hand":
-                        PlayerPrefs.SetFloat(variableName, 2);
+                    case "Y Sens Fast":
+                        PlayerPrefs.SetFloat(variableName, 0.001f);
                         break;
-                    default:
-                            break;
+                    case "X Sens ADS":
+                        PlayerPrefs.SetFloat(variableName, 0.005f);
+                        break;
+                    case "Y Sens ADS":
+                        PlayerPrefs.SetFloat(variableName, 0.005f);
+                        break;
                 }
             }
 
@@ -136,53 +141,32 @@ public class SliderBehavior : MonoBehaviour
 
     private void SetSensitivity(float sliderValue)
     {
-        PlayerPrefs.SetFloat(variableName, sliderValue);
+        PlayerPrefs.SetFloat(variableName, sliderValue/100);
 
         SetInputField();
 
-        if(walkCamPOV != null)
+        if(tpc != null)
         {
             switch(variableName)
             {
                 case "X Sens":
-                    walkCamPOV.m_HorizontalAxis.m_MaxSpeed = sliderValue;
-                        break;
+                    tpc.NormalCamPOV.m_HorizontalAxis.m_MaxSpeed = sliderValue/100;
+                    break;
                 case "Y Sens":
-                    walkCamPOV.m_VerticalAxis.m_MaxSpeed = sliderValue;
+                    tpc.NormalCamPOV.m_VerticalAxis.m_MaxSpeed = sliderValue/100;
                     break;
-                case "X Sens Hand":
-                    if (thirdPersonCamera == null)
-                    {
-                        GameObject thirdPerson = GameObject.Find("Third Person Camera");
-
-                        if (thirdPerson != null)
-                        {
-                            thirdPersonCamera = thirdPerson.GetComponent<CinemachineFreeLook>();
-                            thirdPersonCamera.m_XAxis.m_MaxSpeed = sliderValue;
-                        }
-                    }
-                    else
-                    {
-                        thirdPersonCamera.m_XAxis.m_MaxSpeed = sliderValue;
-                    }
+                case "X Sens Fast":
+                    tpc.FastCamPOV.m_HorizontalAxis.m_MaxSpeed = sliderValue/100;
                     break;
-                case "Y Sens Hand":
-                    if (thirdPersonCamera == null)
-                    {
-                        GameObject thirdPerson = GameObject.Find("Third Person Camera");
-
-                        if(thirdPerson != null)
-                        {
-                            thirdPersonCamera = thirdPerson.GetComponent<CinemachineFreeLook>();
-                            thirdPersonCamera.m_YAxis.m_MaxSpeed = sliderValue;
-                        }
-                    }
-                    else
-                    {
-                        thirdPersonCamera.m_YAxis.m_MaxSpeed = sliderValue;
-                    }
+                case "Y Sens Fast":
+                    tpc.FastCamPOV.m_VerticalAxis.m_MaxSpeed = sliderValue/100;
                     break;
-                default:
+                case "X Sens ADS":
+                    tpc.AdsCamPOV.m_HorizontalAxis.m_MaxSpeed = sliderValue/100;
+                    break;
+                case "Y Sens ADS":
+                    Debug.Log(sliderValue);
+                    tpc.AdsCamPOV.m_VerticalAxis.m_MaxSpeed = sliderValue/100;
                     break;
             }
         }
@@ -211,6 +195,11 @@ public class SliderBehavior : MonoBehaviour
         {
             float value = PlayerPrefs.GetFloat(variableName);
 
+            if (isSens)
+            {
+                value *= 100;
+            }
+
             if (value == 0.001f)
             {
                 value = 0;
@@ -221,7 +210,6 @@ public class SliderBehavior : MonoBehaviour
             value /= 100;
 
             inputField.text = value.ToString();
-            //Debug.Log(variableName);
         }
     }
 }

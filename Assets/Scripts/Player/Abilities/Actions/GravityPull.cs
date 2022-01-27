@@ -60,8 +60,6 @@ public class GravityPull : AbilityAction
 
         while (Time.time < startTime+ability.Duration)
         {
-            Debug.Log(Time.time);
-            Debug.Log(startTime + ability.Duration);
             if(currentGrabbed == null)
             {
                 break;
