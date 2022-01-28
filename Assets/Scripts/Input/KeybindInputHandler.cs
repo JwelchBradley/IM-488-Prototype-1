@@ -308,7 +308,6 @@ public class KeybindInputHandler : MonoBehaviour
 
 	private void OnADSInput(bool shouldADS)
     {
-		Debug.Log(shouldADS);
 		tpc.ADS(shouldADS);
     }
 	#endregion

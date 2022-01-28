@@ -101,7 +101,7 @@ public class GunData : ScriptableObject
     }
 
     [Tooltip("How fast this guns projectiles move")]
-    [Range(0.0f, 100.0f)]
+    [Range(0.0f, 500.0f)]
     [SerializeField]
     private float bulletVelocity = 10.0f;
 

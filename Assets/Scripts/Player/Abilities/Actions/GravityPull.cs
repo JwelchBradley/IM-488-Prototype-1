@@ -21,11 +21,19 @@ public class GravityPull : AbilityAction
     private void Awake()
     {
         gameObject.AddComponent<LineRenderer>();
-        lr = GetComponent<LineRenderer>();
-        //lr.material = ability.LineMaterial;
-        lr.SetWidth(0.1f, 0.1f);
-        lr.positionCount = 2;
+
+        // Initilaizes line renderer
+        Invoke("InitliazeLineRenderer", 0.01f);
+
         gunTip = GameObject.Find("Bullet Spawn Pos").transform;
+    }
+
+    private void InitliazeLineRenderer()
+    {
+        lr = GetComponent<LineRenderer>();
+        lr.material = ability.LineMaterial;
+        lr.widthCurve = ability.LineWidthCurve;
+        lr.positionCount = 2;
     }
 
     /// <summary>

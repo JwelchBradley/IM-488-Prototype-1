@@ -13,5 +13,8 @@ MonoBehaviour:
   m_Name: Default Hit Sounds
   m_EditorClassIdentifier: 
   sound:
-  - mat: {fileID: 2100000, guid: 5a8007f1342ca8d4b8f3e9908b7a8677, type: 2}
+  - mat: {fileID: 13400000, guid: c1dd6c99e9aea1e44a5f82e551da508d, type: 2}
     aud: {fileID: 8300000, guid: 61c1777e2dcfa304c84fbd8cdd05a9f6, type: 3}
+  - mat: {fileID: 13400000, guid: ad06e20f994656f489e0fe791b0284d8, type: 2}
+    aud: {fileID: 8300000, guid: a68b871de9fdd7545aefa1f40baba0c7, type: 3}
+  defaultSound: {fileID: 8300000, guid: a68b871de9fdd7545aefa1f40baba0c7, type: 3}

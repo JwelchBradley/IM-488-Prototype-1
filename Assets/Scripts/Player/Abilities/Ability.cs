@@ -73,6 +73,17 @@ public class Ability : ScriptableObject
     #region Cast values
     [Header("Cast Stats")]
     //[Space(20)]
+    [Tooltip("Holds true if the player can shoot while casting")]
+    [SerializeField] private bool canShootDuringCast = false;
+
+    /// <summary>
+    /// Holds true if the player can shoot while casting.
+    /// </summary>
+    public bool CanShootDuringCast
+    {
+        get => canShootDuringCast;
+    }
+
     [Tooltip("How long it tasks the ability to be cast")]
     [Range(0.0f, 5.0f)]
     [SerializeField]
@@ -251,6 +262,39 @@ public class Ability : ScriptableObject
     public Material LineMaterial
     {
         get => lineMaterial;
+    }
+
+    [ConditionalField("abilityType", type.gravity)]
+    [Tooltip("The width of the linderenderer and its start point")]
+    [Range(0.0f, 1.0f)]
+    [SerializeField] private float lineStartWidth = 0.1f;
+
+    /// <summary>
+    /// The width curve of the linerenderer.
+    /// </summary>
+    public float LineStartWidth
+    {
+        get => lineStartWidth;
+    }
+
+    [ConditionalField("abilityType", type.gravity)]
+    [Tooltip("The width of the linderenderer and its end point")]
+    [Range(0.0f, 1.0f)]
+    [SerializeField] private float lineEndWidth = 0.2f;
+
+    /// <summary>
+    /// The width curve of the linerenderer.
+    /// </summary>
+    public float LindEndWidth
+    {
+        get => lineEndWidth;
+    }
+
+    [SerializeField] private AnimationCurve lineWidthCurve;
+
+    public AnimationCurve LineWidthCurve
+    {
+        get => lineWidthCurve;
     }
     #endregion
 

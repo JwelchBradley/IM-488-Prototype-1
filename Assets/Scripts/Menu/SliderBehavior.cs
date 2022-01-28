@@ -84,11 +84,6 @@ public class SliderBehavior : MonoBehaviour
         {
             slider.value = PlayerPrefs.GetFloat(variableName);
 
-            if (isSens)
-            {
-                slider.value *= 100;
-            }
-
             SetInputField();
         }
         else
@@ -102,22 +97,19 @@ public class SliderBehavior : MonoBehaviour
                 switch (variableName)
                 {
                     case "X Sens":
-                            PlayerPrefs.SetFloat(variableName, 0.01f);
+                            PlayerPrefs.SetFloat(variableName, 1f);
                             break;
                     case "Y Sens":
-                            PlayerPrefs.SetFloat(variableName, 0.01f);
+                            PlayerPrefs.SetFloat(variableName, 1f);
                             break;
                     case "X Sens Fast":
-                        PlayerPrefs.SetFloat(variableName, 0.001f);
+                        PlayerPrefs.SetFloat(variableName, 2f);
                         break;
                     case "Y Sens Fast":
-                        PlayerPrefs.SetFloat(variableName, 0.001f);
+                        PlayerPrefs.SetFloat(variableName, 2f);
                         break;
-                    case "X Sens ADS":
-                        PlayerPrefs.SetFloat(variableName, 0.005f);
-                        break;
-                    case "Y Sens ADS":
-                        PlayerPrefs.SetFloat(variableName, 0.005f);
+                    case "Sens ADS":
+                        PlayerPrefs.SetFloat(variableName, 1f);
                         break;
                 }
             }
@@ -141,7 +133,7 @@ public class SliderBehavior : MonoBehaviour
 
     private void SetSensitivity(float sliderValue)
     {
-        PlayerPrefs.SetFloat(variableName, sliderValue/100);
+        PlayerPrefs.SetFloat(variableName, sliderValue);
 
         SetInputField();
 
@@ -150,23 +142,19 @@ public class SliderBehavior : MonoBehaviour
             switch(variableName)
             {
                 case "X Sens":
-                    tpc.NormalCamPOV.m_HorizontalAxis.m_MaxSpeed = sliderValue/100;
+                    tpc.XSens = sliderValue;
                     break;
                 case "Y Sens":
-                    tpc.NormalCamPOV.m_VerticalAxis.m_MaxSpeed = sliderValue/100;
+                    tpc.YSens = sliderValue;
                     break;
                 case "X Sens Fast":
-                    tpc.FastCamPOV.m_HorizontalAxis.m_MaxSpeed = sliderValue/100;
+                    tpc.XFastSens = sliderValue;
                     break;
                 case "Y Sens Fast":
-                    tpc.FastCamPOV.m_VerticalAxis.m_MaxSpeed = sliderValue/100;
+                    tpc.YFastSens = sliderValue;
                     break;
-                case "X Sens ADS":
-                    tpc.AdsCamPOV.m_HorizontalAxis.m_MaxSpeed = sliderValue/100;
-                    break;
-                case "Y Sens ADS":
-                    Debug.Log(sliderValue);
-                    tpc.AdsCamPOV.m_VerticalAxis.m_MaxSpeed = sliderValue/100;
+                case "Sens ADS":
+                    tpc.ADSAimMod = sliderValue;
                     break;
             }
         }
@@ -194,11 +182,6 @@ public class SliderBehavior : MonoBehaviour
         if(inputField != null)
         {
             float value = PlayerPrefs.GetFloat(variableName);
-
-            if (isSens)
-            {
-                value *= 100;
-            }
 
             if (value == 0.001f)
             {

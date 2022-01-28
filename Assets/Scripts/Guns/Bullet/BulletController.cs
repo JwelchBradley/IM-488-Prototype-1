@@ -79,16 +79,22 @@ public class BulletController : MonoBehaviour
         GameObject decal = Instantiate(gunData.BulletDecal, contact.point + contact.normal * 0.1f, Quaternion.LookRotation(contact.normal), other.gameObject.transform);
         decal.transform.localScale = gunData.BulletDecalSize * Vector3.one;
         decal.GetComponent<DecalBehaviour>().StartFadeOut(gunData.DecalEffectLifetime, gunData.DecalTimeBeforeFadeOut);
-        GameObject particalEffect = Instantiate(gunData.HitEffect, contact.point + contact.normal * 0.2f, Quaternion.LookRotation(contact.normal));
+        GameObject particalEffect = Instantiate(gunData.HitEffect, contact.point + contact.normal * .75f, Quaternion.LookRotation(contact.normal), other.gameObject.transform);
 
         Destroy(decal, gunData.DecalEffectLifetime);
         Destroy(particalEffect, gunData.HitEffectLifetime);
 
         //string matKey = other.gameObject.GetComponent<Renderer>().material.name;
         // Plays hitSound based off of the targets material
-        //AudioClip sound = hitSound["Default"];
-        //hitSound.TryGetValue(matKey, out sound);
-        //AudioSource.PlayClipAtPoint(sound, contact.point);
+        gunData.HitSound.AddHitSoundData();
+        
+        if(HitSoundData.Sound.TryGetValue(other.gameObject.GetComponent<Collider>().sharedMaterial, out AudioClip aud)){
+            AudioSource.PlayClipAtPoint(aud, contact.point);
+        }
+        else
+        {
+            AudioSource.PlayClipAtPoint(gunData.HitSound.DefaultSound, contact.point);
+        }
 
         IDamagable damagable = other.gameObject.GetComponent<IDamagable>();
 
