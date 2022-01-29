@@ -76,10 +76,10 @@ public class BulletController : MonoBehaviour
     {
         ContactPoint contact = other.contacts[0];
 
-        GameObject decal = Instantiate(gunData.BulletDecal, contact.point + contact.normal * 0.1f, Quaternion.LookRotation(contact.normal), other.gameObject.transform);
+        GameObject decal = Instantiate(gunData.BulletDecal, contact.point + contact.normal * 0.001f, Quaternion.LookRotation(contact.normal), other.gameObject.transform);
         decal.transform.localScale = gunData.BulletDecalSize * Vector3.one;
         decal.GetComponent<DecalBehaviour>().StartFadeOut(gunData.DecalEffectLifetime, gunData.DecalTimeBeforeFadeOut);
-        GameObject particalEffect = Instantiate(gunData.HitEffect, contact.point + contact.normal * .75f, Quaternion.LookRotation(contact.normal), other.gameObject.transform);
+        GameObject particalEffect = Instantiate(gunData.HitEffect, contact.point + contact.normal * .1f, Quaternion.LookRotation(contact.normal), other.gameObject.transform);
 
         Destroy(decal, gunData.DecalEffectLifetime);
         Destroy(particalEffect, gunData.HitEffectLifetime);
@@ -87,8 +87,9 @@ public class BulletController : MonoBehaviour
         //string matKey = other.gameObject.GetComponent<Renderer>().material.name;
         // Plays hitSound based off of the targets material
         gunData.HitSound.AddHitSoundData();
-        
-        if(HitSoundData.Sound.TryGetValue(other.gameObject.GetComponent<Collider>().sharedMaterial, out AudioClip aud)){
+
+        PhysicMaterial physicsMat = other.gameObject.GetComponent<Collider>().sharedMaterial;
+        if(physicsMat != null && HitSoundData.Sound.TryGetValue(physicsMat, out AudioClip aud)){
             AudioSource.PlayClipAtPoint(aud, contact.point);
         }
         else
