@@ -23,9 +23,9 @@
                 },
                 {
                     "name": "MoveFast",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "980e881e-182c-404c-8cbf-3d09fdb48fef",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
                 },
@@ -110,7 +110,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "XAbility",
+                    "name": "ThreeAbility",
                     "type": "Button",
                     "id": "f7ddc295-164f-45ea-b30d-4619ed6432c3",
                     "expectedControlType": "Button",
@@ -118,7 +118,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "EAbility",
+                    "name": "TwoAbility",
                     "type": "Button",
                     "id": "b81d3044-81ae-469f-b01b-a3845466bb82",
                     "expectedControlType": "Button",
@@ -126,9 +126,17 @@
                     "interactions": ""
                 },
                 {
-                    "name": "QAbility",
+                    "name": "OneAbility",
                     "type": "Button",
                     "id": "8f552102-1522-4118-b2ad-ab26d5fb5571",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "SlowDown",
+                    "type": "Button",
+                    "id": "2ca5fe67-8608-4fb2-b995-6272b24b9157",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -259,7 +267,7 @@
                 {
                     "name": "negative",
                     "id": "9d6b9d00-3b8d-4384-bc4c-2a465a6877bd",
-                    "path": "<Keyboard>/shift",
+                    "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
@@ -270,7 +278,7 @@
                 {
                     "name": "positive",
                     "id": "23fbbee5-7391-4e5c-becc-306280254ead",
-                    "path": "<Keyboard>/space",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
@@ -280,22 +288,11 @@
                 },
                 {
                     "name": "",
-                    "id": "dc65b89f-9bd3-43fb-92af-d0d87ba5faa4",
-                    "path": "<Keyboard>/ctrl",
+                    "id": "c8fcd86e-dcfd-4f88-8e93-b638cdbf3320",
+                    "path": "<Keyboard>/shift",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
-                    "action": "MoveFast",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c8fcd86e-dcfd-4f88-8e93-b638cdbf3320",
-                    "path": "<Gamepad>/leftTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
                     "action": "MoveFast",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -325,33 +322,33 @@
                 {
                     "name": "",
                     "id": "ba54d97d-f14a-43c3-a808-6604707ca72c",
-                    "path": "<Keyboard>/x",
+                    "path": "<Keyboard>/3",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
-                    "action": "XAbility",
+                    "action": "ThreeAbility",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "90081740-64b7-4076-be90-f3dbe862094e",
-                    "path": "<Keyboard>/e",
+                    "path": "<Keyboard>/2",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
-                    "action": "EAbility",
+                    "action": "TwoAbility",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "ec81d6fa-bde0-48c9-9cdc-6aeaf91a3886",
-                    "path": "<Keyboard>/q",
+                    "path": "<Keyboard>/1",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
-                    "action": "QAbility",
+                    "action": "OneAbility",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -402,7 +399,7 @@
                 {
                     "name": "",
                     "id": "b75bc68c-6589-46bb-8c02-084d65290b04",
-                    "path": "<Keyboard>/space",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
@@ -413,7 +410,7 @@
                 {
                     "name": "",
                     "id": "d17c3929-daad-431b-b41a-75e14279403d",
-                    "path": "<Keyboard>/shift",
+                    "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
@@ -462,6 +459,17 @@
                     "processors": "",
                     "groups": "KeyboardMouse",
                     "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c2ed6c3f-cdf2-4a9a-a632-ead5cc1d3718",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "SlowDown",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -56,6 +56,13 @@ public class KeybindInputHandler : MonoBehaviour
 			moveFast = value;
         }
 	}
+
+	private bool shouldSlowDown = false;
+
+	public bool ShouldSlowDown
+	{
+		get => shouldSlowDown;
+    }
     #endregion
 
     #region Aim
@@ -217,32 +224,37 @@ public class KeybindInputHandler : MonoBehaviour
     /// Gets the input alt ability values.
     /// </summary>
     /// <param name="value">Input alt ability value.</param>
-    public void OnXAbility(InputValue value)
+    public void OnThreeAbility(InputValue value)
     {
-		XAbilityInput(value.isPressed);
+		ThreeAbilityInput(value.isPressed);
     }
 
 	/// <summary>
 	/// Gets the input E ability values.
 	/// </summary>
 	/// <param name="value">Input E ability value.</param>
-	public void OnEAbility(InputValue value)
+	public void OnTwoAbility(InputValue value)
     {
-		EAbilityInput(value.isPressed);
+		TwoAbilityInput(value.isPressed);
 	}
 
 	/// <summary>
 	/// Gets the input Q ability values.
 	/// </summary>
 	/// <param name="value">Input Q ability value.</param>
-	public void OnQAbility(InputValue value)
+	public void OnOneAbility(InputValue value)
 	{
-		QAbilityInput(value.isPressed);
+		OneAbilityInput(value.isPressed);
 	}
 
 	public void OnADS(InputValue value)
     {
 		OnADSInput(value.isPressed);
+    }
+
+	public void OnSlowDown(InputValue value)
+    {
+		OnSlowDownInput(value.isPressed);
     }
     #endregion
     #endregion
@@ -294,6 +306,11 @@ public class KeybindInputHandler : MonoBehaviour
 		moveFast = !moveFast;
 		//moveFast = newMoveFastState;
 	}
+
+	private void OnSlowDownInput(bool shouldSlowDown)
+    {
+		this.shouldSlowDown = shouldSlowDown;
+    }
 	#endregion
 
 	#region Shoot
@@ -317,30 +334,30 @@ public class KeybindInputHandler : MonoBehaviour
 	/// Calls for the ability in the alt click position to be used.
 	/// </summary>
 	/// <param name="shouldUseAbility">Holds true if the ability should be used.</param>
-	private void XAbilityInput(bool shouldUseAbility)
+	private void ThreeAbilityInput(bool shouldUseAbility)
     {
 		if(shouldUseAbility)
-		tpc.XAbility();
+		tpc.ThreeAbility();
     }
 
 	/// <summary>
 	/// Calls for the ability in the E position to be used.
 	/// </summary>
 	/// <param name="shouldUseAbility">Holds true if the ability should be used.</param>
-	private void EAbilityInput(bool shouldUseAbility)
+	private void TwoAbilityInput(bool shouldUseAbility)
     {
 		if(shouldUseAbility)
-		tpc.EAbility();
+		tpc.TwoAbility();
     }
 
 	/// <summary>
 	/// Calls for the ability in the Q position to be used.
 	/// </summary>
 	/// <param name="shouldUseAbility">Holds true if the ability should be used.</param>
-	private void QAbilityInput(bool shouldUseAbility)
+	private void OneAbilityInput(bool shouldUseAbility)
 	{
 		if(shouldUseAbility)
-		tpc.QAbility();
+		tpc.OneAbility();
 	}
 	#endregion
 	#endregion

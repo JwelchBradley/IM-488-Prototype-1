@@ -173,10 +173,14 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	/// </summary>
 	public MoveFastEvent MoveFast = new MoveFastEvent();
 	#endregion
-	#endregion
 
-	#region Cinemachine
-	[Header("Cinemachine")]
+	#region Slow Movement
+	private float slowDownRate = 0.5f;
+    #endregion
+    #endregion
+
+    #region Cinemachine
+    [Header("Cinemachine")]
 	[Header("-------------Aim-------------")]
 	#region Aim
 	#region Normal and ADS
@@ -470,8 +474,13 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	/// </summary>
 	private void FixedUpdate()
 	{
-		if(currentMoveState != moveState.dash && currentMoveState != moveState.nomovecasting)
+		if(currentMoveState != moveState.dash && currentMoveState != moveState.nomovecasting && !input.ShouldSlowDown)
 		Move();
+
+        if (input.ShouldSlowDown)
+        {
+			SlowDown();
+        }
 
 		if (currentMoveState != moveState.fast)
         {
@@ -523,6 +532,11 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 			NormalMove();
         }
 	}
+
+	private void SlowDown()
+    {
+		rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, Time.fixedDeltaTime * slowDownRate);
+    }
 
     #region Normal Move
     private void NormalMove()
@@ -739,7 +753,7 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	/// <summary>
 	/// Activates the alt click ability.
 	/// </summary>
-    public void XAbility()
+    public void ThreeAbility()
     {
 		if(currentMoveState == moveState.normal || currentMoveState == moveState.ADS)
         {
@@ -755,7 +769,7 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	/// <summary>
 	/// Activates the e click ability.
 	/// </summary>
-	public void EAbility()
+	public void TwoAbility()
     {
 		if (currentMoveState == moveState.normal || currentMoveState == moveState.ADS)
 		{
@@ -771,7 +785,7 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	/// <summary>
 	/// Activatest the q click ability.
 	/// </summary>
-	public void QAbility()
+	public void OneAbility()
     {
 		if (currentMoveState == moveState.normal || currentMoveState == moveState.ADS)
 		{
@@ -825,6 +839,13 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
         {
 			health = startingHealth;
         }
+
+		UpdateHealthBar();
+    }
+
+	private void UpdateHealthBar()
+    {
+
     }
 
 	private void PlayerDeath()
