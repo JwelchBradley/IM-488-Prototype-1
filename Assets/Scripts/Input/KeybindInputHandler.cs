@@ -141,6 +141,7 @@ public class KeybindInputHandler : MonoBehaviour
         if (dashPrimers[index])
         {
 			StopCoroutine(dashUpdateRef);
+			ResetDashPrimers();
 			return true;
         }
 
