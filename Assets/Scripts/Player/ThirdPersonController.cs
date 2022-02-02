@@ -175,7 +175,8 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	#endregion
 
 	#region Slow Movement
-	private float slowDownRate = 0.5f;
+	[Header("Slow down movement rate")]
+	[SerializeField] private float slowDownRate = 0.5f;
     #endregion
     #endregion
 
@@ -793,11 +794,19 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 
 			if (abilities.Length > 0 && abilities[0].TriggerAbility(ref ability))
 			{
-				StartCoroutine(CastMoveHandler(ability));
+				CastMoveHandlerRef = StartCoroutine(CastMoveHandler(ability));
 			}
 		}
     }
 
+	public void StopCasting()
+    {
+		StopCoroutine(CastMoveHandlerRef);
+		currentMoveState = moveState.normal;
+		canShoot = true;
+	}
+
+	private Coroutine CastMoveHandlerRef;
 	private IEnumerator CastMoveHandler(Ability ability)
     {
 		if(ability.CastStartupTime + ability.CastDuration + ability.UncastTime == 0)

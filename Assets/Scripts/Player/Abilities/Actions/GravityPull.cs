@@ -5,35 +5,29 @@
 //
 // Brief Description : Pulls available objects towards the player.
 *****************************************************************************/
+using Cinemachine;
 using System.Collections;
 using UnityEngine;
 
 public class GravityPull : AbilityAction
 {
-    private LineRenderer lr;
-
     private Transform gunTip;
 
     private Rigidbody currentGrabbed;
 
     private Transform moveToTarget;
 
+    private CinemachineVirtualCamera rockCam;
+
+    private Transform pivot;
+
     private void Awake()
     {
         gameObject.AddComponent<LineRenderer>();
 
-        // Initilaizes line renderer
-        Invoke("InitliazeLineRenderer", 0.01f);
-
+        pivot = transform.Find("Pivot");
         gunTip = GameObject.Find("Bullet Spawn Pos").transform;
-    }
-
-    private void InitliazeLineRenderer()
-    {
-        lr = GetComponent<LineRenderer>();
-        lr.material = ability.LineMaterial;
-        lr.widthCurve = ability.LineWidthCurve;
-        lr.positionCount = 2;
+        rockCam = GameObject.Find("RockCam").GetComponent<CinemachineVirtualCamera>();
     }
 
     /// <summary>
@@ -48,12 +42,16 @@ public class GravityPull : AbilityAction
         if (foundTarget)
         {
             currentGrabbed = hit.transform.gameObject.GetComponent<Rigidbody>();
+            //lr.enabled = true;
 
-            Vector3 dir = transform.position - hit.transform.position;
+            // Creates the object that the rock follows
+            //moveToTarget = Instantiate(new GameObject("empty"), currentGrabbed.position - (currentGrabbed.position - ability.mainCam.transform.position).normalized * (Vector3.Distance(currentGrabbed.position, transform.position) - ability.DistFromPlayer), Quaternion.identity, ability.mainCam.transform).transform;
+            //moveToTarget.position += ability.OffsetFromCamera * -ability.mainCam.transform.right;
 
-            //currentGrabbed.velocity = dir.normalized * ability.PushPullSpeed;
-            lr.enabled = true;
-            moveToTarget = Instantiate(new GameObject("empty"), currentGrabbed.position, Quaternion.identity, Camera.main.transform).transform;
+            moveToTarget = Instantiate(new GameObject("empty"), transform.position + pivot.transform.forward * ability.DistFromPlayer, Quaternion.identity, pivot).transform;
+            moveToTarget.position += ability.XOffsetFromPlayer * -pivot.transform.right;
+
+            rockCam.Priority = 100;
 
             StartCoroutine(PushPullRoutine());
             return true;
@@ -68,64 +66,75 @@ public class GravityPull : AbilityAction
 
         while (Time.time < startTime+ability.Duration)
         {
+            // If the object no longer exists leave this loop
             if(currentGrabbed == null)
             {
+                tpc.StopCasting();
                 break;
             }
 
+            // Throws the rock in the direction the player is looking
             if (Input.GetKey(KeyCode.Mouse0))
             {
-                moveToTarget.position += (moveToTarget.position - transform.position).normalized*Time.deltaTime * ability.PushPullSpeed;
-            }
-            else if (Input.GetKey(KeyCode.Mouse1))
-            {
-                Vector3 newPos = moveToTarget.position - (moveToTarget.position - transform.position).normalized * Time.deltaTime * ability.PushPullSpeed;
-
-                //isLeft();
-                if (true)
-                {
-                    moveToTarget.position = newPos;
-                }
+                Click();
+                tpc.StopCasting();
+                break;
             }
 
-            Vector3 dir = moveToTarget.position - currentGrabbed.position;
-            float speed = Mathf.Lerp(0, 1, Vector3.Distance(currentGrabbed.position, moveToTarget.position)/ability.DistMod);
-            currentGrabbed.velocity = dir.normalized * ability.FollowTetherSpeed * speed;
-
+            MakeMoveTargetFollow();
             yield return null;
         }
 
-        currentGrabbed = null;
-        lr.enabled = false;
+        Reset();
     }
 
-    private void isLeft()
+    private void MakeMoveTargetFollow()
     {
-        Vector3 delta = (moveToTarget.position - currentGrabbed.position).normalized;
-        Vector3 cross = Vector3.Cross(delta, (currentGrabbed.position - gunTip.position).normalized);
+        // Moves the rock towards the follow position
+        Vector3 dir = moveToTarget.position - currentGrabbed.position;
+        float speed = Mathf.Lerp(0, 1, Vector3.Distance(currentGrabbed.position, moveToTarget.position) / ability.DistMod);
+        currentGrabbed.velocity = dir.normalized * ability.FollowTetherSpeed * speed;
+    }
 
-        if (cross == Vector3.zero)
+    private void Click()
+    {
+        RaycastHit hit;
+        Vector3 target;
+
+        if (Physics.Raycast(ability.mainCam.transform.position, ability.mainCam.transform.forward, out hit, Mathf.Infinity))
         {
-            // Target is straight ahead
-            Debug.Log(0);
-        }
-        else if (cross.y > 0)
-        {
-            // Target is to the right
-            Debug.Log(1);
+            target = hit.point;
         }
         else
         {
-            // Target is to the left
-            Debug.Log(-1);
+            target = ability.mainCam.transform.position + ability.mainCam.transform.forward * 1000;
         }
+
+        currentGrabbed.velocity = (target - currentGrabbed.position).normalized * ability.PushSpeed;
     }
 
+    private void Reset()
+    {
+        // Resets variables
+        currentGrabbed = null;
+        //lr.enabled = false;
+        rockCam.Priority = 0;
+        Destroy(moveToTarget.gameObject);
+    }
+
+    #region Draw Line
+    /*
+    /// <summary>
+    /// Renderers the line after everything else.
+    /// </summary>
     private void LateUpdate()
     {
-        DrawLine();
+        //DrawLine();
     }
 
+    /// <summary>
+    /// Draws the line between the player and the target.
+    /// </summary>
     private void DrawLine()
     {
         if (currentGrabbed != null)
@@ -134,5 +143,6 @@ public class GravityPull : AbilityAction
             lr.SetPosition(1, currentGrabbed.position);
             return;
         }
-    }
+    }*/
+    #endregion
 }

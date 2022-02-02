@@ -190,18 +190,30 @@ public class Ability : ScriptableObject
         get => pushPullableMask;
     }
 
+    /*
     [ConditionalField("abilityType", type.gravity)]
     [Range(0.0f, 100.0f)]
     [Tooltip("How fast the player pulls something towards them")]
     [SerializeField]
-    private float pushPullSpeed = 5.0f;
+    private float pullSpeed = 5.0f;
 
     /// <summary>
     /// How fast the player pulls something towards them.
     /// </summary>
-    public float PushPullSpeed
+    public float PullSpeed
     {
-        get => pushPullSpeed;
+        get => pullSpeed;
+    }*/
+
+    [ConditionalField("abilityType", type.gravity)]
+    [Range(0.0f, 200.0f)]
+    [Tooltip("How fast the player pushes something away them")]
+    [SerializeField]
+    private float pushSpeed = 50.0f;
+
+    public float PushSpeed
+    {
+        get => pushSpeed;
     }
 
     [ConditionalField("abilityType", type.gravity)]
@@ -227,8 +239,8 @@ public class Ability : ScriptableObject
     }
 
     [ConditionalField("abilityType", type.gravity)]
-    [Tooltip("How much the distance from the current tether point affect follow speed")]
     [Range(0.0f, 1000.0f)]
+    [Tooltip("How much the distance from the current tether point affect follow speed")]
     [SerializeField]
     private float distMod = 100.0f;
 
@@ -241,8 +253,8 @@ public class Ability : ScriptableObject
     }
 
     [ConditionalField("abilityType", type.gravity)]
-    [Tooltip("How fast the object follows the tether")]
     [Range(0.0f, 10000.0f)]
+    [Tooltip("How fast the object follows the tether")]
     [SerializeField]
     private float followTetherSpeed = 1000.0f;
 
@@ -251,6 +263,34 @@ public class Ability : ScriptableObject
         get => followTetherSpeed;
     }
 
+    [ConditionalField("abilityType", type.gravity)]
+    [Range(0.0f, 40.0f)]
+    [Tooltip("How far the rock is from the player (note it calculates based off of the camera)")]
+    [SerializeField] private float distFromPlayer;
+
+    /// <summary>
+    /// How far the rock is from the player (note it calculates based off of the camera).
+    /// </summary>
+    public float DistFromPlayer
+    {
+        get => distFromPlayer;
+    }
+
+    
+    [ConditionalField("abilityType", type.gravity)]
+    [Range(0.0f, 10.0f)]
+    [Tooltip("How far on the x axis the rocks is offset on")]
+    [SerializeField] private float xOffsetFromPlayer = 5;
+
+    /// <summary>
+    /// How far on the x axis the rocks is offset on.
+    /// </summary>
+    public float XOffsetFromPlayer
+    {
+        get => xOffsetFromPlayer;
+    }
+
+    /*
     [ConditionalField("abilityType", type.gravity)]
     [Tooltip("The material of the line")]
     [SerializeField]
@@ -295,7 +335,7 @@ public class Ability : ScriptableObject
     public AnimationCurve LineWidthCurve
     {
         get => lineWidthCurve;
-    }
+    }*/
     #endregion
 
     #region Shield Specific

@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 266584e6ce9d9214ea03cfbe9869a358, type: 3}
+  m_Name: Gravity Pull Player To
+  m_EditorClassIdentifier: 
+  mainCam: {fileID: 0}
+  name: Pull Player To
+  icon: {fileID: 21300000, guid: 13e7087488c4e1a4fb43df423a440625, type: 3}
+  charges: 1
+  cooldown: 4
+  duration: 2
+  canShootDuringCast: 0
+  castStartupTime: 0
+  movementDuringCastStartup: 0
+  castDuration: 0
+  moveDuringCast: 0
+  uncastTime: 0
+  moveDuringUncast: 0
+  newUncastMoveSpeed: 5
+  canZoomWhileCasting: 0
+  abilityType: 0
+  pushPullableMask:
+    serializedVersion: 2
+    m_Bits: 2048
+  pushSpeed: 50
+  aimAssist: 0
+  pushPullDist: 0
+  distMod: 100
+  followTetherSpeed: 1000
+  distFromPlayer: 0
+  xOffsetFromPlayer: 5
+  health: 1000
+  size: 5
+  shield: {fileID: 0}

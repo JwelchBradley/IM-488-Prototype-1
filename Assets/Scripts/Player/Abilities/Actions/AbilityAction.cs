@@ -57,6 +57,8 @@ public abstract class AbilityAction : MonoBehaviour
     /// Holds reference to the cooldown timer.
     /// </summary>
     private Coroutine cooldownTimerReference;
+
+    protected ThirdPersonController tpc;
     #endregion
 
     #region Functions
@@ -65,6 +67,7 @@ public abstract class AbilityAction : MonoBehaviour
     /// </summary>
     protected virtual void Start()
     {
+        tpc = GetComponent<ThirdPersonController>();
         ability.mainCam = Camera.main;
         currentCharges = ability.Charges;
     }
@@ -104,7 +107,7 @@ public abstract class AbilityAction : MonoBehaviour
     /// <summary>
     /// Starts the cooldown process for this ability.
     /// </summary>
-    private void StartCooldown()
+    public void StartCooldown()
     {
         // If there isn't already a time on this ability, create one
         if(cooldownTimerReference == null)

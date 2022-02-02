@@ -31,51 +31,51 @@
                 },
                 {
                     "name": "DashRight",
-                    "type": "PassThrough",
+                    "type": "Button",
                     "id": "d6a8c612-bef6-4c94-930e-035c1bfa325d",
-                    "expectedControlType": "",
+                    "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "MultiTap"
+                    "interactions": ""
                 },
                 {
                     "name": "DashLeft",
-                    "type": "PassThrough",
+                    "type": "Button",
                     "id": "e77c36fc-e31c-4306-ab05-7040f17f871c",
-                    "expectedControlType": "",
+                    "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "MultiTap"
+                    "interactions": ""
                 },
                 {
                     "name": "DashForward",
-                    "type": "PassThrough",
+                    "type": "Button",
                     "id": "eb8792e2-da08-4b4c-bfdf-a9b33574cb82",
-                    "expectedControlType": "",
+                    "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "MultiTap"
+                    "interactions": ""
                 },
                 {
                     "name": "DashBack",
-                    "type": "PassThrough",
+                    "type": "Button",
                     "id": "04df4168-3cca-4152-9882-73ee5836ba71",
-                    "expectedControlType": "",
+                    "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "MultiTap"
+                    "interactions": ""
                 },
                 {
                     "name": "DashUp",
-                    "type": "PassThrough",
+                    "type": "Button",
                     "id": "65dff368-b569-4a7e-b46c-2a1e94aaf56c",
-                    "expectedControlType": "",
+                    "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "MultiTap"
+                    "interactions": ""
                 },
                 {
                     "name": "DashDown",
-                    "type": "PassThrough",
+                    "type": "Button",
                     "id": "06dee592-cc67-419d-a466-c70b821420bf",
-                    "expectedControlType": "",
+                    "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "MultiTap"
+                    "interactions": ""
                 },
                 {
                     "name": "MoveVertically",
@@ -135,9 +135,9 @@
                 },
                 {
                     "name": "SlowDown",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "2ca5fe67-8608-4fb2-b995-6272b24b9157",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
                 }

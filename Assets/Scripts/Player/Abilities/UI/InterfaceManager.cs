@@ -18,7 +18,7 @@ public class InterfaceManager : MonoBehaviour
     [SerializeField]
     private Transform[] abilityIconSlot;
 
-    private string keybind = "QEX";
+    private string keybind = "123";
 
     /// <summary>
     /// Initializes the ability UI.

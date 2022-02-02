@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 266584e6ce9d9214ea03cfbe9869a358, type: 3}
-  m_Name: Gravity Pull
+  m_Name: Gravity Pull Push
   m_EditorClassIdentifier: 
   mainCam: {fileID: 0}
   name: Gravity Pull
   icon: {fileID: 21300000, guid: 13e7087488c4e1a4fb43df423a440625, type: 3}
-  charges: 3
-  cooldown: 12
+  charges: 1
+  cooldown: 8
   duration: 6
   canShootDuringCast: 0
   castStartupTime: 2
@@ -31,38 +31,13 @@ MonoBehaviour:
   pushPullableMask:
     serializedVersion: 2
     m_Bits: 3072
-  pushPullSpeed: 50
-  aimAssist: 0
+  pushSpeed: 200
+  aimAssist: 1
   pushPullDist: 81.5
   distMod: 100
-  followTetherSpeed: 1000
-  lineMaterial: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
-  lineStartWidth: 0.1
-  lineEndWidth: 0.2
-  lineWidthCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0.1
-      inSlope: 0.1
-      outSlope: 0.1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0.2
-      inSlope: 0.1
-      outSlope: 0.1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  followTetherSpeed: 2000
+  distFromPlayer: 7
+  xOffsetFromPlayer: 3
   health: 1000
   size: 5
   shield: {fileID: 0}

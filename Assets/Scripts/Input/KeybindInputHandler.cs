@@ -6,6 +6,7 @@
 // Brief Description : Handles user inputs.
 *****************************************************************************/
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -124,13 +125,51 @@ public class KeybindInputHandler : MonoBehaviour
 		MoveFastInput(value.isPressed);
 	}
 
-    #region Dash
+	#region Dash
+	bool[] dashPrimers = new bool[6];
+
+	private void ResetDashPrimers()
+    {
+		for(int i = 0; i < 6; i++)
+        {
+			dashPrimers[i] = false;
+        }
+    }
+
+	private bool DashUpdate(int index)
+    {
+        if (dashPrimers[index])
+        {
+			StopCoroutine(dashUpdateRef);
+			return true;
+        }
+
+		ResetDashPrimers();
+
+		dashPrimers[index] = true;
+
+		dashUpdateRef = StartCoroutine(DashPrimerHold());
+
+		return false;
+	}
+
+	[Tooltip("How long after pressing the key will it stay primed")]
+	[SerializeField] private float dashTapHoldTime;
+
+	private Coroutine dashUpdateRef;
+	private IEnumerator DashPrimerHold()
+    {
+		yield return new WaitForSeconds(dashTapHoldTime);
+		ResetDashPrimers();
+    }
+
     /// <summary>
     /// Gets the input dash values.
     /// </summary>
     /// <param name="value">Input dash value.</param>
     public void OnDashRight(InputValue value)
     {
+		if(DashUpdate(0))
 		DashInput(new Vector3(1, 0, 0));
     }
 
@@ -140,6 +179,7 @@ public class KeybindInputHandler : MonoBehaviour
 	/// <param name="value">Input dash value.</param>
 	public void OnDashLeft(InputValue value)
 	{
+		if(DashUpdate(1))
 		DashInput(new Vector3(-1, 0, 0));
 	}
 
@@ -149,6 +189,7 @@ public class KeybindInputHandler : MonoBehaviour
 	/// <param name="value">Input dash value.</param>
 	public void OnDashForward(InputValue value)
 	{
+		if(DashUpdate(2))
 		DashInput(new Vector3(0, 0, 1));
 	}
 
@@ -158,6 +199,7 @@ public class KeybindInputHandler : MonoBehaviour
 	/// <param name="value">Input dash value.</param>
 	public void OnDashBack(InputValue value)
 	{
+		if(DashUpdate(3))
 		DashInput(new Vector3(0, 0, -1));
 	}
 
@@ -167,6 +209,7 @@ public class KeybindInputHandler : MonoBehaviour
 	/// <param name="value">Input dash value.</param>
 	public void OnDashUp(InputValue value)
 	{
+		if(DashUpdate(4))
 		DashInput(new Vector3(0, 1, 0));
 	}
 
@@ -176,6 +219,7 @@ public class KeybindInputHandler : MonoBehaviour
 	/// <param name="value">Input dash value.</param>
 	public void OnDashDown(InputValue value)
 	{
+		if(DashUpdate(5))
 		DashInput(new Vector3(0, -1, 0));
 	}
 	#endregion
@@ -303,8 +347,8 @@ public class KeybindInputHandler : MonoBehaviour
 	/// <param name="newMoveFastState">Holds true if the player wants to move fast.</param>
 	public void MoveFastInput(bool newMoveFastState)
 	{
-		moveFast = !moveFast;
-		//moveFast = newMoveFastState;
+		//moveFast = !moveFast;
+		moveFast = newMoveFastState;
 	}
 
 	private void OnSlowDownInput(bool shouldSlowDown)
