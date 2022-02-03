@@ -1,6 +1,6 @@
 ﻿/*****************************************************************************
 // File Name :         ThirdPersonController.cs
-// Author :            Jacob Welch
+// Author :            Jacob Welch, Jessica Barthelt
 // Creation Date :     21 January 2022
 //
 // Brief Description : Handles the movement of the player.
@@ -9,6 +9,8 @@ using Cinemachine;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 
 /* Note: animations are called via the controller for both the character and capsule using animator null checks
@@ -344,7 +346,7 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	/// <summary>
 	/// The amount of health the player currently has.
 	/// </summary>
-	private int health = 0;
+	public int health;
 	#endregion
 
 	#region Gun
@@ -397,6 +399,12 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	/// <summary>
 	/// Gets the main camera of this scene, initializes values, and gets components.
 	/// </summary>
+	/// 
+	bool healing;
+	public Slider healthBar;
+	public Text hpTxt;
+	public AudioSource aSource;
+	public AudioClip heal;
 	private void Awake()
 	{
 		normalSpeedCapSquared = normalSpeedCap * normalSpeedCap;
@@ -422,7 +430,10 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	{
 		Cursor.lockState = CursorLockMode.Locked;
 		Cursor.visible = false;
-
+		healing = false;
+		health = 400;
+		healthBar.value = health;
+		hpTxt.text = "HP: " + healthBar.value;
 		AssignAnimationIDs();
 	}
 
@@ -852,15 +863,43 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 		UpdateHealthBar();
     }
 
-	private void UpdateHealthBar()
+	public void UpdateHealthBar()
     {
+		healthBar.value = health;
+		hpTxt.text = "HP: " + health;
 
-    }
+	}
 
 	private void PlayerDeath()
     {
+		SceneManager.LoadScene("Level");
+	}
 
-    }
+	private void OnTriggerStay(Collider other)
+	{
+		if (other.gameObject.tag == "heal" && healthBar.value < 50)
+		{
+			healing = true;
+			aSource.clip = heal;
+			aSource.Play();
+			StartCoroutine(HealPlayer());
+		}
+	}
+
+	private void OnTriggerExit(Collider other)
+	{
+		if (other.gameObject.tag == "heal")
+		{
+			healing = false;
+		}
+	}
+
+	IEnumerator HealPlayer()
+	{
+		yield return new WaitForSeconds(1f);
+		healthBar.value += 2;
+		hpTxt.text = "HP: " + healthBar.value;
+	}
 	#endregion
 
 	#region Change Move States
