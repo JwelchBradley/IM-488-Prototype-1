@@ -1489,7 +1489,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -659, y: -425.147}
+  m_AnchoredPosition: {x: -633, y: -425.147}
   m_SizeDelta: {x: 673.538, y: 117.002}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &787110588
@@ -1537,9 +1537,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 50
+  m_MaxValue: 500
   m_WholeNumbers: 0
-  m_Value: 50
+  m_Value: 500
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1638,7 +1638,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 17.436018
+      value: 17.564123
       objectReference: {fileID: 0}
     - target: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1768,7 +1768,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8944336655422409503, guid: f6d148d888ffbf54b9afe9936dfaec1f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 17.436018
+      value: 17.564123
       objectReference: {fileID: 0}
     - target: {fileID: 8944336655422409503, guid: f6d148d888ffbf54b9afe9936dfaec1f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -6515,6 +6515,11 @@ MonoBehaviour:
   animSpeedName: 
   animMotionSpeedName: 
   startingHealth: 100
+  health: 0
+  healthBar: {fileID: 787110588}
+  hpTxt: {fileID: 1123414756}
+  aSource: {fileID: 4416926082317445147}
+  heal: {fileID: 8300000, guid: ed20a7751b75a4b4a9f82a0dbec86f6f, type: 3}
 --- !u!114 &4416926082317445140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6627,7 +6632,6 @@ GameObject:
   - component: {fileID: 4416926082317445140}
   - component: {fileID: 315201754107942553}
   - component: {fileID: 4416926082317445145}
-  - component: {fileID: 4416926082317445146}
   - component: {fileID: 4416926082317445147}
   m_Layer: 7
   m_Name: Player
@@ -6652,22 +6656,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 2
---- !u!114 &4416926082317445146
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4416926082317445144}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70592f44f8267fe4393fdb8f8d68b1bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthBar: {fileID: 787110588}
-  hpTxt: {fileID: 1123414756}
-  aSource: {fileID: 4416926082317445147}
-  heal: {fileID: 8300000, guid: ed20a7751b75a4b4a9f82a0dbec86f6f, type: 3}
 --- !u!82 &4416926082317445147
 AudioSource:
   m_ObjectHideFlags: 0

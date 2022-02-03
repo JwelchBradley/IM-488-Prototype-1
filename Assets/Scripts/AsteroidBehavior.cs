@@ -1,3 +1,10 @@
+/*****************************************************************************
+// File Name :         ThirdPersonController.cs
+// Author :            Jessica Barthelt
+// Creation Date :     1 February 2022
+//
+// Brief Description : Player loses health every time they hit an asteroid
+*****************************************************************************/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,13 +14,13 @@ public class AsteroidBehavior : MonoBehaviour
 {
 
     ThirdPersonController tpc;
-    Behavior beh;
+  
 
     // Start is called before the first frame update
     void Start()
     {
         tpc = GameObject.Find("Player").GetComponent<ThirdPersonController>();
-        beh = GameObject.Find("Player").GetComponent<Behavior>();
+       
 
     }
 
@@ -27,10 +34,11 @@ public class AsteroidBehavior : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            print("hit player");
-            tpc.UpdateHealth(-5);
-            
             Destroy(this.gameObject);
+            print("hit player");
+            tpc.health -= 5;
+            tpc.UpdateHealthBar();
+            
         }
     }
 }
