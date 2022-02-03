@@ -877,7 +877,7 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 
 	private void OnTriggerStay(Collider other)
 	{
-		if (other.gameObject.tag == "heal" && healthBar.value < 50)
+		if (other.gameObject.tag == "heal" && healthBar.value < 100)
 		{
 			healing = true;
 			aSource.clip = heal;
