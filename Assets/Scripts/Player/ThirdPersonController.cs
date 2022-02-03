@@ -431,7 +431,7 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 		Cursor.lockState = CursorLockMode.Locked;
 		Cursor.visible = false;
 		healing = false;
-		health = 400;
+		health = 100;
 		healthBar.value = health;
 		hpTxt.text = "HP: " + healthBar.value;
 		AssignAnimationIDs();
