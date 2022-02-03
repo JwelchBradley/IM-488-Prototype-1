@@ -11,40 +11,12 @@ using UnityEngine;
 public class BulletController : MonoBehaviour
 {
     GunData gunData;
-    /*
-    /// <summary>
-    /// Holds the amount of damage this bullet deals.
-    /// </summary>
-    protected int damage = 0;
-
-    private GameObject bulletDecal;
-
-    private float decalTimeBeforeFadeOut;
-
-    private float decalEffectLifetime;
-
-    private GameObject hitEffect;
-
-    private float hitEffectLifetime;*/
 
     public void InitializeBullet(Vector3 target, GunData gunData)
     {
         this.gunData = gunData;
         SetBullet(target, gunData.TimeToDestroy, gunData.BulletVelocity);
     }
-
-    /*
-    public void InitializeBullet(Vector3 target, int damage, float bulletVelocity, GameObject bulletDecal, float decalTimeBeforeFadeOut, float decalEffectLifetime, GameObject hitEffect, float hitEffectLifetime, float timeToDestroy)
-    {
-        this.damage = damage;
-        this.bulletDecal = bulletDecal;
-        this.decalTimeBeforeFadeOut = decalTimeBeforeFadeOut;
-        this.decalEffectLifetime = decalEffectLifetime;
-        this.hitEffect = hitEffect;
-        this.hitEffectLifetime = hitEffectLifetime;
-
-        SetBullet(target, timeToDestroy, bulletVelocity);
-    }*/
 
     private void SetBullet(Vector3 target, float timeToDestroy, float bulletVelocity)
     {
@@ -81,6 +53,8 @@ public class BulletController : MonoBehaviour
         decal.GetComponent<DecalBehaviour>().StartFadeOut(gunData.DecalEffectLifetime, gunData.DecalTimeBeforeFadeOut);
         GameObject particalEffect = Instantiate(gunData.HitEffect, contact.point + contact.normal * .1f, Quaternion.LookRotation(contact.normal), other.gameObject.transform);
 
+        AudioSource hitSoundPlayer = (Instantiate(Resources.Load("HitSoundPlayer", typeof(GameObject)), contact.point, Quaternion.identity) as GameObject).GetComponent<AudioSource>();
+
         Destroy(decal, gunData.DecalEffectLifetime);
         Destroy(particalEffect, gunData.HitEffectLifetime);
 
@@ -90,11 +64,13 @@ public class BulletController : MonoBehaviour
 
         PhysicMaterial physicsMat = other.gameObject.GetComponent<Collider>().sharedMaterial;
         if(physicsMat != null && HitSoundData.Sound.TryGetValue(physicsMat, out AudioClip aud)){
-            AudioSource.PlayClipAtPoint(aud, contact.point);
+            hitSoundPlayer.clip = aud;
+            hitSoundPlayer.Play();
         }
         else
         {
-            AudioSource.PlayClipAtPoint(gunData.HitSound.DefaultSound, contact.point);
+            hitSoundPlayer.clip = gunData.HitSound.DefaultSound;
+            hitSoundPlayer.Play();
         }
 
         IDamagable damagable = other.gameObject.GetComponent<IDamagable>();
