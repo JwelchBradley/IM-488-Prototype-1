@@ -47,6 +47,8 @@ public class Gun : MonoBehaviour
     /// The position that bullets will be spawned from.
     /// </summary>
     private Transform bulletSpawnPos;
+
+    private Rigidbody playerRb;
     #endregion
     #endregion
 
@@ -59,6 +61,7 @@ public class Gun : MonoBehaviour
         aud = GetComponent<AudioSource>();
         bulletSpawnPos = transform.Find("Bullet Spawn Pos");
         InitializeShootMask();
+        playerRb = GameObject.Find("Player").GetComponent<Rigidbody>();
     }
     
     private void InitializeShootMask()
@@ -112,6 +115,8 @@ public class Gun : MonoBehaviour
         timeLastShot = Time.time;
         aud.PlayOneShot(gunData.ShootShound);
         shotQueued = false;
+
+        playerRb.AddForce(-mainCam.forward.normalized * gunData.PushBackForce);
 
         Vector3 target;
 

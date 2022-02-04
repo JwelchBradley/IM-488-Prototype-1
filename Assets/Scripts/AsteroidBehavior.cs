@@ -11,7 +11,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(AudioSource))]
-public class AsteroidBehavior : MonoBehaviour
+public class AsteroidBehavior : MonoBehaviour, IDamagable
 {
 
     ThirdPersonController tpc;
@@ -22,6 +22,8 @@ public class AsteroidBehavior : MonoBehaviour
     private AudioSource aSource;
     public AudioClip destroy;
     private Renderer render;
+    private int health = 30;
+    private float velocityThreshold = 30.0f*30.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -38,24 +40,38 @@ public class AsteroidBehavior : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            //AudioSource.PlayClipAtPoint(destroy, transform.position);
-            aSource.Play();
-            render.enabled = false;
-            Destroy(gameObject, 0.2f);
-            tpc.UpdateHealth(-5);
-            //tpc.UpdateHealthBar();
-            
+            AsteroidDestruction();
+            tpc.UpdateHealth(-5);            
         }
-        if (collision.gameObject.tag == "asteroid")
+        else if (collision.relativeVelocity.sqrMagnitude > velocityThreshold && collision.gameObject.TryGetComponent(out IDamagable damagable))
         {
-            //aSource.clip = destroy;
-            //aSource.Play();
-            Destroy(this.gameObject, 0.2f);
+            damagable.UpdateHealth(-100);
+            
             Destroy(collision.gameObject, 0.2f);
         }
 
 
     }
 
+    public void UpdateHealth(int healthMod)
+    {
+        health += healthMod;
 
+        if(health <= 0 && render.enabled)
+        {
+            AsteroidDestruction();
+        }
+    }
+
+    public int HealthAmount()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    private void AsteroidDestruction()
+    {
+        aSource.Play();
+        render.enabled = false;
+        Destroy(gameObject, 0.2f);
+    }
 }

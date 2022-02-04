@@ -113,6 +113,14 @@ public class GunData : ScriptableObject
         get => bulletVelocity;
     }
 
+    [Tooltip("How much force is applied to pushback the character shooting this gun")]
+    [SerializeField] private float pushBackForce = 0.0f;
+
+    public float PushBackForce
+    {
+        get => pushBackForce;
+    }
+
     [Header("Bullet Visuals")]
     [Tooltip("The bullet that this gun shoots")]
     [SerializeField]

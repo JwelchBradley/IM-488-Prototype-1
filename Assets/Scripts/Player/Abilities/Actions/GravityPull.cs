@@ -13,6 +13,7 @@ public class GravityPull : AbilityAction
 {
     private Transform gunTip;
 
+    private Transform currentGrabbedTransform;
     private Rigidbody currentGrabbed;
 
     private Transform moveToTarget;
@@ -42,6 +43,7 @@ public class GravityPull : AbilityAction
         if (foundTarget)
         {
             currentGrabbed = hit.transform.gameObject.GetComponent<Rigidbody>();
+            currentGrabbedTransform = hit.transform;
             //lr.enabled = true;
 
             // Creates the object that the rock follows
@@ -101,8 +103,10 @@ public class GravityPull : AbilityAction
         RaycastHit hit;
         Vector3 target;
 
-        if (Physics.Raycast(ability.mainCam.transform.position, ability.mainCam.transform.forward, out hit, Mathf.Infinity))
+        if (Physics.BoxCast(ability.mainCam.transform.position, Vector3.one * 0.5f, ability.mainCam.transform.forward.normalized, out hit, Quaternion.identity, Mathf.Infinity))
         {
+            Debug.Log(currentGrabbed.position);
+            Debug.Log(currentGrabbedTransform.position);
             target = hit.point;
         }
         else
@@ -110,7 +114,7 @@ public class GravityPull : AbilityAction
             target = ability.mainCam.transform.position + ability.mainCam.transform.forward * 1000;
         }
 
-        currentGrabbed.velocity = (target - currentGrabbed.position).normalized * ability.PushSpeed;
+        currentGrabbed.velocity = (target - currentGrabbed.position).normalized * 300;
     }
 
     private void Reset()

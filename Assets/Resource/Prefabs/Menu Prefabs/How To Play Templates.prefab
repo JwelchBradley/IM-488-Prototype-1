@@ -359,20 +359,24 @@ MonoBehaviour:
 
     <b>Move:</b> WASD
 
-    <b>Move Vertically</b> Space
-    & Shift
+    <b>Move Vertically</b> Q =
+    down and E = up
 
-    <b>Fly:</b> Toggle ctrl
+    <b>Fly:</b> hold shift
 
-    <b>Dash:</b> multi-tap button WASD
-    Space or Shift
+    <b>Dash:</b> double-tap button
+    WASD Q or E
 
     <b>Aim:</b> Mouse
 
+    <b>Shoot:</b> Left-click
+
+    <b>ADS:</b>
+    Right-click
+
     <b>Open Pause:</b> - Esc
 
-    <b>Abilities</b>
-    Q, E, & X
+    <b>Abilities</b> 1, 2, 3
 
 '
   m_isRightToLeft: 0

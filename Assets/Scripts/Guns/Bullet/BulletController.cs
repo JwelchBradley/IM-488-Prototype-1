@@ -60,8 +60,10 @@ public class BulletController : MonoBehaviour
         decal.GetComponent<DecalBehaviour>().StartFadeOut(gunData.DecalEffectLifetime, gunData.DecalTimeBeforeFadeOut);
         GameObject particalEffect = Instantiate(gunData.HitEffect, contact.point + contact.normal * .1f, Quaternion.LookRotation(contact.normal), other.gameObject.transform);
 
-        AudioSource hitSoundPlayer = (Instantiate(Resources.Load("HitSoundPlayer", typeof(GameObject)), contact.point, Quaternion.identity) as GameObject).GetComponent<AudioSource>();
+        GameObject hitSoundPlayer = Instantiate(Resources.Load("HitSoundPlayer", typeof(GameObject)), contact.point, Quaternion.identity) as GameObject;
+        AudioSource audio = hitSoundPlayer.GetComponent<AudioSource>();
 
+        Destroy(hitSoundPlayer, 3);
         Destroy(decal, gunData.DecalEffectLifetime);
         Destroy(particalEffect, gunData.HitEffectLifetime);
 
@@ -71,13 +73,13 @@ public class BulletController : MonoBehaviour
 
         PhysicMaterial physicsMat = other.gameObject.GetComponentInChildren<Collider>().sharedMaterial;
         if(physicsMat != null && HitSoundData.Sound.TryGetValue(physicsMat, out AudioClip aud)){
-            hitSoundPlayer.clip = aud;
-            hitSoundPlayer.Play();
+            audio.clip = aud;
+            audio.Play();
         }
         else
         {
-            hitSoundPlayer.clip = gunData.HitSound.DefaultSound;
-            hitSoundPlayer.Play();
+            audio.clip = gunData.HitSound.DefaultSound;
+            audio.Play();
         }
 
         IDamagable damagable = other.gameObject.GetComponent<IDamagable>();
