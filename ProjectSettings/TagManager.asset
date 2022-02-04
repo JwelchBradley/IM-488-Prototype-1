@@ -8,6 +8,7 @@ TagManager:
   - Bullet
   - Gun
   - heal
+  - asteroid
   layers:
   - Default
   - TransparentFX
