@@ -289,53 +289,6 @@ public class Ability : ScriptableObject
     {
         get => xOffsetFromPlayer;
     }
-
-    /*
-    [ConditionalField("abilityType", type.gravity)]
-    [Tooltip("The material of the line")]
-    [SerializeField]
-    private Material lineMaterial;
-
-    /// <summary>
-    /// The material of the line.
-    /// </summary>
-    public Material LineMaterial
-    {
-        get => lineMaterial;
-    }
-
-    [ConditionalField("abilityType", type.gravity)]
-    [Tooltip("The width of the linderenderer and its start point")]
-    [Range(0.0f, 1.0f)]
-    [SerializeField] private float lineStartWidth = 0.1f;
-
-    /// <summary>
-    /// The width curve of the linerenderer.
-    /// </summary>
-    public float LineStartWidth
-    {
-        get => lineStartWidth;
-    }
-
-    [ConditionalField("abilityType", type.gravity)]
-    [Tooltip("The width of the linderenderer and its end point")]
-    [Range(0.0f, 1.0f)]
-    [SerializeField] private float lineEndWidth = 0.2f;
-
-    /// <summary>
-    /// The width curve of the linerenderer.
-    /// </summary>
-    public float LindEndWidth
-    {
-        get => lineEndWidth;
-    }
-
-    [SerializeField] private AnimationCurve lineWidthCurve;
-
-    public AnimationCurve LineWidthCurve
-    {
-        get => lineWidthCurve;
-    }*/
     #endregion
 
     #region Shield Specific
@@ -352,6 +305,40 @@ public class Ability : ScriptableObject
     [ConditionalField("abilityType", type.shield)]
     [Tooltip("The shield that will be spawned")]
     public GameObject shield;
+    #endregion
+
+    #region Freeze Specific
+    [ConditionalField("abilityType", type.freeze)]
+    [SerializeField] private GameObject empBullet;
+
+    public GameObject EMPBullet
+    {
+        get => empBullet;
+    }
+
+    [ConditionalField("abilityType", type.freeze)]
+    [SerializeField] private AudioClip empFireSound;
+
+    public AudioClip EMPFireSound
+    {
+        get => empFireSound;
+    }
+
+    [ConditionalField("abilityType", type.freeze)]
+    [SerializeField] private float stunDuration;
+
+    public float StunDuration
+    {
+        get => stunDuration;
+    }
+
+    [ConditionalField("abilityType", type.freeze)]
+    [SerializeField] private LayerMask empMask;
+
+    public LayerMask EMPMask
+    {
+        get => empMask;
+    }
     #endregion
     #endregion
     #endregion

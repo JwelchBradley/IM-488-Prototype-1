@@ -8,17 +8,17 @@ public abstract class BaseEnemy : MonoBehaviour, IDamagable
     private int currentHealth = 0;
 
     [SerializeField]
-    private EnemyData enemyData;
+    protected EnemyData enemyData;
 
     /// <summary>
     /// Holds a reference to the player usually used for attack functions.
     /// </summary>
-    protected GameObject playerReference;
+    protected Transform playerReference;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         currentHealth = enemyData.Health;
-        playerReference = GameObject.Find("Player");
+        playerReference = GameObject.Find("Player").transform.Find("Pivot");
     }
 
     /// <summary>

@@ -48,8 +48,9 @@ public class BulletController : MonoBehaviour
     {
         ContactPoint contact = other.contacts[0];
 
-        GameObject decal = Instantiate(gunData.BulletDecal, contact.point + contact.normal * 0.001f, Quaternion.LookRotation(contact.normal), other.gameObject.transform);
+        GameObject decal = Instantiate(gunData.BulletDecal, contact.point + contact.normal * 0.001f, Quaternion.LookRotation(contact.normal));
         decal.transform.localScale = gunData.BulletDecalSize * Vector3.one;
+        decal.transform.parent = other.gameObject.transform;
         decal.GetComponent<DecalBehaviour>().StartFadeOut(gunData.DecalEffectLifetime, gunData.DecalTimeBeforeFadeOut);
         GameObject particalEffect = Instantiate(gunData.HitEffect, contact.point + contact.normal * .1f, Quaternion.LookRotation(contact.normal), other.gameObject.transform);
 
@@ -62,7 +63,7 @@ public class BulletController : MonoBehaviour
         // Plays hitSound based off of the targets material
         gunData.HitSound.AddHitSoundData();
 
-        PhysicMaterial physicsMat = other.gameObject.GetComponent<Collider>().sharedMaterial;
+        PhysicMaterial physicsMat = other.gameObject.GetComponentInChildren<Collider>().sharedMaterial;
         if(physicsMat != null && HitSoundData.Sound.TryGetValue(physicsMat, out AudioClip aud)){
             hitSoundPlayer.clip = aud;
             hitSoundPlayer.Play();

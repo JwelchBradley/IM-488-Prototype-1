@@ -6,6 +6,8 @@ public class ShieldBehaviour : MonoBehaviour, IDamagable
 {
     private int health;
 
+    private Transform pivot;
+
     public int Health
     {
         set
@@ -25,10 +27,17 @@ public class ShieldBehaviour : MonoBehaviour, IDamagable
         }
     }
 
-    public void Initialization(float duration, int health)
+    public void Initialization(float duration, int health, Transform pivot)
     {
         this.health = health;
+        this.pivot = pivot;
         DestroyShield(duration);
+    }
+
+    private void Update()
+    {
+        // Can't parent it to the play because collision get detected as player and don't damage shield
+        transform.position = pivot.position;
     }
 
     private void DestroyShield(float endTime)

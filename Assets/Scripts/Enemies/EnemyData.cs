@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using MyBox;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Enemy", menuName = "Game Data/Enemy")]
@@ -24,5 +23,43 @@ public class EnemyData : ScriptableObject
     public int Damage
     {
         get => damage;
+    }
+
+    [Header("Specific Values")]
+    [Tooltip("The type of ability this is")]
+    public type enemyType = type.shooting;
+
+    public enum type
+    {
+        shooting,
+        melee
+    }
+
+    #region Specifics
+    [Header("Specifics")]
+
+
+    [ConditionalField("enemyType", type.shooting)]
+    [Tooltip("How fast the enemy shoots bullets")]
+    [SerializeField] private GunData gunData;
+
+    public GunData GunData
+    {
+        get => gunData;
+    }
+
+    [ConditionalField("enemyType", type.shooting)]
+    [Tooltip("How far away the turrent will shoot at the player from")]
+    [SerializeField] private float range = 50.0f;
+
+    public float Range
+    {
+        get => range;
+    }
+    #endregion
+
+    private void Awake()
+    {
+        range *= range;
     }
 }

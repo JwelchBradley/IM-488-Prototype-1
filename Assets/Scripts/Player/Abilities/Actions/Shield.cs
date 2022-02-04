@@ -15,8 +15,8 @@ public class Shield : AbilityAction
     protected override bool AbilityActivate()
     {
         Transform pivot = transform.Find("Pivot").Find("Shield Spawn Pos");
-        GameObject shield = Instantiate(ability.shield, pivot.position, Quaternion.identity, pivot);
-        shield.GetComponent<ShieldBehaviour>().Initialization(ability.Duration, ability.health);
+        GameObject shield = Instantiate(ability.shield, pivot.position, Quaternion.identity);
+        shield.GetComponent<ShieldBehaviour>().Initialization(ability.Duration, ability.health, pivot);
         shield.transform.localScale *= ability.size;
         return true;
     }

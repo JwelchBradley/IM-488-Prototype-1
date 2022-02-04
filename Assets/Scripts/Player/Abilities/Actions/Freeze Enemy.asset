@@ -18,6 +18,7 @@ MonoBehaviour:
   charges: 1
   cooldown: 4
   duration: 2
+  canShootDuringCast: 0
   castStartupTime: 0
   movementDuringCastStartup: 1
   castDuration: 0
@@ -25,13 +26,24 @@ MonoBehaviour:
   uncastTime: 0
   moveDuringUncast: 1
   newUncastMoveSpeed: 5
+  canZoomWhileCasting: 0
   abilityType: 1
   pushPullableMask:
     serializedVersion: 2
     m_Bits: 0
-  pushPullSpeed: 5
+  pushSpeed: 50
   aimAssist: 0
   pushPullDist: 0
+  distMod: 100
+  followTetherSpeed: 1000
+  distFromPlayer: 0
+  xOffsetFromPlayer: 5
   health: 1000
   size: 5
   shield: {fileID: 0}
+  empBullet: {fileID: 7323029424623458860, guid: 44ab8b84c581b4d4bb356c523cfd2f65, type: 3}
+  empFireSound: {fileID: 8300000, guid: a68b871de9fdd7545aefa1f40baba0c7, type: 3}
+  stunDuration: 4
+  empMask:
+    serializedVersion: 2
+    m_Bits: 1024

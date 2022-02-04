@@ -32,7 +32,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 3072
   pushSpeed: 200
-  aimAssist: 1
+  aimAssist: 5
   pushPullDist: 81.5
   distMod: 100
   followTetherSpeed: 2000
@@ -41,3 +41,6 @@ MonoBehaviour:
   health: 1000
   size: 5
   shield: {fileID: 0}
+  empBullet: {fileID: 0}
+  empFireSound: {fileID: 0}
+  stunDuration: 0
