@@ -7,53 +7,37 @@ using UnityEngine.SceneManagement;
 public class Behavior : MonoBehaviour
 {
     bool healing;
-    public Slider healthBar;
-    public Text hpTxt;
     public AudioSource aSource;
     public AudioClip heal;
+    [SerializeField] private int healAmount;
 
-
-
-    // Start is called before the first frame update
-    void Start()
+    private void OnTriggerStay(Collider other)
     {
-        healing = false;
-        healthBar.value = 40;
-        hpTxt.text = "HP: " + healthBar.value;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if(healthBar.value <= 0)
-        {
-            SceneManager.LoadScene("Level");
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "heal" && healthBar.value < 50)
+        if (other.gameObject.CompareTag("Player") && !healing)
         {
             healing = true;
-            aSource.clip = heal;
-            aSource.Play();
-            StartCoroutine(HealPlayer());
+            StartCoroutine(HealPlayer(other.transform.parent.gameObject.GetComponent<IDamagable>()));
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "heal")
+        if (other.gameObject.CompareTag("Player"))
         {
             healing = false;
         }
     }
 
-    IEnumerator HealPlayer()
+    IEnumerator HealPlayer(IDamagable player)
     {
-        yield return new WaitForSeconds(1f);
-        healthBar.value += 2;
-        hpTxt.text = "HP: " + healthBar.value;
+        while (healing && player.HealthAmount() < 100)
+        {
+            yield return new WaitForSeconds(1f);
+            aSource.clip = heal;
+            aSource.Play();
+            player.UpdateHealth(healAmount);
+        }
+
+        healing = false;
     }
 }

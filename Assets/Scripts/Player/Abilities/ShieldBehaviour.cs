@@ -44,5 +44,10 @@ public class ShieldBehaviour : MonoBehaviour, IDamagable
     {
         Destroy(gameObject, endTime);
     }
+
+    public int HealthAmount()
+    {
+        throw new System.NotImplementedException();
+    }
     #endregion
 }

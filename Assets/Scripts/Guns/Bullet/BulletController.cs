@@ -12,6 +12,8 @@ public class BulletController : MonoBehaviour
 {
     GunData gunData;
 
+    bool hasCollided = false;
+
     public void InitializeBullet(Vector3 target, GunData gunData)
     {
         this.gunData = gunData;
@@ -37,7 +39,11 @@ public class BulletController : MonoBehaviour
     /// <param name="other"></param>
     private void OnCollisionEnter(Collision other)
     {
-        CollisionEvent(other);
+        if (!hasCollided)
+        {
+            CollisionEvent(other);
+            hasCollided = true;
+        }
     }
 
     /// <summary>

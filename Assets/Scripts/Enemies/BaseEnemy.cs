@@ -48,4 +48,9 @@ public abstract class BaseEnemy : MonoBehaviour, IDamagable
     {
         Destroy(gameObject);
     }
+
+    public int HealthAmount()
+    {
+        throw new System.NotImplementedException();
+    }
 }

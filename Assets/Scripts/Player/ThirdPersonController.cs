@@ -403,8 +403,7 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	bool healing;
 	public Slider healthBar;
 	public Text hpTxt;
-	public AudioSource aSource;
-	public AudioClip heal;
+
 	private void Awake()
 	{
 		normalSpeedCapSquared = normalSpeedCap * normalSpeedCap;
@@ -421,6 +420,8 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 		abilities = GetComponents<AbilityAction>();
 
 		AddAbilities();
+
+		healthBar.value = health*100/startingHealth;
 	}
 
 	/// <summary>
@@ -875,6 +876,12 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 		SceneManager.LoadScene("Level");
 	}
 
+	public int HealthAmount()
+	{
+		return health;
+	}
+
+	/*
 	private void OnTriggerStay(Collider other)
 	{
 		if (other.gameObject.tag == "heal" && healthBar.value < 100)
@@ -899,7 +906,7 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 		yield return new WaitForSeconds(1f);
 		healthBar.value += 2;
 		hpTxt.text = "HP: " + healthBar.value;
-	}
+	}*/
 	#endregion
 
 	#region Change Move States

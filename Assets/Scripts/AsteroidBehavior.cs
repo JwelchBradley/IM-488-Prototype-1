@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(AudioSource))]
 public class AsteroidBehavior : MonoBehaviour
 {
 
@@ -18,35 +19,31 @@ public class AsteroidBehavior : MonoBehaviour
     IDamagable damagable;
 
     Rigidbody rb;
-    public AudioSource aSource;
+    private AudioSource aSource;
     public AudioClip destroy;
+    private Renderer render;
 
     // Start is called before the first frame update
     void Start()
     {
+        render = GetComponent<Renderer>();
+        aSource = GetComponent<AudioSource>();
+        aSource.clip = destroy;
         tpc = GameObject.Find("Player").GetComponent<ThirdPersonController>();
         rb = GetComponent<Rigidbody>();
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-        
-        
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Player")
         {
-            aSource.clip = destroy;
+            //AudioSource.PlayClipAtPoint(destroy, transform.position);
             aSource.Play();
-            Destroy(this.gameObject, 0.2f);
-            print("hit player");
-            tpc.health -= 5;
-            tpc.UpdateHealthBar();
+            render.enabled = false;
+            Destroy(gameObject, 0.2f);
+            tpc.UpdateHealth(-5);
+            //tpc.UpdateHealthBar();
             
         }
         if (collision.gameObject.tag == "asteroid")
@@ -55,7 +52,6 @@ public class AsteroidBehavior : MonoBehaviour
             //aSource.Play();
             Destroy(this.gameObject, 0.2f);
             Destroy(collision.gameObject, 0.2f);
-
         }
 
 

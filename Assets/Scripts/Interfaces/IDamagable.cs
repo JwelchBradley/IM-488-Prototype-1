@@ -12,4 +12,6 @@ public interface IDamagable
     /// </summary>
     /// <param name="healthMod">The amount this objects health will change by.</param>
     public void UpdateHealth(int healthMod);
+
+    public int HealthAmount();
 }

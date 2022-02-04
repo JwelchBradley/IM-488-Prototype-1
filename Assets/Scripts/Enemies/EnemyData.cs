@@ -57,9 +57,4 @@ public class EnemyData : ScriptableObject
         get => range;
     }
     #endregion
-
-    private void Awake()
-    {
-        range *= range;
-    }
 }
