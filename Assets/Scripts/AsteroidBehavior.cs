@@ -25,6 +25,8 @@ public class AsteroidBehavior : MonoBehaviour, IDamagable
     private int health = 30;
     private float velocityThreshold = 30.0f*30.0f;
 
+    public GameObject particle;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -40,8 +42,13 @@ public class AsteroidBehavior : MonoBehaviour, IDamagable
     {
         if (collision.gameObject.tag == "Player")
         {
+            tpc.colImage.SetActive(true);
+            tpc.colAsteroid = true;
             AsteroidDestruction();
-            tpc.UpdateHealth(-5);            
+            tpc.UpdateHealth(-5);
+            
+            
+
         }
         else if (collision.relativeVelocity.sqrMagnitude > velocityThreshold && collision.gameObject.TryGetComponent(out IDamagable damagable))
         {
@@ -71,7 +78,10 @@ public class AsteroidBehavior : MonoBehaviour, IDamagable
     private void AsteroidDestruction()
     {
         aSource.Play();
+        Instantiate(particle, gameObject.transform.position, Quaternion.identity);
         render.enabled = false;
         Destroy(gameObject, 0.2f);
     }
+
+   
 }

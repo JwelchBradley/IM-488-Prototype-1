@@ -404,13 +404,15 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	public Slider healthBar;
 	public Text hpTxt;
 
+	public GameObject colImage;
+	public bool colAsteroid;
 	private void Awake()
 	{
 		normalSpeedCapSquared = normalSpeedCap * normalSpeedCap;
 		fastSpeedCapSquared = fastSpeedCap * fastSpeedCap;
 		dashSpeedCapSqr = dashSpeedCap * dashSpeedCap;
 		exitDashSpeedClampSquared = exitDashSpeedClamp * exitDashSpeedClamp;
-
+		colImage.SetActive(false);
 		InitializeCameras();
 
 		rb = GetComponent<Rigidbody>();
@@ -504,6 +506,11 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
         if (currentMoveState.Equals(moveState.dash))
         {
 			DashRoutine();
+        }
+
+		if(colAsteroid == true)
+        {
+			StartCoroutine(DelImage());
         }
 	}
 	#endregion
@@ -968,4 +975,11 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
     #endregion
     #endregion
     #endregion
+
+	public IEnumerator DelImage()
+    {
+		yield return new WaitForSeconds(1f);
+		colAsteroid = false;
+		colImage.SetActive(false);
+    }
 }
