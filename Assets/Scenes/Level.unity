@@ -1811,7 +1811,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 17.564123
+      value: 17.435425
       objectReference: {fileID: 0}
     - target: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1945,7 +1945,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8944336655422409503, guid: f6d148d888ffbf54b9afe9936dfaec1f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 17.564123
+      value: 17.435425
       objectReference: {fileID: 0}
     - target: {fileID: 8944336655422409503, guid: f6d148d888ffbf54b9afe9936dfaec1f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4428,31 +4428,31 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'WASD: Movement
+  m_Text: 'WASD: Movement + QE: down and up movement
 
 
     Mouse: look around
 
 
-    Left click: shoot       
-    Right click: zoom
+    Left
+    click: shoot        Right click: zoom
 
 
     Hold shift: fly
 
 
-    Hold Spacebar: stop momentum
+    Hold Spacebar:
+    stop momentum
 
 
-    1
-    = Pull an asteroid towards you. Click to throw it
+    1 = Pull an asteroid towards you. Click to throw it
 
 
-    2 = Freeze enemy
+    2
+    = Freeze enemy
 
 
-    3
-    = Shield
+    3 = Shield
 
 
     Press ENTER to play'
