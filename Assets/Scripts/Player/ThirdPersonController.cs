@@ -445,10 +445,10 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 
 		if(PlayerPrefs.HasKey("X Sens"))
         {
-			xSens = PlayerPrefs.GetFloat("X Sens");
-			ySens = PlayerPrefs.GetFloat("Y Sens");
+			XSens = PlayerPrefs.GetFloat("X Sens");
+			YSens = PlayerPrefs.GetFloat("Y Sens");
 
-			adsAimMod = PlayerPrefs.GetFloat("Sens ADS");
+			ADSAimMod = PlayerPrefs.GetFloat("Sens ADS");
 
 			XFastSens = PlayerPrefs.GetFloat("X Sens Fast");
 			YFastSens = PlayerPrefs.GetFloat("Y Sens Fast");
