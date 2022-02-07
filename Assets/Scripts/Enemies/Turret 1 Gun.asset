@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cd4d580a4144cb4ca25c862333f1d95, type: 3}
   m_Name: Turret 1 Gun
   m_EditorClassIdentifier: 
-  fireRate: 5
-  damage: 5
+  fireRate: 4
+  damage: 6
   tapStaggerTime: 0.2
   zoomMod: 2
   shootShound: {fileID: 8300000, guid: a68b871de9fdd7545aefa1f40baba0c7, type: 3}

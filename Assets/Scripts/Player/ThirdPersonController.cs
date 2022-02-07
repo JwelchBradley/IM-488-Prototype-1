@@ -492,6 +492,11 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 		if(currentMoveState != moveState.dash && currentMoveState != moveState.nomovecasting && !input.ShouldSlowDown)
 		Move();
 
+		if(input.Move == Vector2.zero && rb.velocity.sqrMagnitude < 2f)
+        {
+			ClampVeloctiy(0, 0);
+        }
+
         if (input.ShouldSlowDown)
         {
 			SlowDown();
