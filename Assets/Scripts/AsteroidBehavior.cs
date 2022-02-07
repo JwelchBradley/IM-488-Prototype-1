@@ -30,7 +30,7 @@ public class AsteroidBehavior : MonoBehaviour, IDamagable
     // Start is called before the first frame update
     void Start()
     {
-        render = GetComponent<Renderer>();
+        render = GetComponentInChildren<Renderer>();
         aSource = GetComponent<AudioSource>();
         aSource.clip = destroy;
         tpc = GameObject.Find("Player").GetComponent<ThirdPersonController>();
@@ -53,7 +53,8 @@ public class AsteroidBehavior : MonoBehaviour, IDamagable
         else if (collision.relativeVelocity.sqrMagnitude > velocityThreshold && collision.gameObject.TryGetComponent(out IDamagable damagable))
         {
             damagable.UpdateHealth(-100);
-            
+            UpdateHealth(-100);
+
             Destroy(collision.gameObject, 0.2f);
         }
 

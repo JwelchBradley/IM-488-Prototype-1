@@ -15,8 +15,8 @@ MonoBehaviour:
   mainCam: {fileID: 0}
   name: Gravity Pull
   icon: {fileID: 21300000, guid: 13e7087488c4e1a4fb43df423a440625, type: 3}
-  charges: 3
-  cooldown: 8
+  charges: 1
+  cooldown: 6
   duration: 6
   canShootDuringCast: 0
   castStartupTime: 2

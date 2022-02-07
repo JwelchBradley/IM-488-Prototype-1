@@ -85,6 +85,7 @@ public class PauseMenuBehavior : MenuBehavior
             pauseMenu.SetActive(isPaused);
             AudioListener.pause = isPaused;
             Time.timeScale = Convert.ToInt32(!isPaused);
+            Debug.Log(Time.timeScale);
 
             if (isPaused)
             {

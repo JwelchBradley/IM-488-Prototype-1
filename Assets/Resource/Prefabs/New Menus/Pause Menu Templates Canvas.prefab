@@ -2021,7 +2021,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.392}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.5882353}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4431,14 +4431,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8c03aaba7b371e24f88f398c49e3fe81, type: 3}
---- !u!1 &4792283488508015963 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3303295207957867565, guid: 8c03aaba7b371e24f88f398c49e3fe81, type: 3}
-  m_PrefabInstance: {fileID: 8022658112968808822}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &4792283488508015960 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3303295207957867566, guid: 8c03aaba7b371e24f88f398c49e3fe81, type: 3}
+  m_PrefabInstance: {fileID: 8022658112968808822}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4792283488508015963 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3303295207957867565, guid: 8c03aaba7b371e24f88f398c49e3fe81, type: 3}
   m_PrefabInstance: {fileID: 8022658112968808822}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8022658113173079794
