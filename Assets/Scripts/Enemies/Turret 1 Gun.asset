@@ -19,7 +19,8 @@ MonoBehaviour:
   shootShound: {fileID: 8300000, guid: a68b871de9fdd7545aefa1f40baba0c7, type: 3}
   hitSound: {fileID: 11400000, guid: 377434b8e9c85b04d9136134b9ef55be, type: 2}
   bulletInaccuracy: 0
-  bulletVelocity: 50
+  bulletVelocity: 100
+  pushBackForce: 0
   bullet: {fileID: 677798382245171657, guid: 877aa5c69e7dc744786a865a654dbd82, type: 3}
   bulletDecal: {fileID: 696949957220270567, guid: d545f97803c1a544a83aa16be976f430, type: 3}
   bulletDecalSize: 0.05
