@@ -414,6 +414,18 @@ PrefabInstance:
       propertyPath: m_Lens.FarClipPlane
       value: 1000
       objectReference: {fileID: 0}
+    - target: {fileID: 4889856415164555403, guid: e2082cc8503c5be488aa7fe7d84478f0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.6629181
+      objectReference: {fileID: 0}
+    - target: {fileID: 4889856415164555403, guid: e2082cc8503c5be488aa7fe7d84478f0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.85489273
+      objectReference: {fileID: 0}
+    - target: {fileID: 4889856415164555403, guid: e2082cc8503c5be488aa7fe7d84478f0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3
+      objectReference: {fileID: 0}
     - target: {fileID: 4889856415916884398, guid: e2082cc8503c5be488aa7fe7d84478f0, type: 3}
       propertyPath: m_Follow
       value: 
@@ -512,7 +524,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6872815424683503609, guid: e2082cc8503c5be488aa7fe7d84478f0, type: 3}
       propertyPath: m_TrackedObjectOffset.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8287193647981079058, guid: e2082cc8503c5be488aa7fe7d84478f0, type: 3}
       propertyPath: m_Name
@@ -1623,11 +1635,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: d4be97e3fb4056f4fb6e092c7edd988d, type: 2}
     - target: {fileID: 919132149155446097, guid: 9a086eb8f4665a049a2e158df1f1d87d, type: 3}
       propertyPath: m_Name
-      value: Sphere 1
+      value: Outer Shield
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9a086eb8f4665a049a2e158df1f1d87d, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a086eb8f4665a049a2e158df1f1d87d, type: 3}
