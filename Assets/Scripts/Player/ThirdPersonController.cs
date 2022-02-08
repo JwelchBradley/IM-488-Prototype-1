@@ -317,23 +317,55 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	[Tooltip("The pivot for the visuals")]
 	[SerializeField] private Transform visuals;
 
+	/// <summary>
+	/// The animator for the character rig.
+	/// </summary>
+	private Animator animator;
+
 	[Tooltip("The animator name for the speed animation")]
 	[SerializeField]
-	private string animSpeedName;
+	private string animIsFlyingName;
 
 	/// <summary>
 	/// The Animation ID for the player's blend speed.
 	/// </summary>
-	private int animIDSpeed;
+	private int animIsFlyingID;
 
-	[Tooltip("The animator name for the motion speed animation")]
+	[Tooltip("The animator name for the dash right animation")]
 	[SerializeField]
-	private string animMotionSpeedName;
+	private string animDashRightName;
 
 	/// <summary>
-	/// The Animation ID for the player's current speed.
+	/// The Animation ID for the player's dash right.
 	/// </summary>
-	private int animIDMotionSpeed;
+	private int animDashRightID;
+
+	[Tooltip("The animator name for the dash left animation")]
+	[SerializeField]
+	private string animDashLeftName;
+
+	/// <summary>
+	/// The Animation ID for the player's dash left.
+	/// </summary>
+	private int animDashLeftID;
+
+	[Tooltip("The animator name for the dash Forward animation")]
+	[SerializeField]
+	private string animDashForwardName;
+
+	/// <summary>
+	/// The Animation ID for the player's dash Forward.
+	/// </summary>
+	private int animDashForwardID;
+
+	[Tooltip("The animator name for the dash backward animation")]
+	[SerializeField]
+	private string animDashBackwardName;
+
+	/// <summary>
+	/// The Animation ID for the player's dash backward.
+	/// </summary>
+	private int animDashBackwardID;
 	#endregion
 
 	#region Health
@@ -418,6 +450,7 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 		rb = GetComponent<Rigidbody>();
 		input = GetComponent<KeybindInputHandler>();
 		gun = GetComponentInChildren<Gun>();
+		animator = visuals.gameObject.GetComponentInChildren<Animator>();
 
 		abilities = GetComponents<AbilityAction>();
 
@@ -477,8 +510,13 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	/// </summary>
 	private void AssignAnimationIDs()
 	{
-		animIDSpeed = Animator.StringToHash(animSpeedName);
-		animIDMotionSpeed = Animator.StringToHash(animMotionSpeedName);
+		animIsFlyingID = Animator.StringToHash(animIsFlyingName);
+		animDashLeftID = Animator.StringToHash(animDashLeftName);
+		animDashRightID = Animator.StringToHash(animDashRightName);
+		animDashForwardID = Animator.StringToHash(animDashForwardName);
+		animDashBackwardID = Animator.StringToHash(animDashBackwardName);
+
+		MoveFast.AddListener(FastMoveAnimation);
 	}
 	#endregion
 
@@ -492,7 +530,7 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 		if(currentMoveState != moveState.dash && currentMoveState != moveState.nomovecasting && !input.ShouldSlowDown)
 		Move();
 
-		if(input.Move == Vector2.zero && rb.velocity.sqrMagnitude < 2f && (currentMoveState == moveState.normal || currentMoveState == moveState.ADS))
+		if(input.Move == Vector2.zero && input.MoveVertical == 0 && rb.velocity.sqrMagnitude < 2f && (currentMoveState == moveState.normal || currentMoveState == moveState.ADS))
         {
 			ClampVeloctiy(0, 0);
         }
@@ -671,6 +709,11 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 		Vector3 verticalForce = mainCamera.transform.up * Time.fixedDeltaTime * verticalAcceleration * input.Move.y;
 		rb.AddForce(forwardForce + sidewaysForce + verticalForce);
 	}
+
+	private void FastMoveAnimation(bool shouldFastAnim)
+    {
+		//animator.SetBool(animIsFlyingID, shouldFastAnim);
+	}
 	#endregion
 
 	#region Dash
@@ -687,12 +730,42 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 				ChangeActive(moveState.normal, normalCam);
             }
 
+			TriggerDashAnim(dashDir);
+
 			currentMoveState = moveState.dash;
 			canDash = false;
 			startTime = Time.time;
 
 			DashDirCheck(ref dashDir);
 			this.dashDir = dashDir;
+		}
+    }
+
+	private void TriggerDashAnim(Vector3 dashDir)
+    {
+		if(dashDir.x == 1)
+        {
+			animator.SetTrigger(animDashRightID);
+        }
+		else if(dashDir.x == -1)
+        {
+			animator.SetTrigger(animDashLeftID);
+		}
+		else if(dashDir.y == 1)
+        {
+			
+		}
+		else if(dashDir.y == -1)
+        {
+			
+		}
+		else if(dashDir.z == 1)
+        {
+			animator.SetTrigger(animDashForwardID);
+		}
+        else
+        {
+			animator.SetTrigger(animDashBackwardID);
 		}
     }
 

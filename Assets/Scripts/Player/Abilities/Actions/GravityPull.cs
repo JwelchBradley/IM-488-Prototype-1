@@ -105,8 +105,6 @@ public class GravityPull : AbilityAction
 
         if (Physics.BoxCast(ability.mainCam.transform.position, Vector3.one * 0.5f, ability.mainCam.transform.forward.normalized, out hit, Quaternion.identity, Mathf.Infinity))
         {
-            Debug.Log(currentGrabbed.position);
-            Debug.Log(currentGrabbedTransform.position);
             target = hit.point;
         }
         else
