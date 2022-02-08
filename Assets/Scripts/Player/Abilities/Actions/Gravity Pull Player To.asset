@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCam: {fileID: 0}
   name: Pull Player To
-  icon: {fileID: 21300000, guid: 13e7087488c4e1a4fb43df423a440625, type: 3}
+  icon: {fileID: 9079738500369711926, guid: f6eb496f3186edf4ca766e5f5f2332bc, type: 3}
   charges: 1
   cooldown: 4
   duration: 2
@@ -41,3 +41,9 @@ MonoBehaviour:
   health: 1000
   size: 5
   shield: {fileID: 0}
+  empBullet: {fileID: 0}
+  empFireSound: {fileID: 0}
+  stunDuration: 0
+  empMask:
+    serializedVersion: 2
+    m_Bits: 0

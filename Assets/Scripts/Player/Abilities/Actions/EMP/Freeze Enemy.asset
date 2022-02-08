@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCam: {fileID: 0}
   name: Freeze Enemy
-  icon: {fileID: 21300000, guid: 198cf07d14346f14bac461ecdf4d6def, type: 3}
+  icon: {fileID: 3630878042392890860, guid: f6eb496f3186edf4ca766e5f5f2332bc, type: 3}
   charges: 1
   cooldown: 4
   duration: 2

@@ -24,7 +24,7 @@ public class GravityPull : AbilityAction
 
     private void Awake()
     {
-        gameObject.AddComponent<LineRenderer>();
+        //gameObject.AddComponent<LineRenderer>();
 
         pivot = transform.Find("Pivot");
         gunTip = GameObject.Find("Bullet Spawn Pos").transform;
