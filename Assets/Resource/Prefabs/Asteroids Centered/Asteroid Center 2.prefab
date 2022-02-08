@@ -157,7 +157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroy: {fileID: 8300000, guid: 1a02b64058a48cf4892422460a254a8f, type: 3}
-  particle: {fileID: 0}
+  particle: {fileID: 6759568148441200657, guid: fa04cfc75c0c0f346926d5d00938fbbf, type: 3}
 --- !u!54 &4057898618830543258
 Rigidbody:
   m_ObjectHideFlags: 0
