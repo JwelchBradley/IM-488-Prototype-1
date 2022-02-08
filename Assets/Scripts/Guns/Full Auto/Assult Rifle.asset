@@ -28,4 +28,4 @@ MonoBehaviour:
   decalTimeBeforeFadeOut: 2
   hitEffect: {fileID: 7463007000696237879, guid: 389fa2d4becba7345accd54b0b867da5, type: 3}
   hitEffectLifetime: 1
-  timeToDestroy: 5
+  timeToDestroy: 10

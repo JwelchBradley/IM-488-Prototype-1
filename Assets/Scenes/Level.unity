@@ -420,7 +420,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4889856415164555403, guid: e2082cc8503c5be488aa7fe7d84478f0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.85489273
+      value: 0.35489273
       objectReference: {fileID: 0}
     - target: {fileID: 4889856415164555403, guid: e2082cc8503c5be488aa7fe7d84478f0, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3894,7 +3894,7 @@ MonoBehaviour:
   healStationSpawnRange: 300
   amountToSpawnHealStation: 5
   healStation: {fileID: 2556085874311880864, guid: e5ee386d2ba91f64dad34c29bd21b4ad, type: 3}
-  startSafeRangeTurret: 75
+  startSafeRangeTurret: 100
   turretSpawnRange: 300
   amountToSpawnTurretComp: 0
   amountToSpawnTurretHeavy: 0

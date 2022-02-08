@@ -16,4 +16,4 @@ MonoBehaviour:
   damage: 10
   enemyType: 0
   gunData: {fileID: 11400000, guid: e5ea6fff8c54c3a488abc6eee77cdcdb, type: 2}
-  range: 4225
+  range: 10000
