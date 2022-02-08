@@ -2211,6 +2211,71 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1189025231
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1189025233}
+  - component: {fileID: 1189025232}
+  m_Layer: 0
+  m_Name: Terrain Generator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1189025232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1189025231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc152c45f173096448551087d7911408, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startSafeRangeAsteroid: 1
+  asteroidSpawnRange: 300
+  amountToSpawnAsteroid1: 100
+  amountToSpawnAsteroid2: 100
+  amountToSpawnAsteroid3: 100
+  asteroid1: {fileID: 5867108720831063562, guid: 16cb8a0bc060a1348b2b301e9aa17a6d, type: 3}
+  asteroid2: {fileID: 4057898618830543257, guid: 3965d1c93d8e8a14d9caf9e80290eaa5, type: 3}
+  asteroid3: {fileID: 4455072631188265112, guid: 8469aa3609875a34bb3bcab772bd374c, type: 3}
+  startSafeRangeHealStation: 15
+  healStationSpawnRange: 300
+  amountToSpawnHealStation: 5
+  healStation: {fileID: 2556085874311880864, guid: e5ee386d2ba91f64dad34c29bd21b4ad, type: 3}
+  startSafeRangeTurret: 30
+  turretSpawnRange: 300
+  amountToSpawnTurretComp: 30
+  amountToSpawnTurretHeavy: 30
+  amountToSpawnTurretMissile: 30
+  amountToSpawnTurretV2: 30
+  turretComp: {fileID: 492409351768762638, guid: 7cf50b365d4ee384184bd04617094d9d, type: 3}
+  turretHeavy: {fileID: 5539413931977789809, guid: c133ab87af2a06f40911551165eb0e2d, type: 3}
+  turretMissile: {fileID: 1741898651135263038, guid: e2f3212442b1f534e9ee876bcd0bfd80, type: 3}
+  turretV2: {fileID: 7682484576932427533, guid: f972560c362224b4394bedfe978a9682, type: 3}
+--- !u!4 &1189025233
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1189025231}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 22
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1236406529
 GameObject:
   m_ObjectHideFlags: 0
@@ -5645,7 +5710,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5867108720831063562, guid: 16cb8a0bc060a1348b2b301e9aa17a6d, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5867108720831063566, guid: 16cb8a0bc060a1348b2b301e9aa17a6d, type: 3}
       propertyPath: m_RootOrder
@@ -5712,6 +5777,10 @@ PrefabInstance:
       propertyPath: m_WorldUpOverride
       value: 
       objectReference: {fileID: 3893294198522131106}
+    - target: {fileID: 2540469976343506637, guid: e2082cc8503c5be488aa7fe7d84478f0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -149.09837
+      objectReference: {fileID: 0}
     - target: {fileID: 4889856415164555402, guid: e2082cc8503c5be488aa7fe7d84478f0, type: 3}
       propertyPath: m_Follow
       value: 
@@ -5744,6 +5813,10 @@ PrefabInstance:
       propertyPath: m_LookAt
       value: 
       objectReference: {fileID: 8338988566638334276}
+    - target: {fileID: 4889856416257011467, guid: e2082cc8503c5be488aa7fe7d84478f0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -149.09837
+      objectReference: {fileID: 0}
     - target: {fileID: 6259804479121675674, guid: e2082cc8503c5be488aa7fe7d84478f0, type: 3}
       propertyPath: m_RootOrder
       value: 21
