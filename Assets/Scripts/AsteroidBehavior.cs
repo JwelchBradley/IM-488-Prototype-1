@@ -1,5 +1,5 @@
 /*****************************************************************************
-// File Name :         ThirdPersonController.cs
+// File Name :         AsteroidBehavior.cs
 // Author :            Jessica Barthelt
 // Creation Date :     1 February 2022
 //
