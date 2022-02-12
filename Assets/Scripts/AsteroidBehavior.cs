@@ -19,8 +19,6 @@ public class AsteroidBehavior : MonoBehaviour, IDamagable
     IDamagable damagable;
 
     Rigidbody rb;
-    private AudioSource aSource;
-    public AudioClip destroy;
     private Renderer render;
     private int health = 30;
     private float velocityThreshold = 30.0f*30.0f;
@@ -31,8 +29,6 @@ public class AsteroidBehavior : MonoBehaviour, IDamagable
     void Start()
     {
         render = GetComponentInChildren<Renderer>();
-        aSource = GetComponent<AudioSource>();
-        aSource.clip = destroy;
         tpc = GameObject.Find("Player").GetComponent<ThirdPersonController>();
         rb = GetComponent<Rigidbody>();
 
@@ -78,10 +74,11 @@ public class AsteroidBehavior : MonoBehaviour, IDamagable
 
     private void AsteroidDestruction()
     {
-        aSource.Play();
+        
         Instantiate(particle, gameObject.transform.position, Quaternion.identity);
         render.enabled = false;
         Destroy(gameObject, 0.2f);
+        
     }
 
    
