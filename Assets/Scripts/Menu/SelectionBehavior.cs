@@ -21,6 +21,7 @@ public class SelectionBehavior : MonoBehaviour
 
     public string ability1;
     public string ability2;
+    public string ability3;
     public bool a2select;
 
     public Button gravityBttn;
@@ -37,8 +38,9 @@ public class SelectionBehavior : MonoBehaviour
         gravityBttn.interactable = true;
         shieldBttn.interactable = true;
 
-        ability1 = "";
-        ability2 = "";
+        ability1 = "gravity";
+        ability2 = "shield";
+        ability3 = "EMP";
     }
 
     // Update is called once per frame

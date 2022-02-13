@@ -30,14 +30,15 @@ MonoBehaviour:
   abilityType: 0
   pushPullableMask:
     serializedVersion: 2
-    m_Bits: 3072
+    m_Bits: 2048
   pushSpeed: 200
   aimAssist: 5
   pushPullDist: 81.5
   distMod: 100
-  followTetherSpeed: 2000
+  followTetherSpeed: 2500
   distFromPlayer: 7
   xOffsetFromPlayer: 3
+  indicator: {fileID: 3295823026528683110, guid: c874134600fcf2749bda1d413195f19a, type: 3}
   health: 1000
   size: 5
   shield: {fileID: 0}
@@ -47,3 +48,4 @@ MonoBehaviour:
   empMask:
     serializedVersion: 2
     m_Bits: 0
+  empGunData: {fileID: 0}

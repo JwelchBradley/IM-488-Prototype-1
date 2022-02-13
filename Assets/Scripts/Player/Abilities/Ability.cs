@@ -289,6 +289,15 @@ public class Ability : ScriptableObject
     {
         get => xOffsetFromPlayer;
     }
+
+    [ConditionalField("abilityType", type.gravity)]
+    [SerializeField]
+    private GameObject indicator;
+
+    public GameObject Indicator
+    {
+        get => indicator;
+    }
     #endregion
 
     #region Shield Specific
@@ -338,6 +347,15 @@ public class Ability : ScriptableObject
     public LayerMask EMPMask
     {
         get => empMask;
+    }
+
+    [ConditionalField("abilityType", type.freeze)]
+    [SerializeField]
+    private GunData empGunData;
+
+    public GunData EMPGunData
+    {
+        get => empGunData;
     }
     #endregion
     #endregion

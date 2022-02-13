@@ -34,8 +34,8 @@ public class EMPBulletController : BulletController
     private IEnumerator reenableEnemy(BaseEnemy be)
     {
         yield return new WaitForSeconds(stunDuration);
+        if(be != null)
         be.enabled = true;
-        Debug.Log(true);
         Destroy(gameObject);
     }
 }

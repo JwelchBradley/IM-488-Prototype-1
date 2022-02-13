@@ -392,7 +392,7 @@ PrefabInstance:
       objectReference: {fileID: 3893294198522131106}
     - target: {fileID: 2540469976343506637, guid: e2082cc8503c5be488aa7fe7d84478f0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -165.77786
+      value: -165.90569
       objectReference: {fileID: 0}
     - target: {fileID: 2540469976343506637, guid: e2082cc8503c5be488aa7fe7d84478f0, type: 3}
       propertyPath: m_LocalPosition.y
@@ -416,7 +416,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4889856415164555403, guid: e2082cc8503c5be488aa7fe7d84478f0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.49739075
+      value: -0.66355896
       objectReference: {fileID: 0}
     - target: {fileID: 4889856415164555403, guid: e2082cc8503c5be488aa7fe7d84478f0, type: 3}
       propertyPath: m_LocalPosition.y
@@ -464,7 +464,7 @@ PrefabInstance:
       objectReference: {fileID: 8073223555639714750}
     - target: {fileID: 4889856416257011467, guid: e2082cc8503c5be488aa7fe7d84478f0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -165.77786
+      value: -165.90569
       objectReference: {fileID: 0}
     - target: {fileID: 4889856416257011467, guid: e2082cc8503c5be488aa7fe7d84478f0, type: 3}
       propertyPath: m_LocalPosition.y
@@ -938,7 +938,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 130782313}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 469d680a94b8dae44879a16f73064f0b, type: 3}
   m_Name: 
@@ -4342,6 +4342,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: 2c24ff12a4971774b9660ad7f2907a7f, type: 2}
+  onLight: {fileID: 0}
   lookObject: {fileID: 0}
   bulletSpawnPos: {fileID: 0}
 --- !u!65 &1236406531
@@ -8254,6 +8255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ability: {fileID: 11400000, guid: 5b39523879dcb8c45933c31995739cc5, type: 2}
+  isManager: 1
 --- !u!114 &266789795421745477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8267,6 +8269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ability: {fileID: 11400000, guid: c16231437833ae246a38c6f61f3701b5, type: 2}
+  isManager: 1
 --- !u!4 &266789795421745478
 Transform:
   m_ObjectHideFlags: 0
@@ -8294,6 +8297,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ability: {fileID: 11400000, guid: 3a1d8d1ba0426784298510642cb4fd3c, type: 2}
+  isManager: 1
 --- !u!1001 &266789795552277362
 PrefabInstance:
   m_ObjectHideFlags: 0

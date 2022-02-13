@@ -30,17 +30,20 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 
 	private float animationBlend;
 
-	private enum moveState
+	public enum moveState
 	{
 		normal,
 		fast,
 		dash,
-		casting,
-		nomovecasting,
 		ADS
 	}
 
 	private moveState currentMoveState = moveState.normal;
+
+	public moveState CurrentMoveState
+    {
+		get => currentMoveState;
+    }
 
 	#region Flat Movement
 	[Header("Horizontal Movement")]
@@ -537,7 +540,7 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	/// </summary>
 	private void FixedUpdate()
 	{
-		if(currentMoveState != moveState.dash && currentMoveState != moveState.nomovecasting && !input.ShouldSlowDown)
+		if(currentMoveState != moveState.dash && !input.ShouldSlowDown)
 		Move();
 
 		if(input.Move == Vector2.zero && input.MoveVertical == 0 && rb.velocity.sqrMagnitude < 2f && (currentMoveState == moveState.normal || currentMoveState == moveState.ADS))
@@ -608,6 +611,7 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 
 	private void SlowDown()
     {
+		if(currentMoveState != moveState.fast)
 		rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, Time.fixedDeltaTime * slowDownRate);
     }
 
@@ -863,7 +867,15 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	/// </summary>
     public void ThreeAbility()
     {
-		if(currentMoveState == moveState.normal || currentMoveState == moveState.ADS)
+		Ability ability = null;
+
+		if (abilities.Length > 2 && abilities[2].TriggerAbility(ref ability))
+		{
+			StartCoroutine(CastMoveHandler(ability));
+		}
+
+		/*
+		if (currentMoveState == moveState.normal || currentMoveState == moveState.ADS)
         {
 			Ability ability = null;
 
@@ -871,7 +883,7 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 			{
 				StartCoroutine(CastMoveHandler(ability));
 			}
-		}
+		}*/
     }
 
 	/// <summary>
@@ -879,6 +891,14 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	/// </summary>
 	public void TwoAbility()
     {
+		Ability ability = null;
+
+		if (abilities.Length > 1 && abilities[1].TriggerAbility(ref ability))
+		{
+			StartCoroutine(CastMoveHandler(ability));
+		}
+
+		/*
 		if (currentMoveState == moveState.normal || currentMoveState == moveState.ADS)
 		{
 			Ability ability = null;
@@ -887,7 +907,7 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 			{
 				StartCoroutine(CastMoveHandler(ability));
 			}
-		}
+		}*/
     }
 
 	/// <summary>
@@ -895,6 +915,14 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	/// </summary>
 	public void OneAbility()
     {
+		Ability ability = null;
+
+		if (abilities.Length > 0 && abilities[0].TriggerAbility(ref ability))
+		{
+			CastMoveHandlerRef = StartCoroutine(CastMoveHandler(ability));
+		}
+
+		/*
 		if (currentMoveState == moveState.normal || currentMoveState == moveState.ADS)
 		{
 			Ability ability = null;
@@ -903,8 +931,8 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 			{
 				CastMoveHandlerRef = StartCoroutine(CastMoveHandler(ability));
 			}
-		}
-    }
+		}*/
+	}
 
 	public void StopCasting()
     {
@@ -924,13 +952,13 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 		canShoot = ability.CanShootDuringCast;
 		gun.Shoot(false);
 
-		currentMoveState = ability.MovementDuringCastStartup ? moveState.casting : moveState.nomovecasting;
+		//currentMoveState = ability.MovementDuringCastStartup ? moveState.casting : moveState.nomovecasting;
 		yield return new WaitForSeconds(ability.CastStartupTime);
 
-		currentMoveState = ability.MoveDuringCast ? moveState.casting : moveState.nomovecasting;
+		//currentMoveState = ability.MoveDuringCast ? moveState.casting : moveState.nomovecasting;
 		yield return new WaitForSeconds(ability.CastDuration);
 
-		currentMoveState = ability.MovementDuringUncast ? moveState.casting : moveState.nomovecasting;
+		//currentMoveState = ability.MovementDuringUncast ? moveState.casting : moveState.nomovecasting;
 		yield return new WaitForSeconds(ability.UncastTime);
 		currentMoveState = moveState.normal;
 		canShoot = true;
@@ -976,33 +1004,6 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	{
 		return health;
 	}
-
-	/*
-	private void OnTriggerStay(Collider other)
-	{
-		if (other.gameObject.tag == "heal" && healthBar.value < 100)
-		{
-			healing = true;
-			aSource.clip = heal;
-			aSource.Play();
-			StartCoroutine(HealPlayer());
-		}
-	}
-
-	private void OnTriggerExit(Collider other)
-	{
-		if (other.gameObject.tag == "heal")
-		{
-			healing = false;
-		}
-	}
-
-	IEnumerator HealPlayer()
-	{
-		yield return new WaitForSeconds(1f);
-		healthBar.value += 2;
-		hpTxt.text = "HP: " + healthBar.value;
-	}*/
 	#endregion
 
 	#region Change Move States

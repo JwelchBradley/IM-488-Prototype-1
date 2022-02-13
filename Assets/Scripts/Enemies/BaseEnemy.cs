@@ -10,6 +10,21 @@ public abstract class BaseEnemy : MonoBehaviour, IDamagable
     [SerializeField]
     protected EnemyData enemyData;
 
+    [SerializeField]
+    private GameObject onLight;
+
+    private void OnEnable()
+    {
+        if(onLight != null)
+        onLight.SetActive(true);
+    }
+
+    private void OnDisable()
+    {
+        if(onLight != null)
+        onLight.SetActive(false);
+    }
+
     /// <summary>
     /// Holds a reference to the player usually used for attack functions.
     /// </summary>

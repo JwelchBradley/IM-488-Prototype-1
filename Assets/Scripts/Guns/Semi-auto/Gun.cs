@@ -93,13 +93,13 @@ public class Gun : MonoBehaviour
         }
     }
 
-    public void Shoot(GameObject overrideBullet, Vector3 target, AudioClip fireSound, float stunDuration)
+    public void Shoot(GameObject overrideBullet, Vector3 target, AudioClip fireSound, float stunDuration, GunData empGunData)
     {
         GameObject overrideBulletRef = Instantiate(overrideBullet, bulletSpawnPos.position, Quaternion.identity);
         EMPBulletController bulletController = overrideBulletRef.GetComponent<EMPBulletController>();
         aud.PlayOneShot(fireSound);
 
-        bulletController.InitializeBullet(target, gunData);
+        bulletController.InitializeBullet(target, empGunData);
         bulletController.StunDuration = stunDuration;
     }
 

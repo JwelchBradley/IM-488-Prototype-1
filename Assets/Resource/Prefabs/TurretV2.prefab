@@ -153,7 +153,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 07142d15401a22b498dd8569e80233e3, type: 2}
+  - {fileID: 2100000, guid: 526af82c933e2b34ab9cadd1808f3dc8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -326,6 +326,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: d2c5cbaca6f2efd4d95bee1d749f7d28, type: 2}
+  onLight: {fileID: 1479420821}
   lookObject: {fileID: 5905505345924841817}
   bulletSpawnPos: {fileID: 6493652906050559309}
 --- !u!82 &2589742953284335783
@@ -503,7 +504,7 @@ PrefabInstance:
     - target: {fileID: -7635826562936255635, guid: fa226f328b86e1447a6f3b6ccfa95c5b, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 07142d15401a22b498dd8569e80233e3, type: 2}
+      objectReference: {fileID: 2100000, guid: 526af82c933e2b34ab9cadd1808f3dc8, type: 2}
     - target: {fileID: 919132149155446097, guid: fa226f328b86e1447a6f3b6ccfa95c5b, type: 3}
       propertyPath: m_Name
       value: TurretCasing
@@ -582,7 +583,7 @@ PrefabInstance:
     - target: {fileID: -7635826562936255635, guid: 29a05bc36bc8dd947ae86d213a7a6e24, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 07142d15401a22b498dd8569e80233e3, type: 2}
+      objectReference: {fileID: 2100000, guid: 526af82c933e2b34ab9cadd1808f3dc8, type: 2}
     - target: {fileID: 919132149155446097, guid: 29a05bc36bc8dd947ae86d213a7a6e24, type: 3}
       propertyPath: m_Name
       value: TurretBarrel

@@ -46,7 +46,7 @@ public abstract class AbilityAction : MonoBehaviour
     /// <summary>
     /// Is true if there is an ability able to be used.
     /// </summary>
-    private bool canUse = true;
+    protected bool canUse = true;
 
     /// <summary>
     /// Holds true if the user is currently casting.
@@ -59,6 +59,9 @@ public abstract class AbilityAction : MonoBehaviour
     private Coroutine cooldownTimerReference;
 
     protected ThirdPersonController tpc;
+
+    [SerializeField]
+    protected bool isManager = false;
     #endregion
 
     #region Functions

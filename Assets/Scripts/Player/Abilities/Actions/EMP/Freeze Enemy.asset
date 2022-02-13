@@ -47,3 +47,4 @@ MonoBehaviour:
   empMask:
     serializedVersion: 2
     m_Bits: 1024
+  empGunData: {fileID: 11400000, guid: 2d01e14ad9369504ba83e1947784040a, type: 2}

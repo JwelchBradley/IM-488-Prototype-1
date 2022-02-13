@@ -336,6 +336,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: 05e456603ccd82a41a767736cc2e4a44, type: 2}
+  onLight: {fileID: 0}
   lookObject: {fileID: 4537229825776662658}
   bulletSpawnPos: {fileID: 4537229825889365428}
 --- !u!114 &4537229826517148527
