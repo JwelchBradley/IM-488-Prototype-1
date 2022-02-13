@@ -35,6 +35,11 @@ public class TerrainGenerator : MonoBehaviour
     public GameObject turretMissile;
     public GameObject turretV2;
 
+    public GameObject simpleEnemy;
+
+    public float EnemySpawnRange;
+    public float amountToSpawnEnemy;
+
     private Vector3 spawnPoint;
     private List<GameObject> objectsToPlaceAsteroid1 = new List<GameObject>();
     private List<GameObject> objectsToPlaceAsteroid2 = new List<GameObject>();
@@ -44,6 +49,8 @@ public class TerrainGenerator : MonoBehaviour
     private List<GameObject> objectsToPlaceTurretHeavy = new List<GameObject>();
     private List<GameObject> objectsToPlaceTurretMissile = new List<GameObject>();
     private List<GameObject> objectsToPlaceTurretV2 = new List<GameObject>();
+    private List<GameObject> objectsToPlaceSimpleEnemy = new List<GameObject>();
+
 
     // Start is called before the first frame update
     void Start()
@@ -160,6 +167,20 @@ public class TerrainGenerator : MonoBehaviour
             objectsToPlaceTurretV2[i].transform.parent = this.transform;
         }
 
+        for (int i = 0; i < amountToSpawnEnemy; i++)
+        {
+            PickSpawnPointEnemy();
+
+            //pick new spawn point if too close to player start
+            while (Vector3.Distance(spawnPoint, Vector3.zero) < startSafeRangeTurret)
+            {
+                PickSpawnPointEnemy();
+            }
+
+            objectsToPlaceTurretV2.Add(Instantiate(simpleEnemy, spawnPoint, Quaternion.Euler(0f, 0f, 0f)));
+            objectsToPlaceTurretV2[i].transform.parent = this.transform;
+        }
+
         /*
         asteroid1.SetActive(false);
         asteroid2.SetActive(false);
@@ -175,7 +196,7 @@ public class TerrainGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void PickSpawnPointAsteroid()
@@ -221,5 +242,20 @@ public class TerrainGenerator : MonoBehaviour
         }
 
         spawnPoint *= turretSpawnRange;
+    }
+
+    public void PickSpawnPointEnemy()
+    {
+        spawnPoint = new Vector3(
+            Random.Range(-1f, 1f),
+            Random.Range(-1f, 1f),
+            Random.Range(-1f, 1f));
+
+        if (spawnPoint.magnitude > 1)
+        {
+            spawnPoint.Normalize();
+        }
+
+        spawnPoint *= EnemySpawnRange;
     }
 }

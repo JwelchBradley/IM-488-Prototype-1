@@ -17,6 +17,7 @@ public class ShootingEnemy : BaseEnemy
 
     private bool notFrozen = true;
 
+
     private ShootingEnemy self;
 
     protected override void Awake()
