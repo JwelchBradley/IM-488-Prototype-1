@@ -424,6 +424,16 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	/// </summary>
 	private GameObject mainCamera;
 	#endregion
+
+	private bool shieldActive = false;
+
+	public bool ShieldActive
+    {
+		set
+        {
+			shieldActive = value;
+        }
+    }
 	#endregion
 
 	#region Functions
@@ -935,6 +945,7 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	/// <param name="healthMod">Amount of health added to the players current total. (If damage use negative number)</param>
 	public void UpdateHealth(int healthMod)
     {
+		if(!shieldActive)
 		health += healthMod;
 
 		if(health <= 0)

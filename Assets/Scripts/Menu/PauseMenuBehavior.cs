@@ -27,6 +27,8 @@ public class PauseMenuBehavior : MenuBehavior
 
     private bool canClosePauseMenu = true;
 
+    public GameObject rekeybindOverlay;
+
     /// <summary>
     /// 
     /// </summary>

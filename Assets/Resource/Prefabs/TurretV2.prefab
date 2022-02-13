@@ -186,7 +186,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 1
+  m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -2432090755550338912, guid: 47b56bbc8f16fe042a79b35916e1afb5, type: 3}
 --- !u!1 &1851575736446644046
@@ -244,7 +244,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 1
+  m_Convex: 0
   m_CookingOptions: 2
   m_Mesh: {fileID: -2432090755550338912, guid: fa226f328b86e1447a6f3b6ccfa95c5b, type: 3}
 --- !u!1 &5905505345924841817
@@ -445,10 +445,10 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 126
-  m_CollisionDetection: 2
+  m_CollisionDetection: 3
 --- !u!1001 &4148628117489762069
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -20,7 +20,7 @@ MonoBehaviour:
   hitSound: {fileID: 11400000, guid: 377434b8e9c85b04d9136134b9ef55be, type: 2}
   bulletInaccuracy: 0
   bulletVelocity: 300
-  pushBackForce: 200
+  pushBackForce: 0
   bullet: {fileID: 2574761780501521635, guid: 11e21371a2fbafa47931cf0040d28298, type: 3}
   bulletDecal: {fileID: 5958606127806489753, guid: 80c920d4b01eaac4c891801ac0e34773, type: 3}
   bulletDecalSize: 0.25

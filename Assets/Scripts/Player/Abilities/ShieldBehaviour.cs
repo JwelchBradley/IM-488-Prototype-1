@@ -8,6 +8,19 @@ public class ShieldBehaviour : MonoBehaviour, IDamagable
 
     private Transform pivot;
 
+    private ThirdPersonController tpc;
+
+    private void OnEnable()
+    {
+        tpc = GameObject.Find("Player").GetComponent<ThirdPersonController>();
+        tpc.ShieldActive = true;
+    }
+
+    private void OnDestroy()
+    {
+        tpc.ShieldActive = false;
+    }
+
     public int Health
     {
         set

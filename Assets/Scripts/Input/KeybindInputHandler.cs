@@ -7,6 +7,7 @@
 *****************************************************************************/
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -91,6 +92,9 @@ public class KeybindInputHandler : MonoBehaviour
 	/// The player's controller.
 	/// </summary>
 	private ThirdPersonController tpc;
+
+	[Tooltip("How long after pressing the key will it stay primed")]
+	[SerializeField] private float dashTapHoldTime;
 	#endregion
 
 	#region Functions
@@ -103,144 +107,142 @@ public class KeybindInputHandler : MonoBehaviour
 		pmb = GameObject.Find("Pause Menu Templates Canvas").GetComponent<PauseMenuBehavior>();
 		tpc = GetComponent<ThirdPersonController>();
 	}
-    #endregion
+	#endregion
 
-    #region Input recievers
-    #region Movement
+	#region Input recievers
+	#region Movement
+	[SerializeField] InputActionReference inputAction;
+	InputControl inputControl;
+	Vector3 oldValue = Vector3.zero;
+
 	/// <summary>
 	/// Gets the input move values.
 	/// </summary>
 	/// <param name="value">Input move value.</param>
-    public void OnMove(InputValue value)
+	public void OnMove(InputValue value)
 	{
-		MoveInput(value.Get<Vector2>());
+		Vector3 newValue = value.Get<Vector2>();
+
+		// Finds if the key was released or pressed
+		InputControl currentInputControl = inputAction.action.activeControl;
+		bool release = false;
+		CheckIfKeyReleased(ref release, currentInputControl);
+
+        if (!release)
+        {
+			if (inputControl == null)
+			{
+				inputControl = currentInputControl;
+				if (dashUpdateRef != null)
+				{
+					StopCoroutine(dashUpdateRef);
+					ResetDashVariables();
+				}
+				dashUpdateRef = StartCoroutine(DashPrimerHoldNew());
+			}
+			else if(currentInputControl == inputControl)
+			{
+				Vector3 dashValue = new Vector3(newValue.x, 0, newValue.y);
+				if (newValue == Vector3.zero && (currentActiveMovementInputs.Count == 2 || currentActiveMovementInputs.Count == 4))
+					dashValue = new Vector3(oldValue.x * -1, 0, oldValue.y * -1);
+				DashInput(dashValue);
+
+				if (dashUpdateRef != null)
+				{
+					StopCoroutine(dashUpdateRef);
+					ResetDashVariables();
+				}
+			}
+            else
+            {
+				if (dashUpdateRef != null)
+				{
+					StopCoroutine(dashUpdateRef);
+					ResetDashVariables();
+				}
+			}
+		}
+
+		oldValue = newValue;
+		MoveInput(newValue);
 	}
 
-	/// <summary>
-	/// Gets the input move fast values.
-	/// </summary>
-	/// <param name="value">Input move fast value.</param>
-	public void OnMoveFast(InputValue value)
+    #region Dash
+    private List<InputControl> currentActiveMovementInputs = new List<InputControl>();
+	private void CheckIfKeyReleased(ref bool released, InputControl currentInputControl)
+    {
+		if (currentActiveMovementInputs.Contains(currentInputControl))
+        {
+			released = true;
+			currentActiveMovementInputs.Remove(currentInputControl);
+		}
+        else
+        {
+			currentActiveMovementInputs.Add(currentInputControl);
+        }
+    }
+
+	private Coroutine dashUpdateRef;
+	private IEnumerator DashPrimerHoldNew()
+	{
+		yield return new WaitForSeconds(dashTapHoldTime);
+		ResetDashVariables();
+	}
+
+	private void ResetDashVariables()
+    {
+		inputControl = null;
+		dashUpdateRef = null;
+	}
+	#endregion
+
+	private float verticalDashPrimed = 0;
+	private Coroutine verticalDashPrimedRef;
+	public void OnMoveVertically(InputValue value)
+    {
+		float floatValue = value.Get<float>();
+
+		if(floatValue != 0 && floatValue == verticalDashPrimed)
+        {
+			DashInput(new Vector3(0, floatValue, 0));
+        }
+        else if(floatValue != 0)
+        {
+			if(verticalDashPrimedRef != null)
+            {
+				StopCoroutine(verticalDashPrimedRef);
+				verticalDashPrimedRef = null;
+            }
+			verticalDashPrimedRef = StartCoroutine(VerticalDashPrimerHolder());
+			verticalDashPrimed = floatValue;
+        }
+
+		VerticalInput(floatValue);
+    }
+
+	private IEnumerator VerticalDashPrimerHolder()
+    {
+		yield return new WaitForSeconds(dashTapHoldTime);
+		verticalDashPrimed = 0;
+		verticalDashPrimedRef = null;
+	}
+
+    /// <summary>
+    /// Gets the input move fast values.
+    /// </summary>
+    /// <param name="value">Input move fast value.</param>
+    public void OnMoveFast(InputValue value)
 	{
 		MoveFastInput(value.isPressed);
 	}
+    #endregion
 
-	#region Dash
-	bool[] dashPrimers = new bool[6];
-
-	private void ResetDashPrimers()
-    {
-		for(int i = 0; i < 6; i++)
-        {
-			dashPrimers[i] = false;
-        }
-    }
-
-	private bool DashUpdate(int index)
-    {
-        if (dashPrimers[index])
-        {
-			StopCoroutine(dashUpdateRef);
-			ResetDashPrimers();
-			return true;
-        }
-
-		ResetDashPrimers();
-
-		dashPrimers[index] = true;
-
-		dashUpdateRef = StartCoroutine(DashPrimerHold());
-
-		return false;
-	}
-
-	[Tooltip("How long after pressing the key will it stay primed")]
-	[SerializeField] private float dashTapHoldTime;
-
-	private Coroutine dashUpdateRef;
-	private IEnumerator DashPrimerHold()
-    {
-		yield return new WaitForSeconds(dashTapHoldTime);
-		ResetDashPrimers();
-    }
-
+    #region Shoot
     /// <summary>
-    /// Gets the input dash values.
+    /// Gets the input look values.
     /// </summary>
-    /// <param name="value">Input dash value.</param>
-    public void OnDashRight(InputValue value)
-    {
-		if(DashUpdate(0))
-		DashInput(new Vector3(1, 0, 0));
-    }
-
-	/// <summary>
-	/// Gets the input dash values.
-	/// </summary>
-	/// <param name="value">Input dash value.</param>
-	public void OnDashLeft(InputValue value)
-	{
-		if(DashUpdate(1))
-		DashInput(new Vector3(-1, 0, 0));
-	}
-
-	/// <summary>
-	/// Gets the input dash values.
-	/// </summary>
-	/// <param name="value">Input dash value.</param>
-	public void OnDashForward(InputValue value)
-	{
-		if(DashUpdate(2))
-		DashInput(new Vector3(0, 0, 1));
-	}
-
-	/// <summary>
-	/// Gets the input dash values.
-	/// </summary>
-	/// <param name="value">Input dash value.</param>
-	public void OnDashBack(InputValue value)
-	{
-		if(DashUpdate(3))
-		DashInput(new Vector3(0, 0, -1));
-	}
-
-	/// <summary>
-	/// Gets the input dash values.
-	/// </summary>
-	/// <param name="value">Input dash value.</param>
-	public void OnDashUp(InputValue value)
-	{
-		if(DashUpdate(4))
-		DashInput(new Vector3(0, 1, 0));
-	}
-
-	/// <summary>
-	/// Gets the input dash values.
-	/// </summary>
-	/// <param name="value">Input dash value.</param>
-	public void OnDashDown(InputValue value)
-	{
-		if(DashUpdate(5))
-		DashInput(new Vector3(0, -1, 0));
-	}
-	#endregion
-
-	/// <summary>
-	/// Gets the input move vertically values.
-	/// </summary>
-	/// <param name="value">Input move vertically value.</param>
-	public void OnMoveVertically(InputValue value)
-	{
-		VerticalInput(value.Get<float>());
-	}
-	#endregion
-
-	#region Shoot
-	/// <summary>
-	/// Gets the input look values.
-	/// </summary>
-	/// <param name="value">Input look value.</param>
-	public void OnLook(InputValue value)
+    /// <param name="value">Input look value.</param>
+    public void OnLook(InputValue value)
 	{
 		LookInput(value.Get<Vector2>());
 	}
@@ -325,15 +327,6 @@ public class KeybindInputHandler : MonoBehaviour
     }
 
 	/// <summary>
-	/// Gets the mouse delta movement since the last frame.
-	/// </summary>
-	/// <param name="newLookDirection">The delta mouse movement.</param>
-	public void LookInput(Vector2 newLookDirection)
-	{
-		look = newLookDirection;
-	}
-
-	/// <summary>
 	/// Holds float for up or down movement.
 	/// </summary>
 	/// <param name="newVerticalState">1 for up; -1 for down.</param>
@@ -348,8 +341,8 @@ public class KeybindInputHandler : MonoBehaviour
 	/// <param name="newMoveFastState">Holds true if the player wants to move fast.</param>
 	public void MoveFastInput(bool newMoveFastState)
 	{
-		//moveFast = !moveFast;
-		moveFast = newMoveFastState;
+		moveFast = !moveFast;
+		//moveFast = newMoveFastState;
 	}
 
 	private void OnSlowDownInput(bool shouldSlowDown)
@@ -365,6 +358,7 @@ public class KeybindInputHandler : MonoBehaviour
 	/// <param name="shouldShoot">Holds true if the player should shoot.</param>
 	private void ShootInput(bool shouldShoot)
 	{
+		if(Time.timeScale != 0)
 		tpc.Shoot(shouldShoot);
 	}
 
@@ -372,6 +366,15 @@ public class KeybindInputHandler : MonoBehaviour
     {
 		tpc.ADS(shouldADS);
     }
+
+	/// <summary>
+	/// Gets the mouse delta movement since the last frame.
+	/// </summary>
+	/// <param name="newLookDirection">The delta mouse movement.</param>
+	public void LookInput(Vector2 newLookDirection)
+	{
+		look = newLookDirection;
+	}
 	#endregion
 
 	#region Abilities
@@ -381,7 +384,7 @@ public class KeybindInputHandler : MonoBehaviour
 	/// <param name="shouldUseAbility">Holds true if the ability should be used.</param>
 	private void ThreeAbilityInput(bool shouldUseAbility)
     {
-		if(shouldUseAbility)
+		if(shouldUseAbility && Time.timeScale != 0)
 		tpc.ThreeAbility();
     }
 
@@ -391,7 +394,7 @@ public class KeybindInputHandler : MonoBehaviour
 	/// <param name="shouldUseAbility">Holds true if the ability should be used.</param>
 	private void TwoAbilityInput(bool shouldUseAbility)
     {
-		if(shouldUseAbility)
+		if(shouldUseAbility && Time.timeScale != 0)
 		tpc.TwoAbility();
     }
 
@@ -401,7 +404,7 @@ public class KeybindInputHandler : MonoBehaviour
 	/// <param name="shouldUseAbility">Holds true if the ability should be used.</param>
 	private void OneAbilityInput(bool shouldUseAbility)
 	{
-		if(shouldUseAbility)
+		if(shouldUseAbility && Time.timeScale != 0)
 		tpc.OneAbility();
 	}
 	#endregion

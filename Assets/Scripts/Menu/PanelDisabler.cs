@@ -5,32 +5,40 @@
 //
 // Brief Description : Disables this panel if the player presses escape.
 *****************************************************************************/
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.InputSystem.Utilities;
+using UnityEngine.UI;
 
 public class PanelDisabler : MonoBehaviour
-{
-    PauseMenuBehavior pauseMenu;
-
-    private void Awake()
     {
-        GameObject pause = GameObject.Find("Pause Menu Templates Canvas");
+        PauseMenuBehavior pauseMenu;
+    [SerializeField] private bool shouldImmmediate = false;
 
-        if (pause != null)
+        private void Awake()
         {
-            pauseMenu = pause.GetComponent<PauseMenuBehavior>();
-        }
-    }
+            GameObject pause = GameObject.Find("Pause Menu Templates Canvas");
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if(pauseMenu != null)
+            if (pause != null)
             {
-                pauseMenu.CanClosePauseMenu(true);
+                pauseMenu = pause.GetComponent<PauseMenuBehavior>();
             }
+        }
 
-            gameObject.SetActive(false);
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape) && (MenuBehavior.isDisable || shouldImmmediate))
+            {
+                if (pauseMenu != null)
+                {
+                    pauseMenu.CanClosePauseMenu(true);
+                }
+
+                gameObject.SetActive(false);
+            }
         }
     }
-}
