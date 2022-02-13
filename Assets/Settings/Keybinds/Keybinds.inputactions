@@ -15,64 +15,16 @@
                 },
                 {
                     "name": "Move",
-                    "type": "Value",
-                    "id": "6bc1aaf4-b110-4ff7-891e-5b9fe6f32c4d",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "MoveFast",
                     "type": "PassThrough",
-                    "id": "980e881e-182c-404c-8cbf-3d09fdb48fef",
+                    "id": "6bc1aaf4-b110-4ff7-891e-5b9fe6f32c4d",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
                 },
                 {
-                    "name": "DashRight",
+                    "name": "MoveFast",
                     "type": "Button",
-                    "id": "d6a8c612-bef6-4c94-930e-035c1bfa325d",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "DashLeft",
-                    "type": "Button",
-                    "id": "e77c36fc-e31c-4306-ab05-7040f17f871c",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "DashForward",
-                    "type": "Button",
-                    "id": "eb8792e2-da08-4b4c-bfdf-a9b33574cb82",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "DashBack",
-                    "type": "Button",
-                    "id": "04df4168-3cca-4152-9882-73ee5836ba71",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "DashUp",
-                    "type": "Button",
-                    "id": "65dff368-b569-4a7e-b46c-2a1e94aaf56c",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "DashDown",
-                    "type": "Button",
-                    "id": "06dee592-cc67-419d-a466-c70b821420bf",
+                    "id": "980e881e-182c-404c-8cbf-3d09fdb48fef",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -267,7 +219,7 @@
                 {
                     "name": "negative",
                     "id": "9d6b9d00-3b8d-4384-bc4c-2a465a6877bd",
-                    "path": "<Keyboard>/q",
+                    "path": "<Keyboard>/leftShift",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
@@ -278,7 +230,7 @@
                 {
                     "name": "positive",
                     "id": "23fbbee5-7391-4e5c-becc-306280254ead",
-                    "path": "<Keyboard>/e",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
@@ -289,7 +241,7 @@
                 {
                     "name": "",
                     "id": "c8fcd86e-dcfd-4f88-8e93-b638cdbf3320",
-                    "path": "<Keyboard>/shift",
+                    "path": "<Keyboard>/ctrl",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
@@ -322,7 +274,7 @@
                 {
                     "name": "",
                     "id": "ba54d97d-f14a-43c3-a808-6604707ca72c",
-                    "path": "<Keyboard>/3",
+                    "path": "<Keyboard>/x",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
@@ -333,7 +285,7 @@
                 {
                     "name": "",
                     "id": "90081740-64b7-4076-be90-f3dbe862094e",
-                    "path": "<Keyboard>/2",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
@@ -344,77 +296,11 @@
                 {
                     "name": "",
                     "id": "ec81d6fa-bde0-48c9-9cdc-6aeaf91a3886",
-                    "path": "<Keyboard>/1",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "OneAbility",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d00a4a63-086a-4543-9864-582e12d8164b",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "DashRight",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "0c50679a-74c7-476d-9175-236a5c493ad0",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "DashLeft",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "15bf6e93-bd41-4598-8f82-9a00961204ea",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "DashForward",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "1adb41cb-f94a-4ffe-a68f-c9db84ec2fd4",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "DashBack",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "b75bc68c-6589-46bb-8c02-084d65290b04",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "DashUp",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d17c3929-daad-431b-b41a-75e14279403d",
                     "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
-                    "action": "DashDown",
+                    "action": "OneAbility",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -465,7 +351,7 @@
                 {
                     "name": "",
                     "id": "c2ed6c3f-cdf2-4a9a-a632-ead5cc1d3718",
-                    "path": "<Keyboard>/space",
+                    "path": "<Keyboard>/f",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",

@@ -16,8 +16,8 @@ MonoBehaviour:
   name: Freeze Enemy
   icon: {fileID: 3630878042392890860, guid: f6eb496f3186edf4ca766e5f5f2332bc, type: 3}
   charges: 1
-  cooldown: 4
-  duration: 2
+  cooldown: 8
+  duration: 4
   canShootDuringCast: 0
   castStartupTime: 0
   movementDuringCastStartup: 1

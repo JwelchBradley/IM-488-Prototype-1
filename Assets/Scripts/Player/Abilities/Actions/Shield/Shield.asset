@@ -16,7 +16,7 @@ MonoBehaviour:
   name: Shield
   icon: {fileID: 166922608927897078, guid: f6eb496f3186edf4ca766e5f5f2332bc, type: 3}
   charges: 1
-  cooldown: 8
+  cooldown: 10
   duration: 3
   canShootDuringCast: 0
   castStartupTime: 0
@@ -39,7 +39,7 @@ MonoBehaviour:
   distFromPlayer: 0
   xOffsetFromPlayer: 5
   health: 100
-  size: 1
+  size: 1.25
   shield: {fileID: 6302014149799497526, guid: bca1886e4e66d964a9b43422c19697f2, type: 3}
   empBullet: {fileID: 0}
   empFireSound: {fileID: 0}

@@ -61,6 +61,11 @@ public class AbilityUI : MonoBehaviour
         UpdateText();
     }
 
+    public void UpdateKeybindText(RebindActionUI raui, string newKeybind, string s1, string s2)
+    {
+        keyBindText.text = newKeybind;
+    }
+
     /// <summary>
     /// Updates the text for the number of charges the player has.
     /// </summary>

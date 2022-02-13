@@ -39,8 +39,24 @@ public class MenuBehavior : MonoBehaviour
     #region Functions
     private void Start()
     {
-        //PlayerPrefs.DeleteAll();
         InitalizeVolume();
+    }
+
+    public static bool isDisable = true;
+    public  void UpdateRebind()
+    {
+        StartCoroutine(UpdateRebindRoutine());
+    }
+
+    public void StopCoroutines()
+    {
+        StopAllCoroutines();
+    }
+
+    private IEnumerator UpdateRebindRoutine()
+    {
+        yield return new WaitForSecondsRealtime(0.01f);
+        isDisable = true;
     }
 
     protected void InitalizeVolume()

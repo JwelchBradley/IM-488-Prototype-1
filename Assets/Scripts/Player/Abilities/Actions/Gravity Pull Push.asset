@@ -16,7 +16,7 @@ MonoBehaviour:
   name: Gravity Pull
   icon: {fileID: 9079738500369711926, guid: f6eb496f3186edf4ca766e5f5f2332bc, type: 3}
   charges: 1
-  cooldown: 6
+  cooldown: 12
   duration: 6
   canShootDuringCast: 0
   castStartupTime: 2
