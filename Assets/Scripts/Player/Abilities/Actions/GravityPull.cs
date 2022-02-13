@@ -21,11 +21,14 @@ public class GravityPull : AbilityAction
     private CinemachineVirtualCamera rockCam;
 
     private Transform pivot;
+    GameObject selectControl;
+    SelectionBehavior sb;
 
     private void Awake()
     {
         //gameObject.AddComponent<LineRenderer>();
-
+        selectControl = GameObject.Find("SelectControl");
+        sb = selectControl.GetComponent<SelectionBehavior>();
         pivot = transform.Find("Pivot");
         gunTip = GameObject.Find("Bullet Spawn Pos").transform;
         rockCam = GameObject.Find("RockCam").GetComponent<CinemachineVirtualCamera>();
@@ -36,31 +39,35 @@ public class GravityPull : AbilityAction
     /// </summary>
     protected override bool AbilityActivate()
     {
-        RaycastHit hit;
-        bool foundTarget = Physics.Raycast(ability.mainCam.transform.position, ability.mainCam.transform.forward, out hit, ability.PushPullDist, ability.PushPullableMask) ||
-                           Physics.BoxCast(transform.position, Vector3.one * ability.AimAssist, ability.mainCam.transform.forward, out hit, Quaternion.identity, ability.PushPullDist, ability.PushPullableMask);
-        
-        if (foundTarget)
+        if (sb.ability1 == "gravity" || sb.ability2 == "gravity")
         {
-            currentGrabbed = hit.transform.gameObject.GetComponent<Rigidbody>();
-            currentGrabbedTransform = hit.transform;
-            //lr.enabled = true;
 
-            // Creates the object that the rock follows
-            //moveToTarget = Instantiate(new GameObject("empty"), currentGrabbed.position - (currentGrabbed.position - ability.mainCam.transform.position).normalized * (Vector3.Distance(currentGrabbed.position, transform.position) - ability.DistFromPlayer), Quaternion.identity, ability.mainCam.transform).transform;
-            //moveToTarget.position += ability.OffsetFromCamera * -ability.mainCam.transform.right;
+            RaycastHit hit;
+            bool foundTarget = Physics.Raycast(ability.mainCam.transform.position, ability.mainCam.transform.forward, out hit, ability.PushPullDist, ability.PushPullableMask) ||
+                               Physics.BoxCast(transform.position, Vector3.one * ability.AimAssist, ability.mainCam.transform.forward, out hit, Quaternion.identity, ability.PushPullDist, ability.PushPullableMask);
 
-            moveToTarget = Instantiate(new GameObject("empty"), transform.position + pivot.transform.forward * ability.DistFromPlayer, Quaternion.identity, pivot).transform;
-            moveToTarget.position += ability.XOffsetFromPlayer * -pivot.transform.right;
+            if (foundTarget)
+            {
+                currentGrabbed = hit.transform.gameObject.GetComponent<Rigidbody>();
+                currentGrabbedTransform = hit.transform;
+                //lr.enabled = true;
 
-            rockCam.Priority = 100;
+                // Creates the object that the rock follows
+                //moveToTarget = Instantiate(new GameObject("empty"), currentGrabbed.position - (currentGrabbed.position - ability.mainCam.transform.position).normalized * (Vector3.Distance(currentGrabbed.position, transform.position) - ability.DistFromPlayer), Quaternion.identity, ability.mainCam.transform).transform;
+                //moveToTarget.position += ability.OffsetFromCamera * -ability.mainCam.transform.right;
 
-            StartCoroutine(PushPullRoutine());
-            return true;
+                moveToTarget = Instantiate(new GameObject("empty"), transform.position + pivot.transform.forward * ability.DistFromPlayer, Quaternion.identity, pivot).transform;
+                moveToTarget.position += ability.XOffsetFromPlayer * -pivot.transform.right;
+
+                rockCam.Priority = 100;
+
+                StartCoroutine(PushPullRoutine());
+                return true;
+            }
         }
-
-        return false;
-    }
+            return false;
+        }
+    
 
     private IEnumerator PushPullRoutine()
     {

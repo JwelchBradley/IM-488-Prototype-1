@@ -64,11 +64,14 @@ public class SelectionBehavior : MonoBehaviour
         {
             ability1 = "gravity";
             gravityBttn.interactable = false;
+            print("ability 1 = gravity");
             abilityNum = 1;
+            
         }
         else if (abilityNum == 1)
         {
             ability2 = "gravity";
+            print("ability 2 = gravity");
             PlayerDone();
         }
     }
@@ -80,18 +83,38 @@ public class SelectionBehavior : MonoBehaviour
         {
             ability1 = "shield";
             shieldBttn.interactable = false;
+            print("ability 1 = shield");
             abilityNum = 1;
         }
         else if (abilityNum == 1)
         {
             ability2 = "shield";
+            print("ability 2 = shield");
+            PlayerDone();
+        }
+    }
+
+    public void EMP()
+    {
+
+        if (abilityNum == 0)
+        {
+            ability1 = "EMP";
+            shieldBttn.interactable = false;
+            print("ability 1 = EMP");
+            abilityNum = 1;
+        }
+        else if (abilityNum == 1)
+        {
+            ability2 = "EMP";
+            print("ability 2 = EMP");
             PlayerDone();
         }
     }
 
     void PlayerDone()
     {
-        
+        DontDestroyOnLoad(this.gameObject);
         SceneManager.LoadScene("Level");
     }
 }
