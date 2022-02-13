@@ -1,3 +1,11 @@
+/*****************************************************************************
+// File Name :         GravityPull.cs
+// Author :            Jessica Barthelt
+// Creation Date :     23 January 2022
+//
+// Brief Description : Determines the abilities that the player
+                       chooses from at the start of the game
+*****************************************************************************/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +24,7 @@ public class SelectionBehavior : MonoBehaviour
     public bool a2select;
 
     public Button gravityBttn;
+    public Button empBttn;
     public Button shieldBttn;
     
     // Start is called before the first frame update
@@ -100,7 +109,7 @@ public class SelectionBehavior : MonoBehaviour
         if (abilityNum == 0)
         {
             ability1 = "EMP";
-            shieldBttn.interactable = false;
+            empBttn.interactable = false;
             print("ability 1 = EMP");
             abilityNum = 1;
         }

@@ -419,6 +419,7 @@ MonoBehaviour:
   ability2: 
   a2select: 0
   gravityBttn: {fileID: 771821703}
+  empBttn: {fileID: 541793039}
   shieldBttn: {fileID: 1542554036}
 --- !u!4 &219143569
 Transform:

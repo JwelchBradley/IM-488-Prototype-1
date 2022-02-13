@@ -1,6 +1,6 @@
 /*****************************************************************************
 // File Name :         GravityPull.cs
-// Author :            Jacob Welch
+// Author :            Jacob Welch & Jessica Barthelt
 // Creation Date :     23 January 2022
 //
 // Brief Description : Pulls available objects towards the player.
