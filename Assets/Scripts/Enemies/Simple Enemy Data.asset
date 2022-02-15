@@ -15,5 +15,5 @@ MonoBehaviour:
   health: 50
   damage: 5
   enemyType: 0
-  gunData: {fileID: 11400000, guid: e5ea6fff8c54c3a488abc6eee77cdcdb, type: 2}
-  range: 1000
+  gunData: {fileID: 11400000, guid: 4122665b6cf22964ca0c5f78957aaedb, type: 2}
+  range: 2000

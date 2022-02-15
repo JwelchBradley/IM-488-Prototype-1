@@ -369,6 +369,24 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	/// The Animation ID for the player's dash backward.
 	/// </summary>
 	private int animDashBackwardID;
+
+	[Tooltip("The animator name for the dash up animation")]
+	[SerializeField]
+	private string animDashUpName;
+
+	/// <summary>
+	/// The Animation ID for the player's dash up.
+	/// </summary>
+	private int animDashUpID;
+
+	[Tooltip("The animator name for the dash down animation")]
+	[SerializeField]
+	private string animDashDownName;
+
+	/// <summary>
+	/// The Animation ID for the player's dash down.
+	/// </summary>
+	private int animDashDownID;
 	#endregion
 
 	#region Health
@@ -528,6 +546,8 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 		animDashRightID = Animator.StringToHash(animDashRightName);
 		animDashForwardID = Animator.StringToHash(animDashForwardName);
 		animDashBackwardID = Animator.StringToHash(animDashBackwardName);
+		animDashUpID = Animator.StringToHash(animDashUpName);
+		animDashDownID = Animator.StringToHash(animDashDownName);
 
 		MoveFast.AddListener(FastMoveAnimation);
 	}
@@ -726,7 +746,7 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 
 	private void FastMoveAnimation(bool shouldFastAnim)
     {
-		//animator.SetBool(animIsFlyingID, shouldFastAnim);
+		animator.SetBool(animIsFlyingID, shouldFastAnim);
 	}
 	#endregion
 
@@ -767,11 +787,11 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 		}
 		else if(dashDir.y == 1)
         {
-			
+			animator.SetTrigger(animDashUpID);
 		}
 		else if(dashDir.y == -1)
         {
-			
+			animator.SetTrigger(animDashDownID);
 		}
 		else if(dashDir.z == 1)
         {
