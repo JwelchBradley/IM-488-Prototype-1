@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 7289269737439026075, guid: 015065a926168144885640ee8938092c, type: 3}
+  - {fileID: 2100000, guid: 95616308815a4b84683174d87fe5f617, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -206,7 +206,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd1abae245b03974e9a8326d961a4259, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroy: {fileID: 8300000, guid: 1a02b64058a48cf4892422460a254a8f, type: 3}
   particle: {fileID: 6759568148441200657, guid: fa04cfc75c0c0f346926d5d00938fbbf, type: 3}
 --- !u!1 &5867108720831063562
 GameObject:
@@ -350,7 +349,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd1abae245b03974e9a8326d961a4259, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroy: {fileID: 8300000, guid: 1a02b64058a48cf4892422460a254a8f, type: 3}
   particle: {fileID: 6759568148441200657, guid: fa04cfc75c0c0f346926d5d00938fbbf, type: 3}
 --- !u!54 &5867108720831063565
 Rigidbody:
