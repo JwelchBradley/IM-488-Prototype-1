@@ -28,9 +28,9 @@ public class GravityPull : AbilityAction
 
     private void Awake()
     {
-        //gameObject.AddComponent<LineRenderer>();
-        //selectControl = GameObject.Find("SelectControl");
-        //sb = selectControl.GetComponent<SelectionBehavior>();
+        gameObject.AddComponent<LineRenderer>();
+        selectControl = GameObject.Find("SelectControl");
+        sb = selectControl.GetComponent<SelectionBehavior>();
 
         if(ability != null && !isManager)
         {
@@ -82,35 +82,42 @@ public class GravityPull : AbilityAction
     /// </summary>
     protected override bool AbilityActivate()
     {
-        RaycastHit hit;
-        bool foundTarget = Physics.Raycast(ability.mainCam.transform.position, ability.mainCam.transform.forward, out hit, ability.PushPullDist, ability.PushPullableMask) ||
-                           Physics.BoxCast(transform.position, Vector3.one * ability.AimAssist, ability.mainCam.transform.forward, out hit, Quaternion.identity, ability.PushPullDist, ability.PushPullableMask);
-
-        if (foundTarget)
+        if (sb.ability1 == "gravity" || sb.ability2 == "gravity")
         {
-            currentGrabbed = hit.transform.gameObject.GetComponent<Rigidbody>();
-            currentGrabbedTransform = hit.transform;
-            //lr.enabled = true;
+            RaycastHit hit;
+            bool foundTarget = Physics.Raycast(ability.mainCam.transform.position, ability.mainCam.transform.forward, out hit, ability.PushPullDist, ability.PushPullableMask) ||
+                               Physics.BoxCast(transform.position, Vector3.one * ability.AimAssist, ability.mainCam.transform.forward, out hit, Quaternion.identity, ability.PushPullDist, ability.PushPullableMask);
 
-            // Creates the object that the rock follows
-            //moveToTarget = Instantiate(new GameObject("empty"), currentGrabbed.position - (currentGrabbed.position - ability.mainCam.transform.position).normalized * (Vector3.Distance(currentGrabbed.position, transform.position) - ability.DistFromPlayer), Quaternion.identity, ability.mainCam.transform).transform;
-            //moveToTarget.position += ability.OffsetFromCamera * -ability.mainCam.transform.right;
-
-            Vector3 spawnPos = transform.position + pivot.transform.forward * ability.DistFromPlayer;
-            if (tpc.CurrentMoveState == ThirdPersonController.moveState.fast)
+            if (foundTarget)
             {
-                spawnPos = transform.position + ability.mainCam.transform.forward * ability.DistFromPlayer;
+                currentGrabbed = hit.transform.gameObject.GetComponent<Rigidbody>();
+                currentGrabbedTransform = hit.transform;
+                //lr.enabled = true;
+
+                // Creates the object that the rock follows
+                //moveToTarget = Instantiate(new GameObject("empty"), currentGrabbed.position - (currentGrabbed.position - ability.mainCam.transform.position).normalized * (Vector3.Distance(currentGrabbed.position, transform.position) - ability.DistFromPlayer), Quaternion.identity, ability.mainCam.transform).transform;
+                //moveToTarget.position += ability.OffsetFromCamera * -ability.mainCam.transform.right;
+
+                Vector3 spawnPos = transform.position + pivot.transform.forward * ability.DistFromPlayer;
+                if (tpc.CurrentMoveState == ThirdPersonController.moveState.fast)
+                {
+                    spawnPos = transform.position + ability.mainCam.transform.forward * ability.DistFromPlayer;
+                }
+
+                moveToTarget = Instantiate(new GameObject("empty"), spawnPos, Quaternion.identity, pivot).transform;
+                moveToTarget.position += ability.XOffsetFromPlayer * -pivot.transform.right;
+
+                rockCam.Priority = 100;
+
+                StartCoroutine(PushPullRoutine());
+                return true;
             }
-
-            moveToTarget = Instantiate(new GameObject("empty"), spawnPos, Quaternion.identity, pivot).transform;
-            moveToTarget.position += ability.XOffsetFromPlayer * -pivot.transform.right;
-
-            rockCam.Priority = 100;
-
-            StartCoroutine(PushPullRoutine());
-            return true;
+            
+                
+            
         }
         return false;
+
     }
     
 
