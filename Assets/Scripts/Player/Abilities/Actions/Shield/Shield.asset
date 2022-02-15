@@ -38,7 +38,8 @@ MonoBehaviour:
   followTetherSpeed: 1000
   distFromPlayer: 0
   xOffsetFromPlayer: 5
-  health: 100
+  indicator: {fileID: 0}
+  health: 10000
   size: 1
   shield: {fileID: 6302014149799497526, guid: bca1886e4e66d964a9b43422c19697f2, type: 3}
   empBullet: {fileID: 0}
@@ -47,3 +48,4 @@ MonoBehaviour:
   empMask:
     serializedVersion: 2
     m_Bits: 0
+  empGunData: {fileID: 0}

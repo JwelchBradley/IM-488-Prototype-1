@@ -3979,7 +3979,7 @@ MonoBehaviour:
   turretV2: {fileID: 7682484576932427533, guid: f972560c362224b4394bedfe978a9682, type: 3}
   simpleEnemy: {fileID: 4537229826517148520, guid: 6c14d119c6d9c6546a20aa2e5e22ee05, type: 3}
   EnemySpawnRange: 300
-  amountToSpawnEnemy: 25
+  amountToSpawnEnemy: 50
 --- !u!4 &1189025233
 Transform:
   m_ObjectHideFlags: 0
@@ -10162,8 +10162,8 @@ MonoBehaviour:
   normalCam: {fileID: 756559972}
   adsCam: {fileID: 44522338}
   cinemachineNormalADSTarget: {fileID: 266789796291442621}
-  bottomClamp: -70
-  topClamp: 70
+  bottomClamp: -80
+  topClamp: 80
   cinemachineCameraTarget: {fileID: 8073223555639714750}
   fastCam: {fileID: 1081757118}
   speedLines: {fileID: 450249436}
