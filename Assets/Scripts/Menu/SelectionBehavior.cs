@@ -41,6 +41,8 @@ public class SelectionBehavior : MonoBehaviour
         ability1 = "gravity";
         ability2 = "shield";
         ability3 = "EMP";
+
+        FullAutoSelect();
     }
 
     // Update is called once per frame
