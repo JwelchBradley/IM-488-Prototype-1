@@ -21,16 +21,12 @@ public class GravityPull : AbilityAction
     private CinemachineVirtualCamera rockCam;
 
     private Transform pivot;
-    GameObject selectControl;
-    SelectionBehavior sb;
 
     GameObject indicator;
 
     private void Awake()
     {
         gameObject.AddComponent<LineRenderer>();
-        selectControl = GameObject.Find("SelectControl");
-        sb = selectControl.GetComponent<SelectionBehavior>();
 
         if(ability != null && !isManager)
         {
@@ -82,8 +78,7 @@ public class GravityPull : AbilityAction
     /// </summary>
     protected override bool AbilityActivate()
     {
-        if (sb.ability1 == "gravity" || sb.ability2 == "gravity")
-        {
+       
             RaycastHit hit;
             bool foundTarget = Physics.Raycast(ability.mainCam.transform.position, ability.mainCam.transform.forward, out hit, ability.PushPullDist, ability.PushPullableMask) ||
                                Physics.BoxCast(transform.position, Vector3.one * ability.AimAssist, ability.mainCam.transform.forward, out hit, Quaternion.identity, ability.PushPullDist, ability.PushPullableMask);
@@ -115,7 +110,7 @@ public class GravityPull : AbilityAction
             
                 
             
-        }
+        
         return false;
 
     }
