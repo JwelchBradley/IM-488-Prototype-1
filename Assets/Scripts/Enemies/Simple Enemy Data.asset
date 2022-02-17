@@ -16,4 +16,4 @@ MonoBehaviour:
   damage: 5
   enemyType: 0
   gunData: {fileID: 11400000, guid: 4122665b6cf22964ca0c5f78957aaedb, type: 2}
-  range: 2000
+  range: 500
