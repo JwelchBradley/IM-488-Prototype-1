@@ -23,6 +23,8 @@ public class SimpleEnemyBehavior : MonoBehaviour, IDamagable
 
     public bool shooting;
 
+    float distance;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,10 +35,21 @@ public class SimpleEnemyBehavior : MonoBehaviour, IDamagable
     // Update is called once per frame
     void Update()
     {
-        if(shooting == false)
+        distance = Vector3.Distance(target.transform.position, transform.position);
+
+        if (shooting == false)
         {
-            float step = speed * Time.deltaTime;
-            transform.position = Vector3.MoveTowards(transform.position, target.position, step);
+            
+            if (distance <= 30)
+            {
+                print("player in range");
+                float step = speed * Time.deltaTime;
+                transform.position = Vector3.MoveTowards(transform.position, target.position, step);
+            }
+            else
+            {
+                speed = 0;
+            }
         }
         else
         {
