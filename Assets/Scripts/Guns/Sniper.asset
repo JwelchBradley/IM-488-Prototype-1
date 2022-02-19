@@ -15,12 +15,22 @@ MonoBehaviour:
   fireRate: 2
   damage: 100
   tapStaggerTime: 0
+  overheatLimit: 100
+  overheatPerShot: 0
+  waitBeforeOverheatReduction: 2
+  overheatReductionAmount: 1
+  overheatReducitonTickRate: 0.02
+  zoomMod: 2
   shootShound: {fileID: 8300000, guid: a68b871de9fdd7545aefa1f40baba0c7, type: 3}
   hitSound: {fileID: 11400000, guid: 377434b8e9c85b04d9136134b9ef55be, type: 2}
   bulletInaccuracy: 0
   bulletVelocity: 100
+  pushBackForce: 0
   bullet: {fileID: 2574761780501521635, guid: 11e21371a2fbafa47931cf0040d28298, type: 3}
+  objectPoolToSpawn: {fileID: 5023310470108325871, guid: 5254c8be5e46ce04a9fd17c6a7717dd1, type: 3}
+  objectPoolAmount: 40
   bulletDecal: {fileID: 5958606127806489753, guid: 80c920d4b01eaac4c891801ac0e34773, type: 3}
+  bulletDecalSize: 0.05
   decalEffectLifetime: 5
   decalTimeBeforeFadeOut: 2
   hitEffect: {fileID: 7463007000696237879, guid: 389fa2d4becba7345accd54b0b867da5, type: 3}

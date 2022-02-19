@@ -61,7 +61,7 @@ public abstract class BaseEnemy : MonoBehaviour, IDamagable
 
     protected virtual void EnemyDeath()
     {
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
     public int HealthAmount()

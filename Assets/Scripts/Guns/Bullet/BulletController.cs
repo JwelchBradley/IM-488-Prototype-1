@@ -5,14 +5,15 @@
 //
 // Brief Description : Handles the movement and collisions of bullets.
 *****************************************************************************/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BulletController : MonoBehaviour
 {
     GunData gunData;
-
-    bool hasCollided = false;
+    private ObjectPool hitEffectPool;
+    private ObjectPool decalPool;
 
     public void InitializeBullet(Vector3 target, GunData gunData)
     {
@@ -28,9 +29,15 @@ public class BulletController : MonoBehaviour
         DestroyTimer(timeToDestroy);
     }
 
-    private void DestroyTimer(float timeToDestroy)
+    private IEnumerator DestroyTimer(float timeToDestroy)
     {
-        Destroy(gameObject, timeToDestroy);
+        yield return new WaitForSeconds(timeToDestroy);
+        gameObject.SetActive(false);
+    }
+
+    private void OnDisable()
+    {
+        StopAllCoroutines();
     }
 
     /// <summary>
@@ -39,11 +46,7 @@ public class BulletController : MonoBehaviour
     /// <param name="other"></param>
     private void OnCollisionEnter(Collision other)
     {
-        if (!hasCollided)
-        {
-            CollisionEvent(other);
-            hasCollided = true;
-        }
+        CollisionEvent(other);
     }
 
     /// <summary>
@@ -54,33 +57,10 @@ public class BulletController : MonoBehaviour
     {
         ContactPoint contact = other.contacts[0];
 
-        GameObject decal = Instantiate(gunData.BulletDecal, contact.point + contact.normal * 0.001f, Quaternion.LookRotation(contact.normal));
-        decal.transform.localScale = gunData.BulletDecalSize * Vector3.one;
-        decal.transform.parent = other.gameObject.transform;
-        decal.GetComponent<DecalBehaviour>().StartFadeOut(gunData.DecalEffectLifetime, gunData.DecalTimeBeforeFadeOut);
-        GameObject particalEffect = Instantiate(gunData.HitEffect, contact.point + contact.normal * .1f, Quaternion.LookRotation(contact.normal), other.gameObject.transform);
+        SpawnDecal(other, contact);
+        gunData.hitEffectObjectPool.SpawnObj(contact.point + contact.normal * .1f, Quaternion.LookRotation(contact.normal), other.gameObject.transform);
 
-        GameObject hitSoundPlayer = Instantiate(Resources.Load("HitSoundPlayer", typeof(GameObject)), contact.point, Quaternion.identity) as GameObject;
-        AudioSource audio = hitSoundPlayer.GetComponent<AudioSource>();
-
-        Destroy(hitSoundPlayer, 3);
-        Destroy(decal, gunData.DecalEffectLifetime);
-        Destroy(particalEffect, gunData.HitEffectLifetime);
-
-        //string matKey = other.gameObject.GetComponent<Renderer>().material.name;
-        // Plays hitSound based off of the targets material
-        gunData.HitSound.AddHitSoundData();
-
-        PhysicMaterial physicsMat = other.gameObject.GetComponentInChildren<Collider>().sharedMaterial;
-        if(physicsMat != null && HitSoundData.Sound.TryGetValue(physicsMat, out AudioClip aud)){
-            audio.clip = aud;
-            audio.Play();
-        }
-        else
-        {
-            audio.clip = gunData.HitSound.DefaultSound;
-            audio.Play();
-        }
+        PlayHitSound(contact.point, other.gameObject.GetComponentInChildren<Collider>().sharedMaterial);
 
         IDamagable damagable = other.gameObject.GetComponent<IDamagable>();
 
@@ -89,6 +69,37 @@ public class BulletController : MonoBehaviour
             damagable.UpdateHealth(-gunData.Damage);
         }
 
-        Destroy(gameObject);
+        gameObject.SetActive(false);
+    }
+
+    private void SpawnDecal(Collision other, ContactPoint contact)
+    {
+        GameObject decal = gunData.hitDecalObjectPool.SpawnObj(contact.point + contact.normal * 0.01f, Quaternion.LookRotation(contact.normal));
+        decal.transform.parent = null;
+        decal.transform.localScale = gunData.BulletDecalSize * Vector3.one;
+        decal.transform.parent = other.gameObject.transform;
+        decal.GetComponent<DecalBehaviour>().StartFadeOut(gunData.DecalEffectLifetime, gunData.DecalTimeBeforeFadeOut);
+    }
+
+    public void PlayHitSound(Vector3 pos, PhysicMaterial physicsMat)
+    {
+        GameObject hitSoundPlayer = Instantiate(Resources.Load("HitSoundPlayer", typeof(GameObject)), pos, Quaternion.identity) as GameObject;
+        AudioSource audio = hitSoundPlayer.GetComponent<AudioSource>();
+        Destroy(hitSoundPlayer, 3);
+
+        //string matKey = other.gameObject.GetComponent<Renderer>().material.name;
+        // Plays hitSound based off of the targets material
+        gunData.HitSound.AddHitSoundData();
+
+        if (physicsMat != null && HitSoundData.Sound.TryGetValue(physicsMat, out AudioClip aud))
+        {
+            audio.clip = aud;
+            audio.Play();
+        }
+        else
+        {
+            audio.clip = gunData.HitSound.DefaultSound;
+            audio.Play();
+        }
     }
 }

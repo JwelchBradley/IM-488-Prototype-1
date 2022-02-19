@@ -26,8 +26,6 @@ public class GravityPull : AbilityAction
 
     private void Awake()
     {
-        gameObject.AddComponent<LineRenderer>();
-
         if(ability != null && !isManager)
         {
             indicator = Instantiate(ability.Indicator);

@@ -400,6 +400,10 @@ PrefabInstance:
       propertyPath: m_WorldUpOverride
       value: 
       objectReference: {fileID: 3893294198522131106}
+    - target: {fileID: 2540469976343506634, guid: e2082cc8503c5be488aa7fe7d84478f0, type: 3}
+      propertyPath: m_AllowDynamicResolution
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2540469976343506637, guid: e2082cc8503c5be488aa7fe7d84478f0, type: 3}
       propertyPath: m_LocalPosition.x
       value: -165.90569
@@ -543,6 +547,10 @@ PrefabInstance:
     - target: {fileID: 6872815424683503609, guid: e2082cc8503c5be488aa7fe7d84478f0, type: 3}
       propertyPath: m_TrackedObjectOffset.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6872815425474612841, guid: e2082cc8503c5be488aa7fe7d84478f0, type: 3}
+      propertyPath: m_Antialiasing
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6872815425554321115, guid: e2082cc8503c5be488aa7fe7d84478f0, type: 3}
       propertyPath: m_AmplitudeGain
@@ -2340,6 +2348,36 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3184793896522302170, guid: e4ec6679a47bd4dc1a005bfba9a4ba90, type: 3}
   m_PrefabInstance: {fileID: 559512143}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &561289027
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 561289028}
+  m_Layer: 0
+  m_Name: ObjectPools
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &561289028
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 561289027}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -372.0469, y: -627.91174, z: -965.8444}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 21
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &563337428
 GameObject:
   m_ObjectHideFlags: 0
@@ -4815,7 +4853,7 @@ MonoBehaviour:
   turretV2: {fileID: 7682484576932427533, guid: f972560c362224b4394bedfe978a9682, type: 3}
   simpleEnemy: {fileID: 4537229826517148520, guid: 6c14d119c6d9c6546a20aa2e5e22ee05, type: 3}
   EnemySpawnRange: 300
-  amountToSpawnEnemy: 100
+  amountToSpawnEnemy: 50
 --- !u!4 &1189025233
 Transform:
   m_ObjectHideFlags: 0
@@ -12082,15 +12120,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26e54e5a728a9234ab24fcf1460ed8a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  normalSpeedCap: 15
+  normalSpeedCap: 17.5
   speedChangeRate: 1500
-  rotationSmoothTime: 10
+  rotationSmoothTime: 40
   verticalSpeedChangeRate: 1500
   dashSpeedCap: 5
-  dashSpeedAcceleration: 7500
-  dashTime: 0.35
+  dashSpeedAcceleration: 9000
+  dashTime: 0.2
   dashStaggerTime: 0.45
-  exitDashSpeedClamp: 0
+  exitDashSpeedClamp: 20
+  exitDashTime: 0.2
+  exitDashSlowDownRate: 4
+  oldFastMove: 1
   fastSpeedCap: 30
   forwardAcceleration: 5000
   strafeAcceleration: 2000
@@ -12100,7 +12141,11 @@ MonoBehaviour:
   speedLinesVerticalRotation: 15
   xPositionalOffset: 1
   yPositionalOffset: 1
-  slowDownRate: 2.5
+  newFastMove1: 0
+  xKeySens: 100
+  yKeySens: 100
+  newFastMove2: 0
+  slowDownRate: 0.75
   normalCam: {fileID: 756559972}
   adsCam: {fileID: 44522338}
   cinemachineNormalADSTarget: {fileID: 266789796291442621}
@@ -12118,7 +12163,7 @@ MonoBehaviour:
   animDashUpName: dashUp
   animDashDownName: dashDown
   startingHealth: 100
-  health: 0
+  health: 100
   healthBar: {fileID: 787110588}
   hpTxt: {fileID: 1123414756}
   colImage: {fileID: 283617982}
