@@ -25,6 +25,9 @@ public class AsteroidBehavior : MonoBehaviour, IDamagable
 
     public GameObject particle;
 
+    [HideInInspector]
+    public bool currentlyHeld = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,15 +39,17 @@ public class AsteroidBehavior : MonoBehaviour, IDamagable
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (currentlyHeld && (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Bullet")))
+        {
+            return;
+        }
+
         if (collision.gameObject.tag == "Player")
         {
             tpc.colImage.SetActive(true);
             tpc.colAsteroid = true;
             AsteroidDestruction();
             tpc.UpdateHealth(-5);
-            
-            
-
         }
         else if (collision.relativeVelocity.sqrMagnitude > velocityThreshold && collision.gameObject.TryGetComponent(out IDamagable damagable))
         {
@@ -53,12 +58,17 @@ public class AsteroidBehavior : MonoBehaviour, IDamagable
 
             Destroy(collision.gameObject, 0.2f);
         }
-
-
+        else if(collision.relativeVelocity.sqrMagnitude > velocityThreshold && !collision.gameObject.CompareTag("Bullet"))
+        {
+            UpdateHealth(-100);
+        }
     }
 
     public void UpdateHealth(int healthMod)
     {
+        if (currentlyHeld && healthMod > -50)
+            return;
+
         health += healthMod;
 
         if(health <= 0 && render.enabled)

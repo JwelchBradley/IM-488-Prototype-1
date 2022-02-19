@@ -18,6 +18,7 @@ MonoBehaviour:
   charges: 1
   cooldown: 6
   duration: 4
+  startCooldownOnCast: 1
   canShootDuringCast: 0
   castStartupTime: 0
   movementDuringCastStartup: 1

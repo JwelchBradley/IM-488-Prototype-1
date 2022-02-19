@@ -45,6 +45,48 @@ public class GunData : ScriptableObject
     {
         get => tapStaggerTime;
     }
+
+    #region Overheat
+    [SerializeField]
+    private float overheatLimit = 100.0f;
+
+    public float OverheatLimit
+    {
+        get => overheatLimit;
+    }
+
+    [SerializeField]
+    private float overheatPerShot = 0.0f;
+
+    public float OverheatPerShot
+    {
+        get => overheatPerShot;
+    }
+
+    [SerializeField]
+    private float waitBeforeOverheatReduction = 2.0f;
+
+    public float WaitBeforeOverheatReduction
+    {
+        get => waitBeforeOverheatReduction;
+    }
+
+    [SerializeField]
+    private float overheatReductionAmount = 1.0f;
+
+    public float OverheatReductionAmount
+    {
+        get => overheatReductionAmount;
+    }
+
+    [SerializeField]
+    private float overheatReducitonTickRate = 0.02f;
+
+    public float OverheatReductionTickRate
+    {
+        get => overheatReducitonTickRate;
+    }
+    #endregion
     #endregion
 
     #region ADS

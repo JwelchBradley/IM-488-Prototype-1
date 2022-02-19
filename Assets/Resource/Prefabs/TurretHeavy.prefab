@@ -156,7 +156,7 @@ GameObject:
   - component: {fileID: 6116084222373051725}
   m_Layer: 10
   m_Name: TurretHeavy
-  m_TagString: Untagged
+  m_TagString: enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -305,6 +305,34 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!64 &4513720429543220678
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6491997358420366685}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2432090755550338912, guid: dc7c6c5915c662245bb55b4aa5241cae, type: 3}
+--- !u!64 &2080774110829406427
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6933317533692943222}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2432090755550338912, guid: f840b90878d2f02478cfc727e1639168, type: 3}
 --- !u!1001 &1257829901909565182
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -379,6 +407,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f840b90878d2f02478cfc727e1639168, type: 3}
   m_PrefabInstance: {fileID: 1257829901909565182}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6933317533692943222 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8164078558771037576, guid: f840b90878d2f02478cfc727e1639168, type: 3}
+  m_PrefabInstance: {fileID: 1257829901909565182}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3122286477099520213
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -448,6 +481,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc7c6c5915c662245bb55b4aa5241cae, type: 3}
+--- !u!1 &6491997358420366685 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8164078558771037576, guid: dc7c6c5915c662245bb55b4aa5241cae, type: 3}
+  m_PrefabInstance: {fileID: 3122286477099520213}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2643078953265628774 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1151388028547126963, guid: dc7c6c5915c662245bb55b4aa5241cae, type: 3}

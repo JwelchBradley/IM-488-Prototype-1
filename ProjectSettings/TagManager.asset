@@ -9,6 +9,7 @@ TagManager:
   - Gun
   - heal
   - asteroid
+  - enemy
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - Shield
   - Enemy
   - Pullable
-  - 
+  - Held
   - 
   - 
   - 

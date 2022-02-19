@@ -38,6 +38,10 @@ public abstract class AbilityAction : MonoBehaviour
     /// </summary>
     public MyFloatEvent OnAbilityUse = new MyFloatEvent();
 
+    public class MyBoolEvent : UnityEvent<bool> { }
+
+    public MyBoolEvent OnAbilityHighlight = new MyBoolEvent();
+
     /// <summary>
     /// The amount of charges the player currently has available for this ability.
     /// </summary>
@@ -84,7 +88,6 @@ public abstract class AbilityAction : MonoBehaviour
         {
             if (AbilityActivate())
             {
-                OnAbilityUse.Invoke();
                 ability = this.ability;
                 isCasting = true;
 
@@ -93,7 +96,10 @@ public abstract class AbilityAction : MonoBehaviour
                     canUse = false;
                 }
 
-                StartCooldown();
+                if (ability.StartCooldownOnCast)
+                    StartCooldown();
+                else
+                    HighlightAbility();
 
                 return true;
             }
@@ -107,13 +113,21 @@ public abstract class AbilityAction : MonoBehaviour
     /// </summary>
     protected abstract bool AbilityActivate();
 
+    private void HighlightAbility()
+    {
+        OnAbilityHighlight.Invoke(true);
+    }
+
     /// <summary>
     /// Starts the cooldown process for this ability.
     /// </summary>
     public void StartCooldown()
     {
+        OnAbilityUse.Invoke();
+        OnAbilityHighlight.Invoke(false);
+
         // If there isn't already a time on this ability, create one
-        if(cooldownTimerReference == null)
+        if (cooldownTimerReference == null)
             cooldownTimerReference = StartCoroutine(Cooldown());
 
         // Refreshes a charge until max charges are gained.

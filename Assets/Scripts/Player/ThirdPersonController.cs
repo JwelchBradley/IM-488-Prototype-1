@@ -980,8 +980,11 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 
 		//currentMoveState = ability.MovementDuringUncast ? moveState.casting : moveState.nomovecasting;
 		yield return new WaitForSeconds(ability.UncastTime);
-		currentMoveState = moveState.normal;
-		canShoot = true;
+        if (ability.StartCooldownOnCast)
+        {
+			currentMoveState = moveState.normal;
+			canShoot = true;
+		}
 
 	}
     #endregion

@@ -54,6 +54,7 @@ public class InterfaceManager : MonoBehaviour
         {
             AbilityUI abilityUi = Instantiate(abilityIconPrefab, abilityIconSlot[i]);
             player.Abilities[i].OnAbilityUse.AddListener(abilityUi.ShowCoolDown);
+            player.Abilities[i].OnAbilityHighlight.AddListener(abilityUi.HighlightCooldownBox);
             abilityUi.SetIcon(player.Abilities[i].Ability.Icon, player.Abilities[i].Ability.Charges, player.Abilities[i].Ability.Cooldown, bindings[i]);
 
             raui[i].updateBindingUIEvent.AddListener(abilityUi.UpdateKeybindText);

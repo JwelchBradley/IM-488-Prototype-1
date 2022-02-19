@@ -78,39 +78,37 @@ public class GravityPull : AbilityAction
     /// </summary>
     protected override bool AbilityActivate()
     {
-       
-            RaycastHit hit;
-            bool foundTarget = Physics.Raycast(ability.mainCam.transform.position, ability.mainCam.transform.forward, out hit, ability.PushPullDist, ability.PushPullableMask) ||
-                               Physics.BoxCast(transform.position, Vector3.one * ability.AimAssist, ability.mainCam.transform.forward, out hit, Quaternion.identity, ability.PushPullDist, ability.PushPullableMask);
+        RaycastHit hit;
+        bool foundTarget = Physics.Raycast(ability.mainCam.transform.position, ability.mainCam.transform.forward, out hit, ability.PushPullDist, ability.PushPullableMask) ||
+                           Physics.BoxCast(transform.position, Vector3.one * ability.AimAssist, ability.mainCam.transform.forward, out hit, Quaternion.identity, ability.PushPullDist, ability.PushPullableMask);
 
-            if (foundTarget)
+        if (foundTarget)
+        {
+            currentGrabbed = hit.transform.gameObject.GetComponent<Rigidbody>();
+            currentGrabbed.gameObject.layer = LayerMask.NameToLayer("Held");
+            currentGrabbed.gameObject.GetComponent<AsteroidBehavior>().currentlyHeld = true;
+            currentGrabbedTransform = hit.transform;
+            //lr.enabled = true;
+
+            // Creates the object that the rock follows
+            //moveToTarget = Instantiate(new GameObject("empty"), currentGrabbed.position - (currentGrabbed.position - ability.mainCam.transform.position).normalized * (Vector3.Distance(currentGrabbed.position, transform.position) - ability.DistFromPlayer), Quaternion.identity, ability.mainCam.transform).transform;
+            //moveToTarget.position += ability.OffsetFromCamera * -ability.mainCam.transform.right;
+
+            Vector3 spawnPos = transform.position + pivot.transform.forward * ability.DistFromPlayer;
+            if (tpc.CurrentMoveState == ThirdPersonController.moveState.fast)
             {
-                currentGrabbed = hit.transform.gameObject.GetComponent<Rigidbody>();
-                currentGrabbedTransform = hit.transform;
-                //lr.enabled = true;
-
-                // Creates the object that the rock follows
-                //moveToTarget = Instantiate(new GameObject("empty"), currentGrabbed.position - (currentGrabbed.position - ability.mainCam.transform.position).normalized * (Vector3.Distance(currentGrabbed.position, transform.position) - ability.DistFromPlayer), Quaternion.identity, ability.mainCam.transform).transform;
-                //moveToTarget.position += ability.OffsetFromCamera * -ability.mainCam.transform.right;
-
-                Vector3 spawnPos = transform.position + pivot.transform.forward * ability.DistFromPlayer;
-                if (tpc.CurrentMoveState == ThirdPersonController.moveState.fast)
-                {
-                    spawnPos = transform.position + ability.mainCam.transform.forward * ability.DistFromPlayer;
-                }
-
-                moveToTarget = Instantiate(new GameObject("empty"), spawnPos, Quaternion.identity, pivot).transform;
-                moveToTarget.position += ability.XOffsetFromPlayer * -pivot.transform.right;
-
-                rockCam.Priority = 100;
-
-                StartCoroutine(PushPullRoutine());
-                return true;
+                spawnPos = transform.position + ability.mainCam.transform.forward * ability.DistFromPlayer;
             }
-            
-                
-            
-        
+
+            moveToTarget = Instantiate(new GameObject("empty"), spawnPos, Quaternion.identity, pivot).transform;
+            moveToTarget.position += ability.XOffsetFromPlayer * -pivot.transform.right;
+
+            rockCam.Priority = 100;
+
+            StartCoroutine(PushPullRoutine());
+            return true;
+        }
+
         return false;
 
     }
@@ -157,7 +155,7 @@ public class GravityPull : AbilityAction
         RaycastHit hit;
         Vector3 target;
 
-        if (Physics.BoxCast(ability.mainCam.transform.position, Vector3.one * 0.5f, ability.mainCam.transform.forward.normalized, out hit, Quaternion.identity, Mathf.Infinity))
+        if (Physics.BoxCast(ability.mainCam.transform.position, Vector3.one * 0.5f, ability.mainCam.transform.forward.normalized, out hit, Quaternion.identity, Mathf.Infinity) && !hit.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Held")))
         {
             target = hit.point;
         }
@@ -171,8 +169,15 @@ public class GravityPull : AbilityAction
 
     private void Reset()
     {
+        if(currentGrabbed != null)
+        {
+            //currentGrabbed.gameObject.GetComponent<AsteroidBehavior>().currentlyHeld = false;
+            currentGrabbed.gameObject.layer = LayerMask.NameToLayer("Pullable");
+        }
+
         // Resets variables
         currentGrabbed = null;
+        StartCooldown();
         //lr.enabled = false;
         rockCam.Priority = 0;
         Destroy(moveToTarget.gameObject);

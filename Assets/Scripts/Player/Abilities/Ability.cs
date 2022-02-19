@@ -72,6 +72,14 @@ public class Ability : ScriptableObject
 
     #region Cast values
     [Header("Cast Stats")]
+    [SerializeField]
+    private bool startCooldownOnCast = false;
+
+    public bool StartCooldownOnCast
+    {
+        get => startCooldownOnCast;
+    }
+
     //[Space(20)]
     [Tooltip("Holds true if the player can shoot while casting")]
     [SerializeField] private bool canShootDuringCast = false;

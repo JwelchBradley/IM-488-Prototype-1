@@ -248,6 +248,7 @@ MonoBehaviour:
   coolDownImage: {fileID: 7261045480139538944}
   chargesText: {fileID: 2018498730171203548}
   keyBindText: {fileID: 3627018919058863762}
+  highlightColor: {r: 0, g: 0.35227546, b: 0.6509434, a: 1}
 --- !u!1 &5911350877397799097
 GameObject:
   m_ObjectHideFlags: 0

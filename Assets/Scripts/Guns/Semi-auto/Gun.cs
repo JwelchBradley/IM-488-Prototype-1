@@ -5,7 +5,9 @@
 //
 // Brief Description : Handles the shooting of guns.
 *****************************************************************************/
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(AudioSource))]
 public class Gun : MonoBehaviour
@@ -29,6 +31,14 @@ public class Gun : MonoBehaviour
     /// Picks a target 1000 units away from the player if there is not target on the reticle.
     /// </summary>
     private float bulletDist = 1000.0f;
+
+    protected float overheatAmount = 0.0f;
+
+    private bool overheated = false;
+
+    private Coroutine reduceOverheat;
+
+    private Image overheatBar;
 
     private LayerMask shootMask;
 
@@ -62,6 +72,7 @@ public class Gun : MonoBehaviour
         bulletSpawnPos = transform.Find("Bullet Spawn Pos");
         InitializeShootMask();
         playerRb = GameObject.Find("Player").GetComponent<Rigidbody>();
+        overheatBar = GameObject.Find("Overheat").GetComponent<Image>();
     }
     
     private void InitializeShootMask()
@@ -108,6 +119,9 @@ public class Gun : MonoBehaviour
     /// </summary>
     protected void ShootBullet()
     {
+        if (overheated)
+            return;
+
         // Spawns the bullet
         RaycastHit hit;
         GameObject bullet = Instantiate(gunData.Bullet, bulletSpawnPos.position, Quaternion.identity);
@@ -115,6 +129,9 @@ public class Gun : MonoBehaviour
         timeLastShot = Time.time;
         aud.PlayOneShot(gunData.ShootShound);
         shotQueued = false;
+
+        if(gunData.OverheatPerShot != 0)
+        IncreaseOverheatAmount();
 
         playerRb.AddForce(-mainCam.forward.normalized * gunData.PushBackForce);
 
@@ -131,5 +148,42 @@ public class Gun : MonoBehaviour
         }
 
         bulletController.InitializeBullet(target, gunData);
+    }
+
+    private void IncreaseOverheatAmount()
+    {
+        if(reduceOverheat != null)
+        StopCoroutine(reduceOverheat);
+
+        overheatAmount += gunData.OverheatPerShot;
+
+        if(overheatAmount >= gunData.OverheatLimit)
+        {
+            overheated = true;
+        }
+
+        reduceOverheat = StartCoroutine(ReduceOverheat());
+        ChangeOverheatBar();
+    }
+
+    private IEnumerator ReduceOverheat()
+    {
+        yield return new WaitForSeconds(gunData.WaitBeforeOverheatReduction);
+
+        while(overheatAmount > 0)
+        {
+            overheatAmount -= gunData.OverheatReductionAmount;
+            ChangeOverheatBar();
+            yield return new WaitForSeconds(gunData.OverheatReductionTickRate);
+        }
+
+        overheatAmount = 0;
+        overheated = false;
+    }
+
+    private void ChangeOverheatBar()
+    {
+        overheatBar.fillAmount = (overheatAmount / gunData.OverheatLimit) / 2;
+        overheatBar.color = Color.Lerp(Color.white, Color.red, overheatBar.fillAmount * 2);
     }
 }

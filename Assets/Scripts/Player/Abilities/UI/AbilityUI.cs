@@ -25,6 +25,11 @@ public class AbilityUI : MonoBehaviour
     [Tooltip("The text showing the keybind")]
     [SerializeField] private TextMeshProUGUI keyBindText;
 
+    [SerializeField]
+    private Color highlightColor;
+
+    private Color startColor;
+
     /// <summary>
     /// How fast charges of this ability recharge.
     /// </summary>
@@ -44,6 +49,11 @@ public class AbilityUI : MonoBehaviour
     /// Holds reference to the cooldown timer.
     /// </summary>
     private Coroutine updateTextTimer;
+
+    private void Awake()
+    {
+        startColor = coolDownImage.color;
+    }
 
     /// <summary>
     /// Initializes the icon and other necessary values.
@@ -72,6 +82,12 @@ public class AbilityUI : MonoBehaviour
     private void UpdateText()
     {
         chargesText.text = charges.ToString();
+    }
+
+    public void HighlightCooldownBox(bool shouldHighlight)
+    {
+        Color currentColor = shouldHighlight ? highlightColor : startColor;
+        coolDownImage.color = currentColor;
     }
 
     /// <summary>

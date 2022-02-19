@@ -12,9 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cd4d580a4144cb4ca25c862333f1d95, type: 3}
   m_Name: Assult Rifle
   m_EditorClassIdentifier: 
-  fireRate: 10
-  damage: 5
+  fireRate: 8
+  damage: 7
   tapStaggerTime: 0.2
+  overheatLimit: 100
+  overheatPerShot: 3
+  waitBeforeOverheatReduction: 1
+  overheatReductionAmount: 2
+  overheatReducitonTickRate: 0.02
   zoomMod: 2
   shootShound: {fileID: 8300000, guid: a68b871de9fdd7545aefa1f40baba0c7, type: 3}
   hitSound: {fileID: 11400000, guid: 377434b8e9c85b04d9136134b9ef55be, type: 2}
