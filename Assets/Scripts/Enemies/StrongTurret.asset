@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d429022447561754fa14a50c09002e75, type: 3}
+  m_Name: StrongTurret
+  m_EditorClassIdentifier: 
+  health: 75
+  damage: 20
+  enemyType: 0
+  gunData: {fileID: 11400000, guid: 7e9814dd9f4f88248a4f1d1c4c29a692, type: 2}
+  range: 10000
