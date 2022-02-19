@@ -156,8 +156,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd1abae245b03974e9a8326d961a4259, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroy: {fileID: 8300000, guid: 1a02b64058a48cf4892422460a254a8f, type: 3}
   particle: {fileID: 6759568148441200657, guid: fa04cfc75c0c0f346926d5d00938fbbf, type: 3}
+  currentlyHeld: 0
 --- !u!54 &4057898618830543258
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -233,10 +233,26 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d1174bd4f8a7a57419530bbc43669e0e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 965473500353706434, guid: d1174bd4f8a7a57419530bbc43669e0e, type: 3}
       propertyPath: m_Layer
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: 965473500353706434, guid: d1174bd4f8a7a57419530bbc43669e0e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1196659125407038459, guid: d1174bd4f8a7a57419530bbc43669e0e, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1196659125407038459, guid: d1174bd4f8a7a57419530bbc43669e0e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 95616308815a4b84683174d87fe5f617, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d1174bd4f8a7a57419530bbc43669e0e, type: 3}
 --- !u!4 &4601047376639751721 stripped

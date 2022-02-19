@@ -73,6 +73,11 @@ public class Gun : MonoBehaviour
         InitializeShootMask();
         playerRb = GameObject.Find("Player").GetComponent<Rigidbody>();
         overheatBar = GameObject.Find("Overheat").GetComponent<Image>();
+        gunData.SpawnObjectPool();
+        /*
+        objectPool = Instantiate(gunData.ObjectPoolToSpawn, GameObject.Find("ObjectPools").transform).GetComponent<ObjectPool>();
+        objectPool.isBulletController = true;
+        objectPool.PoolObjects(gunData.Bullet, gunData.ObjectPoolAmount);*/
     }
     
     private void InitializeShootMask()
@@ -124,8 +129,10 @@ public class Gun : MonoBehaviour
 
         // Spawns the bullet
         RaycastHit hit;
-        GameObject bullet = Instantiate(gunData.Bullet, bulletSpawnPos.position, Quaternion.identity);
-        BulletController bulletController = bullet.GetComponent<BulletController>();
+        //GameObject bullet = Instantiate(gunData.Bullet, bulletSpawnPos.position, Quaternion.identity);
+        BulletController bulletController = null;
+        gunData.objectPool.SpawnObj(bulletSpawnPos.position, Quaternion.identity, ref bulletController);
+
         timeLastShot = Time.time;
         aud.PlayOneShot(gunData.ShootShound);
         shotQueued = false;
@@ -179,11 +186,18 @@ public class Gun : MonoBehaviour
 
         overheatAmount = 0;
         overheated = false;
+        ChangeOverheatBar();
     }
 
     private void ChangeOverheatBar()
     {
         overheatBar.fillAmount = (overheatAmount / gunData.OverheatLimit) / 2;
+
+        if (overheated)
+        {
+            return;
+        }
+
         overheatBar.color = Color.Lerp(Color.white, Color.red, overheatBar.fillAmount * 2);
     }
 }

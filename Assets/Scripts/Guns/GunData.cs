@@ -5,6 +5,27 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Gun", menuName = "Game Data/Gun")]
 public class GunData : ScriptableObject
 {
+    [HideInInspector]
+    public ObjectPool objectPool;
+    [HideInInspector]
+    public ObjectPool hitEffectObjectPool;
+    [HideInInspector]
+    public ObjectPool hitDecalObjectPool;
+
+    public void SpawnObjectPool()
+    {
+        if (objectPool == null)
+        {
+            objectPool = Instantiate(ObjectPoolToSpawn, GameObject.Find("ObjectPools").transform).GetComponent<ObjectPool>();
+            objectPool.isBulletController = true;
+            objectPool.PoolObjects(Bullet, ObjectPoolAmount);
+            hitEffectObjectPool = Instantiate(ObjectPoolToSpawn, GameObject.Find("ObjectPools").transform).GetComponent<ObjectPool>();
+            hitEffectObjectPool.PoolObjects(hitEffect, objectPoolAmount);
+            hitDecalObjectPool = Instantiate(ObjectPoolToSpawn, GameObject.Find("ObjectPools").transform).GetComponent<ObjectPool>();
+            hitDecalObjectPool.PoolObjects(BulletDecal, objectPoolAmount);
+        }
+    }
+
     #region Gun Stats
     [Header("Gun Stats")]
     [Tooltip("How fast this gun shoots")]
@@ -174,6 +195,22 @@ public class GunData : ScriptableObject
     public GameObject Bullet
     {
         get => bullet;
+    }
+
+    [SerializeField]
+    private GameObject objectPoolToSpawn;
+
+    public GameObject ObjectPoolToSpawn
+    {
+        get => objectPoolToSpawn;
+    }
+
+    [SerializeField]
+    private int objectPoolAmount = 40;
+
+    public int ObjectPoolAmount
+    {
+        get => objectPoolAmount;
     }
 
     [Tooltip("The decal spawned against the location this hits")]

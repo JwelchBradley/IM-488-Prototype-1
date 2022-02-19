@@ -62,7 +62,7 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 
 	#region Character Rotation
 	[Tooltip("How fast the character turns to face movement direction")]
-	[Range(1.0f, 10.0f)]
+	[Range(1.0f, 100.0f)]
 	[SerializeField]
 	private float rotationSmoothTime = 2.0f;
 	#endregion
@@ -105,6 +105,12 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	[Range(0.0f, 30.0f)]
 	[SerializeField] private float exitDashSpeedClamp;
 
+	[SerializeField]
+	private float exitDashTime = 0.1f;
+
+	[SerializeField]
+	private float exitDashSlowDownRate = 10.0f;
+
 	/// <summary>
 	/// The velocity that the player is clamped to out of dashes.
 	/// </summary>
@@ -119,11 +125,15 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	/// The time that the dash starts.
 	/// </summary>
 	private float startTime;
-	#endregion
+    #endregion
 
-	#region FastMovement
-	[Header("Fast move")]
+    #region FastMovement
+    [Header("Fast move")]
 	[Header("-------------Fast Movement-------------")]
+    #region old
+    [SerializeField]
+	private bool oldFastMove = false;
+
 	[Tooltip("Sprint speed of the character in m/s")]
 	[Range(0, 100)]
 	[SerializeField]
@@ -160,14 +170,25 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	[Tooltip("How much the lines offset on the y-axis")]
 	[Range(0.0f, 5.0f)]
 	[SerializeField] private float yPositionalOffset = 2.5f;
+	#endregion
 
-	/*
-	[Tooltip("How much the camera looks ahead while strafing")]
-	[SerializeField] private float strafeLookAhead = 1.0f;
+	#region New 1
+	[Header("New Fast Move 1")]
+	[SerializeField]
+	private bool newFastMove1 = false;
 
-	[Tooltip("How much the camera looks ahead while hovering")]
-	[SerializeField] private float hoverLookAhead = 1.0f;
-	*/
+	[SerializeField]
+	private float xKeySens = 100;
+
+	[SerializeField]
+	private float yKeySens = 100;
+	#endregion
+
+	#region New 2
+	[SerializeField]
+	private bool newFastMove2 = false;
+	#endregion
+
 	/// <summary>
 	/// Handles the switching on and off of speed line particles.
 	/// </summary>
@@ -563,14 +584,9 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 		if(currentMoveState != moveState.dash && !input.ShouldSlowDown)
 		Move();
 
-		if(input.Move == Vector2.zero && input.MoveVertical == 0 && rb.velocity.sqrMagnitude < 2f && (currentMoveState == moveState.normal || currentMoveState == moveState.ADS))
+		if(input.Move == Vector2.zero && input.MoveVertical == 0 && rb.velocity.sqrMagnitude < 1f && (currentMoveState == moveState.normal || currentMoveState == moveState.ADS))
         {
 			ClampVeloctiy(0, 0);
-        }
-
-        if (input.ShouldSlowDown)
-        {
-			SlowDown();
         }
 
 		if (currentMoveState != moveState.fast)
@@ -589,10 +605,11 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 			StartCoroutine(DelImage());
         }
 	}
-	#endregion
+    #endregion
 
-	#region Movement
-	private void Move()
+    #region Movement
+    #region State Determine
+    private void Move()
 	{
         if (input.MoveFast)
         {
@@ -628,16 +645,17 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 			NormalMove();
         }
 	}
-
-	private void SlowDown()
-    {
-		if(currentMoveState != moveState.fast)
-		rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, Time.fixedDeltaTime * slowDownRate);
-    }
+    #endregion
 
     #region Normal Move
     private void NormalMove()
     {
+		if(input.MoveVertical == 0 && input.Move == Vector2.zero)
+        {
+			SlowDown();
+			return;
+        }
+
 		MoveHorizontally();
 
 		if (input.MoveVertical != 0)
@@ -648,7 +666,15 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 		ClampVeloctiy(normalSpeedCap, normalSpeedCapSquared);
 	}
 
-    #region Horizontal Movement
+	private void SlowDown()
+	{
+		if (currentMoveState != moveState.fast && currentMoveState != moveState.dash)
+        {
+			rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, Time.fixedDeltaTime * slowDownRate);
+		}
+	}
+
+	#region Horizontal Movement
 	private void MoveHorizontally()
     {
 		// normalise input direction
@@ -692,24 +718,46 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
     {
 		RotateFastCamera();
 
-		// Visuals
-		RotateSpeedLines();
-		RotateFastCharacter();
+        #region New Type 1
+        if (newFastMove1)
+        {
+			NewFastMove1();
+        }
+        #endregion
 
-		FastMovement();
+        #region Visuals
+        if (oldFastMove)
+        RotateSpeedLines();
+		RotateFastCharacter();
+        #endregion
+
+        FastMovement();
 
 		ClampVeloctiy(fastSpeedCap, fastSpeedCapSquared);
 	}
 
-    #region Visuals Rotation
-    /// <summary>
-    /// Calculates character rotation.
-    /// </summary>
-    private void RotateFastCharacter()
+	private void NewFastMove1()
+    {
+		float yRotation = 0;
+		yRotation -= input.Move.y * yKeySens * Time.fixedDeltaTime;
+		Debug.Log(yRotation);
+		cinemachineCameraTarget.transform.Rotate(new Vector3(-yRotation, 0, 0));
+		cinemachineCameraTarget.transform.RotateAround(cinemachineCameraTarget.transform.position, -cinemachineCameraTarget.transform.up, -input.Move.x * xKeySens * Time.fixedDeltaTime);
+	}
+
+	#region Visuals Rotation
+	/// <summary>
+	/// Calculates character rotation.
+	/// </summary>
+	private void RotateFastCharacter()
     {
 		Quaternion targetRotation = cinemachineCameraTarget.transform.rotation * Quaternion.Euler(70, 0, 0);
-		targetRotation *= Quaternion.Euler(new Vector3(0, 0, input.Move.x * -30));
-		targetRotation *= Quaternion.Euler(new Vector3(input.Move.y * -30, 0, 0));
+
+        if (oldFastMove)
+        {
+			targetRotation *= Quaternion.Euler(new Vector3(0, 0, input.Move.x * -30));
+			targetRotation *= Quaternion.Euler(new Vector3(input.Move.y * -30, 0, 0));
+		}
 
 		visuals.transform.rotation = Quaternion.Lerp(visuals.transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
 	}
@@ -717,11 +765,6 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	private void RotateSpeedLines()
     {
 		Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 90 + input.Move.x * speedLinesSidewaysRotation, 0)) * Quaternion.Euler(new Vector3(0, 0, input.Move.y * -speedLinesVerticalRotation));
-
-		/*
-		speedLines.transform.localRotation = Quaternion.Euler(new Vector3(0, 90 + input.Move.x * speedLinesSidewaysRotation, 0));
-		speedLines.transform.localRotation *= Quaternion.Euler(new Vector3(0, 0, input.Move.y * -speedLinesVerticalRotation));
-		*/
 
 		speedLines.transform.localRotation = Quaternion.Lerp(speedLines.transform.localRotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
 
@@ -739,8 +782,16 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
     private void FastMovement()
     {
 		Vector3 forwardForce = mainCamera.transform.forward * Time.fixedDeltaTime * forwardAcceleration;
-		Vector3 sidewaysForce = mainCamera.transform.right * Time.fixedDeltaTime * strafeAcceleration * input.Move.x;
-		Vector3 verticalForce = mainCamera.transform.up * Time.fixedDeltaTime * verticalAcceleration * input.Move.y;
+		Vector3 sidewaysForce = Vector3.zero;
+		Vector3 verticalForce = Vector3.zero;
+
+
+		if (oldFastMove)
+        {
+			sidewaysForce = mainCamera.transform.right * Time.fixedDeltaTime * strafeAcceleration * input.Move.x;
+			verticalForce = mainCamera.transform.up * Time.fixedDeltaTime * verticalAcceleration * input.Move.y;
+		}
+
 		rb.AddForce(forwardForce + sidewaysForce + verticalForce);
 	}
 
@@ -810,15 +861,21 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	/// </summary>
 	private void DashRoutine()
     {
-		rb.AddForce(dashDir * dashSpeedAcceleration);
-		ClampVeloctiy(dashSpeedCap, dashSpeedCapSqr);
-
-		if (Time.time > startTime + dashTime)
+		if (Time.time > startTime + dashTime + exitDashTime)
 		{
 			currentMoveState = moveState.normal;
 			ClampVeloctiy(exitDashSpeedClamp, exitDashSpeedClampSquared);
 			StartCoroutine(DashStagger());
 			return;
+        }
+        else if(Time.time > startTime + dashTime)
+        {
+			rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, Time.fixedDeltaTime * exitDashSlowDownRate);
+		}
+        else
+        {
+			rb.AddForce(dashDir * dashSpeedAcceleration);
+			ClampVeloctiy(dashSpeedCap, dashSpeedCapSqr);
 		}
 	}
 
@@ -893,17 +950,6 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 		{
 			StartCoroutine(CastMoveHandler(ability));
 		}
-
-		/*
-		if (currentMoveState == moveState.normal || currentMoveState == moveState.ADS)
-        {
-			Ability ability = null;
-
-			if (abilities.Length > 2 && abilities[2].TriggerAbility(ref ability))
-			{
-				StartCoroutine(CastMoveHandler(ability));
-			}
-		}*/
     }
 
 	/// <summary>
@@ -917,17 +963,6 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 		{
 			StartCoroutine(CastMoveHandler(ability));
 		}
-
-		/*
-		if (currentMoveState == moveState.normal || currentMoveState == moveState.ADS)
-		{
-			Ability ability = null;
-
-			if (abilities.Length > 1 &&  abilities[1].TriggerAbility(ref ability))
-			{
-				StartCoroutine(CastMoveHandler(ability));
-			}
-		}*/
     }
 
 	/// <summary>
@@ -941,17 +976,6 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 		{
 			CastMoveHandlerRef = StartCoroutine(CastMoveHandler(ability));
 		}
-
-		/*
-		if (currentMoveState == moveState.normal || currentMoveState == moveState.ADS)
-		{
-			Ability ability = null;
-
-			if (abilities.Length > 0 && abilities[0].TriggerAbility(ref ability))
-			{
-				CastMoveHandlerRef = StartCoroutine(CastMoveHandler(ability));
-			}
-		}*/
 	}
 
 	public void StopCasting()

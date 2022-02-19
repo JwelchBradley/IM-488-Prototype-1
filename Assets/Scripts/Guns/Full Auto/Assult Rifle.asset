@@ -27,6 +27,7 @@ MonoBehaviour:
   bulletVelocity: 300
   pushBackForce: 0
   bullet: {fileID: 2574761780501521635, guid: 11e21371a2fbafa47931cf0040d28298, type: 3}
+  objectPoolToSpawn: {fileID: 5023310470108325871, guid: 5254c8be5e46ce04a9fd17c6a7717dd1, type: 3}
   bulletDecal: {fileID: 5958606127806489753, guid: 80c920d4b01eaac4c891801ac0e34773, type: 3}
   bulletDecalSize: 0.25
   decalEffectLifetime: 5

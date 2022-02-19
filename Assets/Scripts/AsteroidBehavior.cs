@@ -84,12 +84,17 @@ public class AsteroidBehavior : MonoBehaviour, IDamagable
 
     private void AsteroidDestruction()
     {
-        
         Instantiate(particle, gameObject.transform.position, Quaternion.identity);
         render.enabled = false;
-        Destroy(gameObject, 0.2f);
-        
-    }
+        for (var i = gameObject.transform.childCount - 1; i >= 0; i--)
+        {
+            // objectA is not the attached GameObject, so you can do all your checks with it.
+            var objectA = gameObject.transform.GetChild(i);
 
-   
+            objectA.transform.parent = null;
+            objectA.gameObject.SetActive(false);
+        }
+
+        Destroy(gameObject, 0.2f);
+    }
 }

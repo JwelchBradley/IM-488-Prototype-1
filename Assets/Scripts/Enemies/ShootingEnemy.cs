@@ -25,6 +25,7 @@ public class ShootingEnemy : BaseEnemy
         base.Awake();
         aud = GetComponent<AudioSource>();
         self = GetComponent<ShootingEnemy>();
+        enemyData.GunData.SpawnObjectPool();
     }
 
     protected virtual void LookAtPlayer()
@@ -65,8 +66,11 @@ public class ShootingEnemy : BaseEnemy
     /// </summary>
     protected void ShootBullet()
     {
-        GameObject bullet = Instantiate(enemyData.GunData.Bullet, bulletSpawnPos.position, Quaternion.identity);
-        BulletController bulletController = bullet.GetComponent<BulletController>();
+        //GameObject bullet = Instantiate(enemyData.GunData.Bullet, bulletSpawnPos.position, Quaternion.identity);
+        //BulletController bulletController = bullet.GetComponent<BulletController>();
+
+        BulletController bulletController = null;
+        enemyData.GunData.objectPool.SpawnObj(bulletSpawnPos.position, Quaternion.identity, ref bulletController);
         aud.PlayOneShot(enemyData.GunData.ShootShound);
 
         Vector3 target = playerReference.transform.position;
