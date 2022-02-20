@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cd4d580a4144cb4ca25c862333f1d95, type: 3}
   m_Name: MissileData
   m_EditorClassIdentifier: 
+  objectPool: {fileID: 0}
+  hitEffectObjectPool: {fileID: 0}
+  hitDecalObjectPool: {fileID: 0}
   fireRate: 1
   damage: 5
   tapStaggerTime: 0.2
@@ -27,6 +30,8 @@ MonoBehaviour:
   bulletVelocity: 10
   pushBackForce: 0
   bullet: {fileID: 6148998742369269141, guid: 7d71d16ceeb36664ab67c86533def958, type: 3}
+  objectPoolToSpawn: {fileID: 5023310470108325871, guid: 5254c8be5e46ce04a9fd17c6a7717dd1, type: 3}
+  objectPoolAmount: 40
   bulletDecal: {fileID: 5958606127806489753, guid: 80c920d4b01eaac4c891801ac0e34773, type: 3}
   bulletDecalSize: 0.05
   decalEffectLifetime: 5
