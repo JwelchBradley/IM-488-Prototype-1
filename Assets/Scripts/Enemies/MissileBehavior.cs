@@ -11,10 +11,12 @@ public class MissileBehavior : MonoBehaviour, IDamagable
     public Transform target;
 
     public float speed = 1f;
+    ThirdPersonController tpc;
 
     // Start is called before the first frame update
     void Start()
     {
+        tpc = GameObject.Find("Player").GetComponent<ThirdPersonController>();
         target = GameObject.Find("Player").GetComponent<Transform>();
     }
 
@@ -44,5 +46,16 @@ public class MissileBehavior : MonoBehaviour, IDamagable
     {
 
         Destroy(gameObject, 0.2f);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+
+        if (collision.gameObject.tag == "Player")
+        {
+            tpc.UpdateHealth(-20);
+            Destroy(gameObject, 0.2f);
+
+        }
     }
 }
