@@ -336,6 +336,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76636132e7aa5ec468f1dff43646b3aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 6
+  speed: 8
   target: {fileID: 0}
   shooting: 0
