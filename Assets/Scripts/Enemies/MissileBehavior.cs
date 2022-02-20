@@ -9,13 +9,16 @@ public class MissileBehavior : MonoBehaviour, IDamagable
     private int health = 5;
 
     public Transform target;
-
+    private Renderer render;
     public float speed = 1f;
     ThirdPersonController tpc;
+
+    public GameObject particle;
 
     // Start is called before the first frame update
     void Start()
     {
+        render = GetComponentInChildren<Renderer>();
         tpc = GameObject.Find("Player").GetComponent<ThirdPersonController>();
         target = GameObject.Find("Player").GetComponent<Transform>();
     }
@@ -54,8 +57,25 @@ public class MissileBehavior : MonoBehaviour, IDamagable
         if (collision.gameObject.tag == "Player")
         {
             tpc.UpdateHealth(-20);
-            Destroy(gameObject, 0.2f);
+            MissileDestruction();
 
         }
+    }
+
+
+    private void MissileDestruction()
+    {
+        Instantiate(particle, gameObject.transform.position, Quaternion.identity);
+        render.enabled = false;
+        for (var i = gameObject.transform.childCount - 1; i >= 0; i--)
+        {
+            // objectA is not the attached GameObject, so you can do all your checks with it.
+            var objectA = gameObject.transform.GetChild(i);
+
+            objectA.transform.parent = null;
+            objectA.gameObject.SetActive(false);
+        }
+
+        Destroy(gameObject, 0.2f);
     }
 }
