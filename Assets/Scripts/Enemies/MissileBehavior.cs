@@ -10,8 +10,9 @@ public class MissileBehavior : MonoBehaviour, IDamagable
 
     public Transform target;
     private Renderer render;
-    public float speed = 3f;
+    public float speed = 10f;
     ThirdPersonController tpc;
+    private Rigidbody rb;
 
     public GameObject particle;
 
@@ -19,6 +20,7 @@ public class MissileBehavior : MonoBehaviour, IDamagable
     void Start()
     {
         render = GetComponentInChildren<Renderer>();
+        rb = GetComponent<Rigidbody>();
         tpc = GameObject.Find("Player").GetComponent<ThirdPersonController>();
         target = GameObject.Find("Player").GetComponent<Transform>();
     }
@@ -26,11 +28,16 @@ public class MissileBehavior : MonoBehaviour, IDamagable
     // Update is called once per frame
     void Update()
     {
+        Vector3 dir = (target.transform.position - transform.position).normalized;
+        Vector3 deltaPosition = speed * dir * Time.deltaTime;
+        rb.MovePosition(transform.position + deltaPosition);
+        /*
         float step = speed * Time.deltaTime;
         Vector3 targetDirection = target.position - transform.position;
         Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, step, 0.0f);
         transform.rotation = Quaternion.LookRotation(newDirection);
         transform.position = Vector3.MoveTowards(transform.position, target.position, step);
+        */
     }
 
     public void UpdateHealth(int healthMod)
@@ -60,6 +67,11 @@ public class MissileBehavior : MonoBehaviour, IDamagable
         if (collision.gameObject.tag == "Player")
         {
             tpc.UpdateHealth(-20);
+            MissileDestruction();
+
+        }
+        if (collision.gameObject.tag == "Player Bullet")
+        {
             MissileDestruction();
 
         }
