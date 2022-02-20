@@ -10,7 +10,7 @@ public class MissileBehavior : MonoBehaviour, IDamagable
 
     public Transform target;
     private Renderer render;
-    public float speed = 1f;
+    public float speed = 3f;
     ThirdPersonController tpc;
 
     public GameObject particle;
@@ -27,6 +27,9 @@ public class MissileBehavior : MonoBehaviour, IDamagable
     void Update()
     {
         float step = speed * Time.deltaTime;
+        Vector3 targetDirection = target.position - transform.position;
+        Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, step, 0.0f);
+        transform.rotation = Quaternion.LookRotation(newDirection);
         transform.position = Vector3.MoveTowards(transform.position, target.position, step);
     }
 
