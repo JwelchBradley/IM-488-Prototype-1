@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 6148998742369269140}
   - component: {fileID: -2750584997335787335}
   - component: {fileID: 9066383583905865317}
-  m_Layer: 3
+  m_Layer: 10
   m_Name: missile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6148998742369269141}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: ad06e20f994656f489e0fe791b0284d8, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
