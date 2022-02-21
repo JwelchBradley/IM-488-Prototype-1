@@ -49,6 +49,7 @@ public class MissileBehavior : MonoBehaviour
         }
         if (collision.gameObject.tag == "Player Bullet")
         {
+            Instantiate(particle, gameObject.transform.position, Quaternion.identity);
             MissileDestruction();
 
         }
@@ -59,6 +60,7 @@ public class MissileBehavior : MonoBehaviour
     {
         Instantiate(particle, gameObject.transform.position, Quaternion.identity);
         render.enabled = false;
+        /*
         for (var i = gameObject.transform.childCount - 1; i >= 0; i--)
         {
             // objectA is not the attached GameObject, so you can do all your checks with it.
@@ -67,7 +69,8 @@ public class MissileBehavior : MonoBehaviour
             objectA.transform.parent = null;
             objectA.gameObject.SetActive(false);
         }
-        gameObject.SetActive(false);
-        //Destroy(gameObject, 0.2f);
+        */
+        //gameObject.SetActive(false);
+        Destroy(gameObject, 0.2f);
     }
 }
