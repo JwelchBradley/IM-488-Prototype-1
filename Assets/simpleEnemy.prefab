@@ -298,7 +298,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0.652
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -339,3 +339,5 @@ MonoBehaviour:
   speed: 8
   target: {fileID: 0}
   shooting: 0
+  aSource: {fileID: 4537229826517148522}
+  death: {fileID: 8300000, guid: ff606dda61ee1064c80b466d08372aeb, type: 3}

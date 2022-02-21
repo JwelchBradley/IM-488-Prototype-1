@@ -25,6 +25,9 @@ public class SimpleEnemyBehavior : MonoBehaviour
 
     float distance;
 
+    public AudioSource aSource;
+    public AudioClip death;
+
     // Start is called before the first frame update
     void Start()
     {
