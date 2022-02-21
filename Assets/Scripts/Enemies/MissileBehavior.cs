@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MissileBehavior : MonoBehaviour, IDamagable
+public class MissileBehavior : MonoBehaviour
 {
-    IDamagable damagable;
+    
 
     private int health = 5;
 
@@ -21,6 +21,7 @@ public class MissileBehavior : MonoBehaviour, IDamagable
     {
         render = GetComponentInChildren<Renderer>();
         rb = GetComponent<Rigidbody>();
+        transform.Rotate(00, 0, 0);
         tpc = GameObject.Find("Player").GetComponent<ThirdPersonController>();
         target = GameObject.Find("Player").GetComponent<Transform>();
     }
@@ -28,38 +29,14 @@ public class MissileBehavior : MonoBehaviour, IDamagable
     // Update is called once per frame
     void Update()
     {
-        Vector3 dir = (target.transform.position - transform.position).normalized;
-        Vector3 deltaPosition = speed * dir * Time.deltaTime;
-        rb.MovePosition(transform.position + deltaPosition);
-        /*
+       
         float step = speed * Time.deltaTime;
-        Vector3 targetDirection = target.position - transform.position;
-        Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, step, 0.0f);
-        transform.rotation = Quaternion.LookRotation(newDirection);
+      
         transform.position = Vector3.MoveTowards(transform.position, target.position, step);
-        */
+        
     }
 
-    public void UpdateHealth(int healthMod)
-    {
-        health += healthMod;
-
-        if (health <= 0)
-        {
-            EnemyDestruction();
-        }
-    }
-
-    public int HealthAmount()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    private void EnemyDestruction()
-    {
-
-        Destroy(gameObject, 0.2f);
-    }
+    
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -90,7 +67,7 @@ public class MissileBehavior : MonoBehaviour, IDamagable
             objectA.transform.parent = null;
             objectA.gameObject.SetActive(false);
         }
-
-        Destroy(gameObject, 0.2f);
+        gameObject.SetActive(false);
+        //Destroy(gameObject, 0.2f);
     }
 }
