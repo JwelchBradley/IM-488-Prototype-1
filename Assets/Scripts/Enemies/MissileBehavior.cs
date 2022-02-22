@@ -2,16 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MissileBehavior : MonoBehaviour, IDamagable
+public class MissileBehavior : MonoBehaviour
 {
-    IDamagable damagable;
+    
 
     private int health = 5;
 
     public Transform target;
     private Renderer render;
-    public float speed = 1f;
+    public float speed = 10f;
     ThirdPersonController tpc;
+    private Rigidbody rb;
 
     public GameObject particle;
 
@@ -19,6 +20,8 @@ public class MissileBehavior : MonoBehaviour, IDamagable
     void Start()
     {
         render = GetComponentInChildren<Renderer>();
+        rb = GetComponent<Rigidbody>();
+        transform.Rotate(00, 0, 0);
         tpc = GameObject.Find("Player").GetComponent<ThirdPersonController>();
         target = GameObject.Find("Player").GetComponent<Transform>();
     }
@@ -26,30 +29,14 @@ public class MissileBehavior : MonoBehaviour, IDamagable
     // Update is called once per frame
     void Update()
     {
+       
         float step = speed * Time.deltaTime;
+      
         transform.position = Vector3.MoveTowards(transform.position, target.position, step);
+        
     }
 
-    public void UpdateHealth(int healthMod)
-    {
-        health += healthMod;
-
-        if (health <= 0)
-        {
-            EnemyDestruction();
-        }
-    }
-
-    public int HealthAmount()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    private void EnemyDestruction()
-    {
-
-        Destroy(gameObject, 0.2f);
-    }
+    
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -60,6 +47,12 @@ public class MissileBehavior : MonoBehaviour, IDamagable
             MissileDestruction();
 
         }
+        if (collision.gameObject.tag == "Player Bullet")
+        {
+            Instantiate(particle, gameObject.transform.position, Quaternion.identity);
+            MissileDestruction();
+
+        }
     }
 
 
@@ -67,6 +60,7 @@ public class MissileBehavior : MonoBehaviour, IDamagable
     {
         Instantiate(particle, gameObject.transform.position, Quaternion.identity);
         render.enabled = false;
+        /*
         for (var i = gameObject.transform.childCount - 1; i >= 0; i--)
         {
             // objectA is not the attached GameObject, so you can do all your checks with it.
@@ -75,7 +69,8 @@ public class MissileBehavior : MonoBehaviour, IDamagable
             objectA.transform.parent = null;
             objectA.gameObject.SetActive(false);
         }
-
+        */
+        //gameObject.SetActive(false);
         Destroy(gameObject, 0.2f);
     }
 }
