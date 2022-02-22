@@ -42,9 +42,16 @@ public class BulletController : MonoBehaviour
     /// Calls for the collision event to happen.
     /// </summary>
     /// <param name="other"></param>
-    private void OnCollisionEnter(Collision other)
+    protected virtual void OnCollisionEnter(Collision other)
     {
-        CollisionEvent(other);
+        if(other.gameObject.layer.Equals(LayerMask.NameToLayer("Player Bullet")))
+        {
+
+        }
+        else
+        {
+            CollisionEvent(other);
+        }
     }
 
     /// <summary>

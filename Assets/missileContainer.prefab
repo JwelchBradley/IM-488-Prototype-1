@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 771264739170327597}
   - component: {fileID: 771264739170327598}
   - component: {fileID: 3323904460002994589}
-  m_Layer: 10
+  m_Layer: 3
   m_Name: newMissile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4914,7 +4914,7 @@ GameObject:
   - component: {fileID: 3975884380060522715}
   - component: {fileID: -617920263339996442}
   - component: {fileID: -1437524549521500025}
-  m_Layer: 10
+  m_Layer: 3
   m_Name: missileContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}

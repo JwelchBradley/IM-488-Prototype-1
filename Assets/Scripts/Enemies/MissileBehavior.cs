@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MissileBehavior : MonoBehaviour
+public class MissileBehavior : BulletController
 {
     
 
@@ -26,18 +26,31 @@ public class MissileBehavior : MonoBehaviour
         target = GameObject.Find("Player").GetComponent<Transform>();
     }
 
+    protected override void SetBullet(Vector3 target, float timeToDestroy, float bulletVelocity)
+    {
+        /*
+        GetComponent<Rigidbody>().velocity = (target - transform.position).normalized * bulletVelocity;
+        transform.LookAt(target);
+        */
+        //DestroyTimer(timeToDestroy);
+    }
+
     // Update is called once per frame
     void Update()
     {
-       
+        //(target - transform.position).normalized is direction to play
         float step = speed * Time.deltaTime;
       
         transform.position = Vector3.MoveTowards(transform.position, target.position, step);
-        
+        transform.LookAt(target.position);
     }
 
-    
+    protected override void OnCollisionEnter(Collision other)
+    {
+        CollisionEvent(other);
+    }
 
+    /*
     private void OnCollisionEnter(Collision collision)
     {
 
@@ -69,8 +82,8 @@ public class MissileBehavior : MonoBehaviour
             objectA.transform.parent = null;
             objectA.gameObject.SetActive(false);
         }
-        */
+        
         //gameObject.SetActive(false);
         Destroy(gameObject, 0.2f);
-    }
+    }*/
 }
