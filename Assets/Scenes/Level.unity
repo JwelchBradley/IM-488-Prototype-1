@@ -5124,7 +5124,7 @@ MonoBehaviour:
   turretV2: {fileID: 7682484576932427533, guid: f972560c362224b4394bedfe978a9682, type: 3}
   simpleEnemy: {fileID: 817220482400918692, guid: a06bc78aec00b7b4f86f60125b6492ae, type: 3}
   EnemySpawnRange: 300
-  amountToSpawnEnemy: 100
+  amountToSpawnEnemy: 1
 --- !u!4 &1189025233
 Transform:
   m_ObjectHideFlags: 0
