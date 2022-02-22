@@ -6,6 +6,7 @@ public class DecalBehaviour : MonoBehaviour
 {
     public void StartFadeOut(float lifeTime, float timeBeforeDespawnStart)
     {
+        if(gameObject.activeInHierarchy)
         StartCoroutine(FadeOut(lifeTime, timeBeforeDespawnStart));
     }
 

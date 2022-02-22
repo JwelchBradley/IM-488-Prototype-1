@@ -20,6 +20,7 @@ public class AsteroidBehavior : MonoBehaviour, IDamagable
 
     Rigidbody rb;
     private Renderer render;
+    private Collider col;
     private int health = 30;
     private float velocityThreshold = 30.0f*30.0f;
 
@@ -34,7 +35,7 @@ public class AsteroidBehavior : MonoBehaviour, IDamagable
         render = GetComponentInChildren<Renderer>();
         tpc = GameObject.Find("Player").GetComponent<ThirdPersonController>();
         rb = GetComponent<Rigidbody>();
-
+        col = GetComponentInChildren<Collider>();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -55,8 +56,6 @@ public class AsteroidBehavior : MonoBehaviour, IDamagable
         {
             damagable.UpdateHealth(-100);
             UpdateHealth(-100);
-
-            Destroy(collision.gameObject, 0.2f);
         }
         else if(collision.relativeVelocity.sqrMagnitude > velocityThreshold && !collision.gameObject.CompareTag("Bullet"))
         {
@@ -95,6 +94,7 @@ public class AsteroidBehavior : MonoBehaviour, IDamagable
             objectA.gameObject.SetActive(false);
         }
 
+        col.enabled = false;
         Destroy(gameObject, 0.2f);
     }
 }

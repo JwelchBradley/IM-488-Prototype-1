@@ -126,7 +126,7 @@ public class GravityPull : AbilityAction
             }
 
             // Throws the rock in the direction the player is looking
-            if (Input.GetKey(KeyCode.Mouse0))
+            if (Input.GetKeyDown(KeyCode.Mouse0))
             {
                 Click();
                 tpc.StopCasting();

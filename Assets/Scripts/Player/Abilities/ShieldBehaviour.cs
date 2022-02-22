@@ -16,11 +16,6 @@ public class ShieldBehaviour : MonoBehaviour, IDamagable
         tpc.ShieldActive = true;
     }
 
-    private void OnDestroy()
-    {
-        tpc.ShieldActive = false;
-    }
-
     public int Health
     {
         set
@@ -36,7 +31,7 @@ public class ShieldBehaviour : MonoBehaviour, IDamagable
 
         if(health <= 0)
         {
-            DestroyShield(0.0f);
+            StartCoroutine(DestroyShield(0.0f));
         }
     }
 
@@ -44,7 +39,7 @@ public class ShieldBehaviour : MonoBehaviour, IDamagable
     {
         this.health = health;
         this.pivot = pivot;
-        DestroyShield(duration);
+        StartCoroutine(DestroyShield(duration));
     }
 
     private void Update()
@@ -53,9 +48,11 @@ public class ShieldBehaviour : MonoBehaviour, IDamagable
         transform.position = pivot.position;
     }
 
-    private void DestroyShield(float endTime)
+    private IEnumerator DestroyShield(float endTime)
     {
-        Destroy(gameObject, endTime);
+        yield return new WaitForSeconds(endTime);
+        gameObject.SetActive(false);
+        tpc.ShieldActive = false;
     }
 
     public int HealthAmount()

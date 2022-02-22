@@ -33,7 +33,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: metarig|Dash_Down
-  m_Speed: 1.75
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 2365728226501725230}
@@ -200,7 +200,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: metarig|Dash_Back
-  m_Speed: 1.75
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 933801661145472677}
@@ -274,7 +274,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: metarig|Dash_Left
-  m_Speed: 2
+  m_Speed: 2.1
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 636608884417074596}
@@ -301,7 +301,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: metarig|Dash_Right
-  m_Speed: 2
+  m_Speed: 2.1
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 7379008195142237693}
@@ -619,7 +619,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: metarig|Dash_Forward
-  m_Speed: 1.75
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -5405512471653920157}
@@ -668,7 +668,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: metarig|Dash_Up
-  m_Speed: 1.75
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -6807470098449856094}

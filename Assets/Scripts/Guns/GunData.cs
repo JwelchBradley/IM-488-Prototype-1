@@ -11,6 +11,8 @@ public class GunData : ScriptableObject
     public ObjectPool hitEffectObjectPool;
     [HideInInspector]
     public ObjectPool hitDecalObjectPool;
+    [HideInInspector]
+    public ObjectPool hitSoundObjectPool;
 
     public void SpawnObjectPool()
     {
@@ -23,6 +25,8 @@ public class GunData : ScriptableObject
             hitEffectObjectPool.PoolObjects(hitEffect, objectPoolAmount);
             hitDecalObjectPool = Instantiate(ObjectPoolToSpawn, GameObject.Find("ObjectPools").transform).GetComponent<ObjectPool>();
             hitDecalObjectPool.PoolObjects(BulletDecal, objectPoolAmount);
+            hitSoundObjectPool = Instantiate(ObjectPoolToSpawn, GameObject.Find("ObjectPools").transform).GetComponent<ObjectPool>();
+            hitSoundObjectPool.PoolObjects(Instantiate(Resources.Load("HitSoundPlayer", typeof(GameObject))) as GameObject, objectPoolAmount);
         }
     }
 

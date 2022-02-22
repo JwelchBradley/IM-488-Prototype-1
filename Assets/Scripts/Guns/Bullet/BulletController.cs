@@ -12,8 +12,6 @@ using UnityEngine;
 public class BulletController : MonoBehaviour
 {
     GunData gunData;
-    private ObjectPool hitEffectPool;
-    private ObjectPool decalPool;
 
     public void InitializeBullet(Vector3 target, GunData gunData)
     {
@@ -21,7 +19,7 @@ public class BulletController : MonoBehaviour
         SetBullet(target, gunData.TimeToDestroy, gunData.BulletVelocity);
     }
 
-    private void SetBullet(Vector3 target, float timeToDestroy, float bulletVelocity)
+    protected virtual void SetBullet(Vector3 target, float timeToDestroy, float bulletVelocity)
     {
         GetComponent<Rigidbody>().velocity = (target - transform.position).normalized * bulletVelocity;
         transform.LookAt(target);
@@ -60,7 +58,17 @@ public class BulletController : MonoBehaviour
         SpawnDecal(other, contact);
         gunData.hitEffectObjectPool.SpawnObj(contact.point + contact.normal * .1f, Quaternion.LookRotation(contact.normal), other.gameObject.transform);
 
-        PlayHitSound(contact.point, other.gameObject.GetComponentInChildren<Collider>().sharedMaterial);
+        Collider otherCol = other.gameObject.GetComponentInChildren<Collider>();
+
+        if(otherCol != null)
+        {
+            PlayHitSound(contact.point, otherCol.sharedMaterial);
+        }
+        else
+        {
+            PhysicMaterial physicsMat = null;
+            PlayHitSound(contact.point, physicsMat);
+        }
 
         IDamagable damagable = other.gameObject.GetComponent<IDamagable>();
 
@@ -83,13 +91,14 @@ public class BulletController : MonoBehaviour
 
     public void PlayHitSound(Vector3 pos, PhysicMaterial physicsMat)
     {
-        GameObject hitSoundPlayer = Instantiate(Resources.Load("HitSoundPlayer", typeof(GameObject)), pos, Quaternion.identity) as GameObject;
-        AudioSource audio = hitSoundPlayer.GetComponent<AudioSource>();
-        Destroy(hitSoundPlayer, 3);
+        //GameObject hitSoundPlayer = Instantiate(Resources.Load("HitSoundPlayer", typeof(GameObject)), pos, Quaternion.identity) as GameObject;
+
+        AudioSource audio = gunData.hitSoundObjectPool.SpawnObj(pos, Quaternion.identity).GetComponent<AudioSource>();
+        //Destroy(hitSoundPlayer, 3);
 
         //string matKey = other.gameObject.GetComponent<Renderer>().material.name;
         // Plays hitSound based off of the targets material
-        gunData.HitSound.AddHitSoundData();
+        //gunData.HitSound.AddHitSoundData();
 
         if (physicsMat != null && HitSoundData.Sound.TryGetValue(physicsMat, out AudioClip aud))
         {

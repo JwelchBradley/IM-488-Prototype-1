@@ -170,6 +170,8 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	[Tooltip("How much the lines offset on the y-axis")]
 	[Range(0.0f, 5.0f)]
 	[SerializeField] private float yPositionalOffset = 2.5f;
+
+	private float cameraDistanceFastMoveOld = 7;
 	#endregion
 
 	#region New 1
@@ -178,10 +180,30 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	private bool newFastMove1 = false;
 
 	[SerializeField]
-	private float xKeySens = 100;
+	private float fasterSpeedCap = 45.0f;
 
 	[SerializeField]
-	private float yKeySens = 100;
+	private float slowerFastSpeedCap = 20.0f;
+
+	[SerializeField]
+	private float cameraDistanceFastMoveNew1 = 7;
+
+	[SerializeField]
+	private float fasterFOV = 45;
+
+	[SerializeField]
+	private float slowerFOV = 35;
+
+	[SerializeField]
+	private float fasterSpeedLinesPlaybackRate = 1.1f;
+
+	[SerializeField]
+	private float slowerSpeedLinesPlaybackRate = 1.1f;
+
+	[SerializeField]
+	float fastMoveSpeedChangeRate = 0.5f;
+
+	private float currentSpeedCap;
 	#endregion
 
 	#region New 2
@@ -237,7 +259,13 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	[SerializeField] private CinemachineVirtualCamera fastCam;
 
 	[SerializeField] private GameObject speedLines;
-    #endregion
+	#endregion
+
+	[Tooltip("The camera used for normal movement")]
+	[SerializeField] private CinemachineVirtualCamera rockCam;
+
+	[Tooltip("The camera used for normal movement")]
+	[SerializeField] private CinemachineVirtualCamera rockCamADS;
 
 	/// <summary>
 	/// The brain for the camera.
@@ -484,7 +512,6 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	/// Gets the main camera of this scene, initializes values, and gets components.
 	/// </summary>
 	/// 
-	bool healing;
 	public Slider healthBar;
 	public Text hpTxt;
 
@@ -518,7 +545,6 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	{
 		Cursor.lockState = CursorLockMode.Locked;
 		Cursor.visible = false;
-		healing = false;
 		health = 100;
 		healthBar.value = health;
 		hpTxt.text = "HP: " + healthBar.value;
@@ -540,6 +566,11 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 			XFastSens = PlayerPrefs.GetFloat("X Sens Fast");
 			YFastSens = PlayerPrefs.GetFloat("Y Sens Fast");
 		}
+
+        if (newFastMove1)
+        {
+			fastCam.GetCinemachineComponent<CinemachineFramingTransposer>().m_CameraDistance = cameraDistanceFastMoveNew1;
+        }
 	}
 
 	private void AddAbilities()
@@ -650,7 +681,9 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
     #region Normal Move
     private void NormalMove()
     {
-		if(input.MoveVertical == 0 && input.Move == Vector2.zero)
+		ADS();
+
+		if (input.MoveVertical == 0 && input.Move == Vector2.zero)
         {
 			SlowDown();
 			return;
@@ -733,29 +766,93 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 
         FastMovement();
 
+		if(oldFastMove)
 		ClampVeloctiy(fastSpeedCap, fastSpeedCapSquared);
+		else if(newFastMove1)
+			ClampVeloctiy(currentSpeedCap, currentSpeedCap* currentSpeedCap);
 	}
 
-	private void NewFastMove1()
+    #region NewFastMove1
+    private void NewFastMove1()
     {
-		float yRotation = 0;
-		yRotation -= input.Move.y * yKeySens * Time.fixedDeltaTime;
-		Debug.Log(yRotation);
-		cinemachineCameraTarget.transform.Rotate(new Vector3(-yRotation, 0, 0));
-		cinemachineCameraTarget.transform.RotateAround(cinemachineCameraTarget.transform.position, -cinemachineCameraTarget.transform.up, -input.Move.x * xKeySens * Time.fixedDeltaTime);
+		Vector3 sidewaysForce = mainCamera.transform.right * Time.fixedDeltaTime * strafeAcceleration * input.Move.x;
+
+		rb.AddForce(sidewaysForce);
+		RotateSpeedLinesNew1();
+
+		ChangeSpeedCap();
+
+        if (input.ShouldADS)
+        {
+
+        }
 	}
 
-	#region Visuals Rotation
-	/// <summary>
-	/// Calculates character rotation.
-	/// </summary>
-	private void RotateFastCharacter()
+	float currentSpeedHolder = 0.5f;
+	private void ChangeSpeedCap()
+    {
+        switch (input.Move.y)
+        {
+			case 1:
+				
+				currentSpeedHolder += Time.fixedDeltaTime * fastMoveSpeedChangeRate;
+				break;
+			case 0:
+				if (currentSpeedHolder > 0.5f)
+                {
+					currentSpeedHolder -= Time.fixedDeltaTime * fastMoveSpeedChangeRate;
+					currentSpeedHolder = Mathf.Clamp(currentSpeedHolder, 0.5f, 1);
+				}
+                else
+                {
+					currentSpeedHolder += Time.fixedDeltaTime * fastMoveSpeedChangeRate;
+					currentSpeedHolder = Mathf.Clamp(currentSpeedHolder, 0, 0.5f);
+				}
+				break;
+			case -1:
+				currentSpeedHolder -= Time.fixedDeltaTime * fastMoveSpeedChangeRate;
+				break;
+        }
+
+		currentSpeedHolder = Mathf.Clamp(currentSpeedHolder, 0, 1);
+		//fastCam.GetCinemachineComponent<CinemachineFramingTransposer>().m_CameraDistance = Mathf.Lerp(cameraDistanceFastMoveNew1, 4, currentSpeedHolder);
+		speedLines.GetComponent<ParticleSystem>().playbackSpeed = Mathf.Lerp(slowerSpeedLinesPlaybackRate, fasterSpeedLinesPlaybackRate, currentSpeedHolder);
+		fastCam.m_Lens.FieldOfView = Mathf.Lerp(fasterFOV, slowerFOV, currentSpeedHolder);
+		currentSpeedCap = Mathf.Lerp(slowerFastSpeedCap, fasterSpeedCap, currentSpeedHolder);
+	}
+
+	private void RotateSpeedLinesNew1()
+    {
+		Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 90 + input.Move.x * speedLinesSidewaysRotation, 0));
+
+		speedLines.transform.localRotation = Quaternion.Lerp(speedLines.transform.localRotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
+
+		if (input.Move.x != 0)
+		{
+			speedLines.transform.localPosition = new Vector3(input.Move.x * xPositionalOffset, 0, 10.35f);
+		}
+		else
+		{
+			speedLines.transform.localPosition = new Vector3(0, 0, 10.35f);
+		}
+	}
+    #endregion
+
+    #region Visuals Rotation
+    /// <summary>
+    /// Calculates character rotation.
+    /// </summary>
+    private void RotateFastCharacter()
     {
 		Quaternion targetRotation = cinemachineCameraTarget.transform.rotation * Quaternion.Euler(70, 0, 0);
 
-        if (oldFastMove)
+		if(oldFastMove || newFastMove1)
         {
 			targetRotation *= Quaternion.Euler(new Vector3(0, 0, input.Move.x * -30));
+		}
+
+        if (oldFastMove)
+        {
 			targetRotation *= Quaternion.Euler(new Vector3(input.Move.y * -30, 0, 0));
 		}
 
@@ -781,7 +878,7 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 
     private void FastMovement()
     {
-		Vector3 forwardForce = mainCamera.transform.forward * Time.fixedDeltaTime * forwardAcceleration;
+		Vector3 forwardForce = cinemachineCameraTarget.forward * Time.fixedDeltaTime * forwardAcceleration;
 		Vector3 sidewaysForce = Vector3.zero;
 		Vector3 verticalForce = Vector3.zero;
 
@@ -925,15 +1022,29 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 			gun.Shoot(false);
 	}
 
-	public void ADS(bool shouldADS)
+	public void ADS()
     {
-        if (shouldADS && currentMoveState == moveState.normal)
+        if (input.ShouldADS)
         {
-			ChangeActive(moveState.ADS, adsCam);
+            if (CastMoveHandlerRef != null)
+            {
+				ChangeActive(moveState.ADS, rockCamADS);
+			}
+            else
+            {
+				ChangeActive(moveState.ADS, adsCam);
+			}
 		}
-        else if(currentMoveState == moveState.ADS)
+        else if(!input.ShouldADS)
         {
-			ChangeActive(moveState.normal, normalCam);
+            if (CastMoveHandlerRef != null)
+            {
+				ChangeActive(moveState.normal, rockCam);
+			}
+            else
+            {
+				ChangeActive(moveState.normal, normalCam);
+			}
 		}
     }
     #endregion
@@ -981,6 +1092,7 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	public void StopCasting()
     {
 		StopCoroutine(CastMoveHandlerRef);
+		CastMoveHandlerRef = null;
 		currentMoveState = moveState.normal;
 		canShoot = true;
 	}
@@ -1057,6 +1169,11 @@ public class ThirdPersonController : MonoBehaviour, IDamagable
 	private void ChangeActive(moveState newMoveState, CinemachineVirtualCamera newCam)
 	{
 		MoveFast.Invoke(newMoveState == moveState.fast);
+
+        if (camBrain.ActiveVirtualCamera == null)
+        {
+			return;
+        }
 
 		camBrain.ActiveVirtualCamera.Priority = 0;
 		newCam.Priority = 1;

@@ -42,7 +42,7 @@ public class DetectEnemyBehavior : MonoBehaviour, IDamagable
 
     private void EnemyDestruction()
     {
-
-        Destroy(gameObject, 0.2f);
+        gameObject.SetActive(false);
+        //Destroy(gameObject, 0.2f);
     }
 }

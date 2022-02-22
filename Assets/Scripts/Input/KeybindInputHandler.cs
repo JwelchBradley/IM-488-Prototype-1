@@ -80,6 +80,13 @@ public class KeybindInputHandler : MonoBehaviour
 	{
 		get => look;
 	}
+
+	private bool shouldAds = false;
+
+	public bool ShouldADS
+    {
+		get => shouldAds;
+    }
     #endregion
     #endregion
 
@@ -364,7 +371,8 @@ public class KeybindInputHandler : MonoBehaviour
 
 	private void OnADSInput(bool shouldADS)
     {
-		tpc.ADS(shouldADS);
+		shouldAds = shouldADS;
+		//tpc.ADS(shouldADS);
     }
 
 	/// <summary>

@@ -101,3 +101,58 @@ MonoBehaviour:
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 0
+  - m_From: PlayerADSCamera
+    m_To: RockCam
+    m_Blend:
+      m_Style: 1
+      m_Time: 0.3
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: PlayerADSCamera
+    m_To: RockCam ADS
+    m_Blend:
+      m_Style: 1
+      m_Time: 0.3
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: RockCam
+    m_To: RockCam ADS
+    m_Blend:
+      m_Style: 1
+      m_Time: 0.25
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: RockCam ADS
+    m_To: RockCam
+    m_Blend:
+      m_Style: 1
+      m_Time: 0.25
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: RockCam ADS
+    m_To: PlayerADSCamera
+    m_Blend:
+      m_Style: 1
+      m_Time: 0.3
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
