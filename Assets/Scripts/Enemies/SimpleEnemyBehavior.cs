@@ -43,7 +43,7 @@ public class SimpleEnemyBehavior : MonoBehaviour
         if (shooting == false)
         {
             
-            if (distance <= 4000)
+            if (distance <= 1000)
             {
                 float step = speed * Time.deltaTime;
                 transform.position = Vector3.MoveTowards(transform.position, target.position, step);
