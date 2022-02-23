@@ -15,7 +15,7 @@ public class BoosterController : MonoBehaviour
 
     private Animator anim;
 
-    private bool combatIdle;
+    private AudioSource boosterSFX;
 
     [Tooltip("Lists of all booster particle systems on player")]
 
@@ -28,20 +28,21 @@ public class BoosterController : MonoBehaviour
         controller = transform.root.GetComponent<ThirdPersonController>();
 
         anim = GetComponent<Animator>();
+        boosterSFX = GetComponent<AudioSource>();
 
         ToggleBoostersOffAll();
     }
 
     private void Update()
     {
-        //if(input.)
-
         if (controller.CurrentMoveState == ThirdPersonController.moveState.normal ||
             controller.CurrentMoveState == ThirdPersonController.moveState.ADS)
             BoostersNormalMovement();
 
         if (controller.CurrentMoveState == ThirdPersonController.moveState.fast)
             BoostersFlyingMovement();
+
+        BoosterSFX();
     }
 
     private void BoostersNormalMovement()
@@ -242,6 +243,20 @@ public class BoosterController : MonoBehaviour
                 psList[i].Stop();
         }
     }
+
+    private void BoosterSFX()
+    {
+        Vector2 inputDirection = new Vector3(input.Move.x, input.Move.y).normalized;
+
+        if (input.Move.x == 0 && input.Move.y == 0 && input.MoveVertical == 0 &&
+            (controller.CurrentMoveState == ThirdPersonController.moveState.normal ||
+            controller.CurrentMoveState == ThirdPersonController.moveState.ADS))
+            boosterSFX.Pause();
+        else if(!boosterSFX.isPlaying)
+            boosterSFX.Play();
+    }
+
+
 
     //public void ToggleBoosterOn(GameObject ps)
     //{
