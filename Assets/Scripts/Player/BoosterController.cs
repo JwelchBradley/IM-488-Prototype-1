@@ -20,7 +20,7 @@ public class BoosterController : MonoBehaviour
     [Tooltip("Lists of all booster particle systems on player")]
 
     public List<ParticleSystem> boosterUp, boosterDown, boosterRight, boosterLeft,
-                            boosterForward, boosterBack;
+                            boosterForward, boosterBack, boosterDash;
 
     private void Start()
     {
@@ -31,6 +31,7 @@ public class BoosterController : MonoBehaviour
         boosterSFX = GetComponent<AudioSource>();
 
         ToggleBoostersOffAll();
+        ToggleBoostersOff(boosterDash);
     }
 
     private void Update()
@@ -39,8 +40,11 @@ public class BoosterController : MonoBehaviour
             controller.CurrentMoveState == ThirdPersonController.moveState.ADS)
             BoostersNormalMovement();
 
-        if (controller.CurrentMoveState == ThirdPersonController.moveState.fast)
+        else if (controller.CurrentMoveState == ThirdPersonController.moveState.fast)
             BoostersFlyingMovement();
+
+        else
+            ToggleBoostersOffAll();
 
         BoosterSFX();
     }
@@ -52,91 +56,90 @@ public class BoosterController : MonoBehaviour
         // Backwards movement
         if (inputDirection.y < 0)
         {
-            ToggleBoostersBackOn();
-            ToggleBoostersForwardOff();
+            ToggleBoostersOn(boosterBack);
+            ToggleBoostersOff(boosterForward);
         }
         // Forwards movement
         else if (inputDirection.y > 0)
         {
-            ToggleBoostersForwardOn();
-            ToggleBoostersBackOff();
+            ToggleBoostersOn(boosterForward);
+            ToggleBoostersOff(boosterBack);
         }
         // No forwaards/backwards movement
         else
         {
-            ToggleBoostersForwardOff();
-            ToggleBoostersBackOff();
+            ToggleBoostersOff(boosterForward);
+            ToggleBoostersOff(boosterBack);
         }
 
         // Right movement
         if (inputDirection.x > 0)
         {
-            ToggleBoostersRightOn();
-            ToggleBoostersLeftOff();
+            ToggleBoostersOn(boosterRight);
+            ToggleBoostersOff(boosterLeft);
         }
         // Left movement
         else if (inputDirection.x < 0)
         {
-            ToggleBoostersLeftOn();
-            ToggleBoostersRightOff();
+            ToggleBoostersOn(boosterLeft);
+            ToggleBoostersOff(boosterRight);
         }
         // No left/right movement
         else if (inputDirection.x == 0)
         {
-            ToggleBoostersRightOff();
-            ToggleBoostersLeftOff();
+            ToggleBoostersOff(boosterRight);
+            ToggleBoostersOff(boosterLeft);
         }
 
         // Up movement
         if (input.MoveVertical > 0)
         {
-            ToggleBoostersUpOn();
-            ToggleBoostersDownOff();
+            ToggleBoostersOn(boosterUp);
+            ToggleBoostersOff(boosterDown);
         }
         // Down movement
         else if (input.MoveVertical < 0)
         {
-            ToggleBoostersDownOn();
-            ToggleBoostersUpOff();
+            ToggleBoostersOn(boosterDown);
+            ToggleBoostersOff(boosterUp);
         }
         // No veritcal movement
         else if (input.MoveVertical == 0)
         {
-            ToggleBoostersUpOff();
-            ToggleBoostersDownOff();
+            ToggleBoostersOff(boosterUp);
+            ToggleBoostersOff(boosterDown);
         }
     }
 
     private void BoostersFlyingMovement()
     {
-        ToggleBoostersUpOn();
+        ToggleBoostersOn(boosterUp);
 
-        ToggleBoostersDownOff();
-        ToggleBoostersForwardOff();
-        ToggleBoostersBackOff();
+        ToggleBoostersOff(boosterDown);
+        ToggleBoostersOff(boosterForward);
+        ToggleBoostersOff(boosterBack);
 
         Vector2 inputDirection = new Vector3(input.Move.x, input.Move.y).normalized;
 
         // Right movement
         if (inputDirection.x > 0)
         {
-            ToggleBoostersRightOn();
-            ToggleBoostersLeftOff();
+            ToggleBoostersOn(boosterRight);
+            ToggleBoostersOff(boosterLeft);
         }
         // Left movement
         else if (inputDirection.x < 0)
         {
-            ToggleBoostersLeftOn();
-            ToggleBoostersRightOff();
+            ToggleBoostersOn(boosterLeft);
+            ToggleBoostersOff(boosterRight);
         }
         // No left/right movement
         else if (inputDirection.x == 0)
         {
-            ToggleBoostersRightOff();
-            ToggleBoostersLeftOff();
+            ToggleBoostersOff(boosterRight);
+            ToggleBoostersOff(boosterLeft);
         }
     }
-
 
     /**************************************************************************/
     public void ToggleBoostersOnAll()
@@ -160,72 +163,6 @@ public class BoosterController : MonoBehaviour
     }
 
     /**************************************************************************/
-    public void ToggleBoostersUpOn()
-    {
-        ToggleBoostersOn(boosterUp);
-    }
-
-    public void ToggleBoostersUpOff()
-    {
-        ToggleBoostersOff(boosterUp);
-    }
-
-    /**************************************************************************/
-    public void ToggleBoostersDownOn()
-    {
-        ToggleBoostersOn(boosterDown);
-    }
-
-    public void ToggleBoostersDownOff()
-    {
-        ToggleBoostersOff(boosterDown);
-    }
-
-    /**************************************************************************/
-    public void ToggleBoostersRightOn()
-    {
-        ToggleBoostersOn(boosterRight);
-    }
-
-    public void ToggleBoostersRightOff()
-    {
-        ToggleBoostersOff(boosterRight);
-    }
-
-    /**************************************************************************/
-    public void ToggleBoostersLeftOn()
-    {
-        ToggleBoostersOn(boosterLeft);
-    }
-
-    public void ToggleBoostersLeftOff()
-    {
-        ToggleBoostersOff(boosterLeft);
-    }
-
-    /**************************************************************************/
-    public void ToggleBoostersForwardOn()
-    {
-        ToggleBoostersOn(boosterForward);
-    }
-
-    public void ToggleBoostersForwardOff()
-    {
-        ToggleBoostersOff(boosterForward);
-    }
-
-    /**************************************************************************/
-    public void ToggleBoostersBackOn()
-    {
-        ToggleBoostersOn(boosterBack);
-    }
-
-    public void ToggleBoostersBackOff()
-    {
-        ToggleBoostersOff(boosterBack);
-    }
-
-    /**************************************************************************/
     private void ToggleBoostersOn(List<ParticleSystem> psList)
     {
         for(int i = 0; i < psList.Count; i++)
@@ -244,6 +181,50 @@ public class BoosterController : MonoBehaviour
         }
     }
 
+    public void ToggleDashBack()
+    {
+        ToggleDashBooster(boosterDash[0]);
+        ToggleDashBooster(boosterDash[1]);
+    }
+
+    public void ToggleDashDown()
+    {
+        ToggleDashBooster(boosterDash[2]);
+        ToggleDashBooster(boosterDash[3]);
+    }
+
+    public void ToggleDashForward()
+    {
+        ToggleDashBooster(boosterDash[4]);
+        ToggleDashBooster(boosterDash[5]);
+    }
+
+    public void ToggleDashLeft()
+    {
+        ToggleDashBooster(boosterDash[6]);
+        ToggleDashBooster(boosterDash[10]);
+    }
+
+    public void ToggleDashRight()
+    {
+        ToggleDashBooster(boosterDash[7]);
+        ToggleDashBooster(boosterDash[11]);
+    }
+
+    public void ToggleDashUp()
+    {
+        ToggleDashBooster(boosterDash[8]);
+        ToggleDashBooster(boosterDash[9]);
+    }
+
+    private void ToggleDashBooster(ParticleSystem ps)
+    {
+        if (ps.isPlaying)
+            ps.Stop();
+        else
+            ps.Play();
+    }
+
     private void BoosterSFX()
     {
         Vector2 inputDirection = new Vector3(input.Move.x, input.Move.y).normalized;
@@ -255,26 +236,4 @@ public class BoosterController : MonoBehaviour
         else if(!boosterSFX.isPlaying)
             boosterSFX.Play();
     }
-
-
-
-    //public void ToggleBoosterOn(GameObject ps)
-    //{
-    //    ps.GetComponent<ParticleSystem>().Play();
-    //}
-
-    //private void ToggleBoosterOff(GameObject ps)
-    //{
-    //    ps.GetComponent<ParticleSystem>().Stop();
-
-    //}
-
-
-
-    //public void ToggleBoostersUp()
-    //{
-
-    //}
-
-    // toggle 
 }

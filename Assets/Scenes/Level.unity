@@ -406,7 +406,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2540469976343506637, guid: e2082cc8503c5be488aa7fe7d84478f0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -165.90623
+      value: -165.78557
       objectReference: {fileID: 0}
     - target: {fileID: 2540469976343506637, guid: e2082cc8503c5be488aa7fe7d84478f0, type: 3}
       propertyPath: m_LocalPosition.y
@@ -450,7 +450,7 @@ PrefabInstance:
       objectReference: {fileID: 8073223555639714750}
     - target: {fileID: 4889856415937441474, guid: e2082cc8503c5be488aa7fe7d84478f0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -164.58022
+      value: -164.2182
       objectReference: {fileID: 0}
     - target: {fileID: 4889856415937441474, guid: e2082cc8503c5be488aa7fe7d84478f0, type: 3}
       propertyPath: m_LocalPosition.y
@@ -478,7 +478,7 @@ PrefabInstance:
       objectReference: {fileID: 8073223555639714750}
     - target: {fileID: 4889856416257011467, guid: e2082cc8503c5be488aa7fe7d84478f0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -165.90623
+      value: -165.78557
       objectReference: {fileID: 0}
     - target: {fileID: 4889856416257011467, guid: e2082cc8503c5be488aa7fe7d84478f0, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2762,7 +2762,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 2101597039525888240, guid: 665224352e6e1b04f95e9d1f565b2ef3, type: 2}
   m_audioClip: {fileID: 8300000, guid: 765c88110d60b44a5b507ff7ea1fc4b1, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.1
+  m_Volume: 1
   m_Pitch: 1.5
   Loop: 0
   Mute: 0
@@ -5046,16 +5046,16 @@ MonoBehaviour:
   startSafeRangeTurret: 100
   turretSpawnRange: 300
   amountToSpawnTurretComp: 0
-  amountToSpawnTurretHeavy: 25
+  amountToSpawnTurretHeavy: 0
   amountToSpawnTurretMissile: 25
-  amountToSpawnTurretV2: 25
+  amountToSpawnTurretV2: 0
   turretComp: {fileID: 492409351768762638, guid: 7cf50b365d4ee384184bd04617094d9d, type: 3}
   turretHeavy: {fileID: 5539413931977789809, guid: c133ab87af2a06f40911551165eb0e2d, type: 3}
   turretMissile: {fileID: 1741898651135263038, guid: e2f3212442b1f534e9ee876bcd0bfd80, type: 3}
   turretV2: {fileID: 7682484576932427533, guid: f972560c362224b4394bedfe978a9682, type: 3}
   simpleEnemy: {fileID: 817220482400918692, guid: a06bc78aec00b7b4f86f60125b6492ae, type: 3}
   EnemySpawnRange: 300
-  amountToSpawnEnemy: 25
+  amountToSpawnEnemy: 0
 --- !u!4 &1189025233
 Transform:
   m_ObjectHideFlags: 0
@@ -5419,8 +5419,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: 2c24ff12a4971774b9660ad7f2907a7f, type: 2}
-  onLight:
-  - {fileID: 0}
+  onLight: {fileID: 0}
   lookObject: {fileID: 0}
   bulletSpawnPos: {fileID: 0}
 --- !u!65 &1236406531

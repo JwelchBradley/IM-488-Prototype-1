@@ -99,10 +99,13 @@ public class DamageIndicator : MonoBehaviour
             targetRot = Quaternion.LookRotation(direction);
             targetRot.z = -targetRot.y;
             targetRot.y = 0;
-            targetRot.x = 0;
+            //targetRot.x = 0;
+            targetRot.x = targetRot.y;
 
-            Vector3 northDirection = new Vector3(0, 0, playerPos.eulerAngles.y);
-            Rect.localRotation = targetRot * Quaternion.Euler(northDirection);
+            //Vector3 northDirection = new Vector3(0, 0, playerPos.eulerAngles.y);
+            Vector3 northDirection = new Vector3(playerPos.eulerAngles.y, 0, playerPos.eulerAngles.y);
+            Rect.localRotation = Quaternion.LookRotation(-targetPos, Vector3.up);
+            //Rect.localRotation = targetRot * Quaternion.Euler(northDirection);
 
             yield return null;
         }
