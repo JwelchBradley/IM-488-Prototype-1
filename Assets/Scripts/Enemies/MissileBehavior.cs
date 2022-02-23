@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class MissileBehavior : BulletController
 {
-    
-
     private int health = 5;
 
     public Transform target;
@@ -44,7 +42,6 @@ public class MissileBehavior : BulletController
         distance = Vector3.Distance(target.transform.position, transform.position);
         //(target - transform.position).normalized is direction to play
         float step = speed * Time.deltaTime;
-        Debug.Log(target.position);
         //transform.position = Vector3.MoveTowards(transform.position, target.position, step);
         rb.AddForce(transform.forward * forceAmount * Time.deltaTime);
         rb.velocity = Vector3.ClampMagnitude(rb.velocity, speed);
@@ -54,6 +51,7 @@ public class MissileBehavior : BulletController
     protected override void OnCollisionEnter(Collision other)
     {
         CollisionEvent(other);
+        SpawnParticleEffect(other, false);
     }
 
     /*

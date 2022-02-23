@@ -204,6 +204,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 6
+  followDist: 200
   target: {fileID: 0}
   shooting: 0
   aSource: {fileID: 430337945}

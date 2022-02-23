@@ -4865,8 +4865,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  speed: 10
-  forceAmount: 2000
+  speed: 15
+  forceAmount: 3000
   particle: {fileID: 159164}
 --- !u!54 &752000752357526909
 Rigidbody:

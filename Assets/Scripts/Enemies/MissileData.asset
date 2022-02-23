@@ -37,6 +37,6 @@ MonoBehaviour:
   bulletDecalSize: 0.05
   decalEffectLifetime: 5
   decalTimeBeforeFadeOut: 2
-  hitEffect: {fileID: 7463007000696237879, guid: 389fa2d4becba7345accd54b0b867da5, type: 3}
+  hitEffect: {fileID: 180128, guid: 6586ff0f14125534cae2f5d8f04b7871, type: 3}
   hitEffectLifetime: 1
   timeToDestroy: 5

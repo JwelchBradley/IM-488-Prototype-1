@@ -301,6 +301,7 @@ GameObject:
   - component: {fileID: 5557274338107708069}
   - component: {fileID: 5557274338107708071}
   - component: {fileID: 5557274338107708070}
+  - component: {fileID: 5158320215754608878}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -447,6 +448,24 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &5158320215754608878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5557274338107708068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b86f0248d869064c81783ba902e0557, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movement: {fileID: -3552364970006637457, guid: 4419d82f33d36e848b3ed5af4c8da37e, type: 3}
+  movementVertical: {fileID: -1916377846673030204, guid: 4419d82f33d36e848b3ed5af4c8da37e, type: 3}
+  movementFast: {fileID: -8750674506638915993, guid: 4419d82f33d36e848b3ed5af4c8da37e, type: 3}
+  ability1: {fileID: -1942586542258244191, guid: 4419d82f33d36e848b3ed5af4c8da37e, type: 3}
+  ability2: {fileID: -4313075187961668052, guid: 4419d82f33d36e848b3ed5af4c8da37e, type: 3}
+  ability3: {fileID: 7878910937307116541, guid: 4419d82f33d36e848b3ed5af4c8da37e, type: 3}
 --- !u!1 &5557274338192843498
 GameObject:
   m_ObjectHideFlags: 0
@@ -596,6 +615,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ccff87836bccfc449a6b3741df68a89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shouldImmmediate: 0
 --- !u!1 &5557274338778725655
 GameObject:
   m_ObjectHideFlags: 0

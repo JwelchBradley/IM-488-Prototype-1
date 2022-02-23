@@ -19,6 +19,8 @@ public class SimpleEnemyBehavior : MonoBehaviour
 
     public float speed = 6f;
 
+    [SerializeField] private float followDist;
+
     public Transform target;
 
     public bool shooting;
@@ -31,22 +33,24 @@ public class SimpleEnemyBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        followDist *= followDist;
         shooting = false;
         target = GameObject.Find("Player").GetComponent<Transform>();
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        distance = Vector3.Distance(target.transform.position, transform.position);
+        distance = (target.transform.position - transform.position).sqrMagnitude;
 
         if (shooting == false)
         {
             
-            if (distance <= 1000)
+            if (distance <= followDist)
             {
-                float step = speed * Time.deltaTime;
+                float step = speed * Time.fixedDeltaTime;
                 transform.position = Vector3.MoveTowards(transform.position, target.position, step);
+                transform.LookAt(target.position);
             }
             else
             {

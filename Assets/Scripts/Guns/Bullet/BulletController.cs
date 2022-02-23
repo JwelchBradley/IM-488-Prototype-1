@@ -50,6 +50,7 @@ public class BulletController : MonoBehaviour
         }
         else
         {
+            SpawnParticleEffect(other, true);
             CollisionEvent(other);
         }
     }
@@ -63,7 +64,6 @@ public class BulletController : MonoBehaviour
         ContactPoint contact = other.contacts[0];
 
         SpawnDecal(other, contact);
-        gunData.hitEffectObjectPool.SpawnObj(contact.point + contact.normal * .1f, Quaternion.LookRotation(contact.normal), other.gameObject.transform);
 
         Collider otherCol = other.gameObject.GetComponentInChildren<Collider>();
 
@@ -94,6 +94,15 @@ public class BulletController : MonoBehaviour
         decal.transform.localScale = gunData.BulletDecalSize * Vector3.one;
         decal.transform.parent = other.gameObject.transform;
         decal.GetComponent<DecalBehaviour>().StartFadeOut(gunData.DecalEffectLifetime, gunData.DecalTimeBeforeFadeOut);
+    }
+
+    protected void SpawnParticleEffect(Collision other, bool shouldSetParent)
+    {
+        ContactPoint contact = other.contacts[0];
+        if (shouldSetParent)
+        gunData.hitEffectObjectPool.SpawnObj(contact.point + contact.normal * .1f, Quaternion.LookRotation(contact.normal), other.gameObject.transform);
+        else
+            gunData.hitEffectObjectPool.SpawnObj(contact.point + contact.normal * .1f, Quaternion.LookRotation(contact.normal));
     }
 
     public void PlayHitSound(Vector3 pos, PhysicMaterial physicsMat)
