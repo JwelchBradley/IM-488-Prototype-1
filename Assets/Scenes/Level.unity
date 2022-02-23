@@ -5074,8 +5074,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 24.317993, y: 0}
-  m_SizeDelta: {x: -643.962, y: 0}
+  m_AnchoredPosition: {x: 23.149536, y: 0}
+  m_SizeDelta: {x: -646.29895, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1186041762
 GameObject:
@@ -5152,16 +5152,16 @@ MonoBehaviour:
   startSafeRangeTurret: 100
   turretSpawnRange: 300
   amountToSpawnTurretComp: 0
-  amountToSpawnTurretHeavy: 0
-  amountToSpawnTurretMissile: 50
-  amountToSpawnTurretV2: 0
+  amountToSpawnTurretHeavy: 25
+  amountToSpawnTurretMissile: 25
+  amountToSpawnTurretV2: 25
   turretComp: {fileID: 492409351768762638, guid: 7cf50b365d4ee384184bd04617094d9d, type: 3}
   turretHeavy: {fileID: 5539413931977789809, guid: c133ab87af2a06f40911551165eb0e2d, type: 3}
   turretMissile: {fileID: 1741898651135263038, guid: e2f3212442b1f534e9ee876bcd0bfd80, type: 3}
   turretV2: {fileID: 7682484576932427533, guid: f972560c362224b4394bedfe978a9682, type: 3}
   simpleEnemy: {fileID: 817220482400918692, guid: a06bc78aec00b7b4f86f60125b6492ae, type: 3}
   EnemySpawnRange: 300
-  amountToSpawnEnemy: 1
+  amountToSpawnEnemy: 25
 --- !u!4 &1189025233
 Transform:
   m_ObjectHideFlags: 0
