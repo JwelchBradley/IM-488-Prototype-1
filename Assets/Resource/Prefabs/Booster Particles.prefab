@@ -114,9 +114,9 @@ ParticleSystem:
     enabled: 1
     startLifetime:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 0.3
-      minScalar: 5
+      minMaxState: 3
+      scalar: 0.45
+      minScalar: 0.3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -167,9 +167,9 @@ ParticleSystem:
         m_RotationOrder: 4
     startSpeed:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 1.1
-      minScalar: 5
+      minMaxState: 3
+      scalar: 1.3
+      minScalar: 1.1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -983,17 +983,17 @@ ParticleSystem:
         - serializedVersion: 3
           time: 0
           value: 1
-          inSlope: -0.6991922
-          outSlope: -0.6991922
+          inSlope: -0.72679776
+          outSlope: -0.72679776
           tangentMode: 34
           weightedMode: 0
           inWeight: 0
           outWeight: 0.33333334
         - serializedVersion: 3
-          time: 0.73811156
-          value: 0.48391813
-          inSlope: -1.2734973
-          outSlope: -1.2734973
+          time: 0.80953795
+          value: 0.41162962
+          inSlope: -1.4440069
+          outSlope: -1.4440069
           tangentMode: 34
           weightedMode: 0
           inWeight: 0.33333334
@@ -1001,8 +1001,8 @@ ParticleSystem:
         - serializedVersion: 3
           time: 1
           value: 0
-          inSlope: -1.8478025
-          outSlope: -1.8478025
+          inSlope: -2.161216
+          outSlope: -2.161216
           tangentMode: 34
           weightedMode: 0
           inWeight: 0.33333334
@@ -3819,13 +3819,13 @@ ParticleSystem:
       properties: 0
       emitProbability: 1
   LightsModule:
-    enabled: 0
-    ratio: 0
-    light: {fileID: 0}
+    enabled: 1
+    ratio: 0.5
+    light: {fileID: 6104388599969462333, guid: b42599c9b8d104446b55e9617866913c, type: 3}
     randomDistribution: 1
-    color: 1
-    range: 1
-    intensity: 1
+    color: 0
+    range: 0
+    intensity: 0
     rangeCurve:
       serializedVersion: 2
       minMaxState: 0
@@ -3882,7 +3882,7 @@ ParticleSystem:
     intensityCurve:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.05
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -3932,7 +3932,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    maxLights: 20
+    maxLights: 30
   TrailModule:
     enabled: 0
     mode: 0
