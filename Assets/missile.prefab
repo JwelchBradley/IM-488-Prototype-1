@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 9066383583905865317}
   - component: {fileID: 979233536063211829}
   - component: {fileID: -804947229611642413}
+  - component: {fileID: 6050585071316681989}
   m_Layer: 3
   m_Name: missile
   m_TagString: Bullet
@@ -874,7 +875,7 @@ ParticleSystem:
           m_PostInfinity: 2
           m_RotationOrder: 4
     arc:
-      value: 360
+      value: 102.2
       mode: 0
       spread: 0
       speed:
@@ -936,7 +937,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 3
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -4999,3 +5000,16 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6050585071316681989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6148998742369269141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ecbcac9fbf18fc4699930b2fa1b02e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyTimer: 20

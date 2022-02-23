@@ -15,6 +15,7 @@ public class MissileBehavior : BulletController
     private Rigidbody rb;
 
     public GameObject particle;
+    float distance;
 
     // Start is called before the first frame update
     void Start()
@@ -38,9 +39,11 @@ public class MissileBehavior : BulletController
     // Update is called once per frame
     void Update()
     {
+
+        distance = Vector3.Distance(target.transform.position, transform.position);
         //(target - transform.position).normalized is direction to play
         float step = speed * Time.deltaTime;
-      
+
         transform.position = Vector3.MoveTowards(transform.position, target.position, step);
         transform.LookAt(target.position);
     }

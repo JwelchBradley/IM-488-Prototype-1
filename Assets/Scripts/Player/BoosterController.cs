@@ -10,125 +10,256 @@ using UnityEngine;
 
 public class BoosterController : MonoBehaviour
 {
-    [Tooltip("List of all booster particle systems on player")]
-    /* 0 - 1:   Forward
-     * 2 - 3:   Back
-     * 4 - 9:   Up
-     * 10 - 11: Down
-     * 12 - 14: Right
-     * 15 - 17: Left
-     */
-    public List<GameObject> boosterList;
+    private KeybindInputHandler input;
+    private ThirdPersonController controller;
+
+    private Animator anim;
+
+    private bool combatIdle;
+
+    [Tooltip("Lists of all booster particle systems on player")]
+
+    public List<ParticleSystem> boosterUp, boosterDown, boosterRight, boosterLeft,
+                            boosterForward, boosterBack;
 
     private void Start()
     {
-        for(int i = 0; i < boosterList.Count; i++)
-        {
-            boosterList[i].GetComponent<ParticleSystem>().Stop();
-        }
+        input = transform.root.GetComponent<KeybindInputHandler>();
+        controller = transform.root.GetComponent<ThirdPersonController>();
+
+        anim = GetComponent<Animator>();
+
+        ToggleBoostersOffAll();
     }
 
-    /// <summary>
-    /// Called every frame; tracks key presses
-    /// </summary>
     private void Update()
     {
-        // Forward
-        if(Input.GetKeyDown(KeyCode.W))
-        {
-            ToggleBoosterOn(boosterList[0]);
-            ToggleBoosterOn(boosterList[1]);
-        }
-        else if (Input.GetKeyUp(KeyCode.W))
-        {
-            ToggleBoosterOff(boosterList[0]);
-            ToggleBoosterOff(boosterList[1]);
-        }
+        //if(input.)
 
-        // Back
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            ToggleBoosterOn(boosterList[2]);
-            ToggleBoosterOn(boosterList[3]);
-        }
-        else if (Input.GetKeyUp(KeyCode.S))
-        {
-            ToggleBoosterOff(boosterList[2]);
-            ToggleBoosterOff(boosterList[3]);
-        }
+        if (controller.CurrentMoveState == ThirdPersonController.moveState.normal ||
+            controller.CurrentMoveState == ThirdPersonController.moveState.ADS)
+            BoostersNormalMovement();
 
-        // Up                                       // Inverted w flying
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ToggleBoosterOn(boosterList[4]);
-            ToggleBoosterOn(boosterList[5]);
-            ToggleBoosterOn(boosterList[6]);
-            ToggleBoosterOn(boosterList[7]);
-            ToggleBoosterOn(boosterList[8]);
-            ToggleBoosterOn(boosterList[9]);
-        }
-        else if (Input.GetKeyUp(KeyCode.Space))
-        {
-            ToggleBoosterOff(boosterList[4]);
-            ToggleBoosterOff(boosterList[5]);
-            ToggleBoosterOff(boosterList[6]);
-            ToggleBoosterOff(boosterList[7]);
-            ToggleBoosterOff(boosterList[8]);
-            ToggleBoosterOff(boosterList[9]);
-        }
-
-        // Down                                     // Inverted w flying
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            ToggleBoosterOn(boosterList[10]);
-            ToggleBoosterOn(boosterList[11]);
-        }
-        else if (Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            ToggleBoosterOff(boosterList[10]);
-            ToggleBoosterOff(boosterList[11]);
-        }
-
-        // Right
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            ToggleBoosterOn(boosterList[12]);
-            ToggleBoosterOn(boosterList[13]);
-            ToggleBoosterOn(boosterList[14]);
-        }
-        else if (Input.GetKeyUp(KeyCode.D))
-        {
-            ToggleBoosterOff(boosterList[12]);
-            ToggleBoosterOff(boosterList[13]);
-            ToggleBoosterOff(boosterList[14]);
-        }
-
-        // Left
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            ToggleBoosterOn(boosterList[15]);
-            ToggleBoosterOn(boosterList[16]);
-            ToggleBoosterOn(boosterList[17]);
-        }
-        else if (Input.GetKeyUp(KeyCode.A))
-        {
-            ToggleBoosterOff(boosterList[15]);
-            ToggleBoosterOff(boosterList[16]);
-            ToggleBoosterOff(boosterList[17]);
-        }
-
-
+        if (controller.CurrentMoveState == ThirdPersonController.moveState.fast)
+            BoostersFlyingMovement();
     }
 
-
-    private void ToggleBoosterOn(GameObject ps)
+    private void BoostersNormalMovement()
     {
-        ps.GetComponent<ParticleSystem>().Play();
+        Vector2 inputDirection = new Vector3(input.Move.x, input.Move.y).normalized;
+
+        // Backwards movement
+        if (inputDirection.y < 0)
+        {
+            ToggleBoostersBackOn();
+            ToggleBoostersForwardOff();
+        }
+        // Forwards movement
+        else if (inputDirection.y > 0)
+        {
+            ToggleBoostersForwardOn();
+            ToggleBoostersBackOff();
+        }
+        // No forwaards/backwards movement
+        else
+        {
+            ToggleBoostersForwardOff();
+            ToggleBoostersBackOff();
+        }
+
+        // Right movement
+        if (inputDirection.x > 0)
+        {
+            ToggleBoostersRightOn();
+            ToggleBoostersLeftOff();
+        }
+        // Left movement
+        else if (inputDirection.x < 0)
+        {
+            ToggleBoostersLeftOn();
+            ToggleBoostersRightOff();
+        }
+        // No left/right movement
+        else if (inputDirection.x == 0)
+        {
+            ToggleBoostersRightOff();
+            ToggleBoostersLeftOff();
+        }
+
+        // Up movement
+        if (input.MoveVertical > 0)
+        {
+            ToggleBoostersUpOn();
+            ToggleBoostersDownOff();
+        }
+        // Down movement
+        else if (input.MoveVertical < 0)
+        {
+            ToggleBoostersDownOn();
+            ToggleBoostersUpOff();
+        }
+        // No veritcal movement
+        else if (input.MoveVertical == 0)
+        {
+            ToggleBoostersUpOff();
+            ToggleBoostersDownOff();
+        }
     }
 
-    private void ToggleBoosterOff(GameObject ps)
+    private void BoostersFlyingMovement()
     {
-        ps.GetComponent<ParticleSystem>().Stop();
-        
+        ToggleBoostersUpOn();
+
+        ToggleBoostersDownOff();
+        ToggleBoostersForwardOff();
+        ToggleBoostersBackOff();
+
+        Vector2 inputDirection = new Vector3(input.Move.x, input.Move.y).normalized;
+
+        // Right movement
+        if (inputDirection.x > 0)
+        {
+            ToggleBoostersRightOn();
+            ToggleBoostersLeftOff();
+        }
+        // Left movement
+        else if (inputDirection.x < 0)
+        {
+            ToggleBoostersLeftOn();
+            ToggleBoostersRightOff();
+        }
+        // No left/right movement
+        else if (inputDirection.x == 0)
+        {
+            ToggleBoostersRightOff();
+            ToggleBoostersLeftOff();
+        }
     }
+
+
+    /**************************************************************************/
+    public void ToggleBoostersOnAll()
+    {
+        ToggleBoostersOn(boosterUp);
+        ToggleBoostersOn(boosterDown);
+        ToggleBoostersOn(boosterRight);
+        ToggleBoostersOn(boosterLeft);
+        ToggleBoostersOn(boosterForward);
+        ToggleBoostersOn(boosterBack);
+    }
+
+    public void ToggleBoostersOffAll()
+    {
+        ToggleBoostersOff(boosterUp);
+        ToggleBoostersOff(boosterDown);
+        ToggleBoostersOff(boosterRight);
+        ToggleBoostersOff(boosterLeft);
+        ToggleBoostersOff(boosterForward);
+        ToggleBoostersOff(boosterBack);
+    }
+
+    /**************************************************************************/
+    public void ToggleBoostersUpOn()
+    {
+        ToggleBoostersOn(boosterUp);
+    }
+
+    public void ToggleBoostersUpOff()
+    {
+        ToggleBoostersOff(boosterUp);
+    }
+
+    /**************************************************************************/
+    public void ToggleBoostersDownOn()
+    {
+        ToggleBoostersOn(boosterDown);
+    }
+
+    public void ToggleBoostersDownOff()
+    {
+        ToggleBoostersOff(boosterDown);
+    }
+
+    /**************************************************************************/
+    public void ToggleBoostersRightOn()
+    {
+        ToggleBoostersOn(boosterRight);
+    }
+
+    public void ToggleBoostersRightOff()
+    {
+        ToggleBoostersOff(boosterRight);
+    }
+
+    /**************************************************************************/
+    public void ToggleBoostersLeftOn()
+    {
+        ToggleBoostersOn(boosterLeft);
+    }
+
+    public void ToggleBoostersLeftOff()
+    {
+        ToggleBoostersOff(boosterLeft);
+    }
+
+    /**************************************************************************/
+    public void ToggleBoostersForwardOn()
+    {
+        ToggleBoostersOn(boosterForward);
+    }
+
+    public void ToggleBoostersForwardOff()
+    {
+        ToggleBoostersOff(boosterForward);
+    }
+
+    /**************************************************************************/
+    public void ToggleBoostersBackOn()
+    {
+        ToggleBoostersOn(boosterBack);
+    }
+
+    public void ToggleBoostersBackOff()
+    {
+        ToggleBoostersOff(boosterBack);
+    }
+
+    /**************************************************************************/
+    private void ToggleBoostersOn(List<ParticleSystem> psList)
+    {
+        for(int i = 0; i < psList.Count; i++)
+        {
+            if(!psList[i].isPlaying)
+                psList[i].Play();
+        }
+    }
+
+    private void ToggleBoostersOff(List<ParticleSystem> psList)
+    {
+        for (int i = 0; i < psList.Count; i++)
+        {
+            if(psList[i].isPlaying)
+                psList[i].Stop();
+        }
+    }
+
+    //public void ToggleBoosterOn(GameObject ps)
+    //{
+    //    ps.GetComponent<ParticleSystem>().Play();
+    //}
+
+    //private void ToggleBoosterOff(GameObject ps)
+    //{
+    //    ps.GetComponent<ParticleSystem>().Stop();
+
+    //}
+
+
+
+    //public void ToggleBoostersUp()
+    //{
+
+    //}
+
+    // toggle 
 }
