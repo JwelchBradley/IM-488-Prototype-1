@@ -30,7 +30,7 @@ MonoBehaviour:
   bulletInaccuracy: 0
   bulletVelocity: 10
   pushBackForce: 0
-  bullet: {fileID: 6148998742369269141, guid: 7d71d16ceeb36664ab67c86533def958, type: 3}
+  bullet: {fileID: 115386, guid: 1d37014fd411c524db3696bba6ff1d21, type: 3}
   objectPoolToSpawn: {fileID: 5023310470108325871, guid: 5254c8be5e46ce04a9fd17c6a7717dd1, type: 3}
   objectPoolAmount: 40
   bulletDecal: {fileID: 5958606127806489753, guid: 80c920d4b01eaac4c891801ac0e34773, type: 3}

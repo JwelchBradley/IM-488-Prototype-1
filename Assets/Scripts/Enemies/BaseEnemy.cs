@@ -11,18 +11,28 @@ public abstract class BaseEnemy : MonoBehaviour, IDamagable
     protected EnemyData enemyData;
 
     [SerializeField]
-    private GameObject onLight;
+    private GameObject[] onLight;
 
     private void OnEnable()
     {
         if(onLight != null)
-        onLight.SetActive(true);
+        {
+            foreach(GameObject light in onLight)
+            {
+                light.SetActive(true);
+            }
+        }
     }
 
     private void OnDisable()
     {
-        if(onLight != null)
-        onLight.SetActive(false);
+        if (onLight != null)
+        {
+            foreach (GameObject light in onLight)
+            {
+                light.SetActive(false);
+            }
+        }
     }
 
     /// <summary>

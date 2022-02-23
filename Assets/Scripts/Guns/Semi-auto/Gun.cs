@@ -114,7 +114,7 @@ public class Gun : MonoBehaviour
         GameObject overrideBulletRef = Instantiate(overrideBullet, bulletSpawnPos.position, Quaternion.identity);
         EMPBulletController bulletController = overrideBulletRef.GetComponent<EMPBulletController>();
         aud.PlayOneShot(fireSound);
-
+ 
         bulletController.InitializeBullet(target, empGunData);
         bulletController.StunDuration = stunDuration;
     }

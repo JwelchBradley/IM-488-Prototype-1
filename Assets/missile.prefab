@@ -4890,6 +4890,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   speed: 20
+  forceAmount: 1000
   particle: {fileID: 6759568148441200657, guid: fa04cfc75c0c0f346926d5d00938fbbf, type: 3}
 --- !u!135 &979233536063211829
 SphereCollider:
