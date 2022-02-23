@@ -12,11 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cd4d580a4144cb4ca25c862333f1d95, type: 3}
   m_Name: SemiAuto
   m_EditorClassIdentifier: 
+  objectPool: {fileID: 0}
+  hitEffectObjectPool: {fileID: 0}
+  hitDecalObjectPool: {fileID: 0}
+  hitSoundObjectPool: {fileID: 0}
   fireRate: 7
   damage: 15
   tapStaggerTime: 0.2
   overheatLimit: 100
-  overheatPerShot: 8
+  overheatPerShot: 3.333334
   waitBeforeOverheatReduction: 2
   overheatReductionAmount: 1
   overheatReducitonTickRate: 0.02

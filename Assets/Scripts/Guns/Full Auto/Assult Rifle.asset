@@ -20,7 +20,7 @@ MonoBehaviour:
   damage: 8
   tapStaggerTime: 0.2
   overheatLimit: 100
-  overheatPerShot: 4
+  overheatPerShot: 3.333334
   waitBeforeOverheatReduction: 2.5
   overheatReductionAmount: 2
   overheatReducitonTickRate: 0.02

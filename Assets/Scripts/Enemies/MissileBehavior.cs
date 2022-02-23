@@ -11,6 +11,7 @@ public class MissileBehavior : BulletController
     public Transform target;
     private Renderer render;
     public float speed = 10f;
+    [SerializeField] private float forceAmount = 1000;
     ThirdPersonController tpc;
     private Rigidbody rb;
 
@@ -43,8 +44,10 @@ public class MissileBehavior : BulletController
         distance = Vector3.Distance(target.transform.position, transform.position);
         //(target - transform.position).normalized is direction to play
         float step = speed * Time.deltaTime;
-
-        transform.position = Vector3.MoveTowards(transform.position, target.position, step);
+        Debug.Log(target.position);
+        //transform.position = Vector3.MoveTowards(transform.position, target.position, step);
+        rb.AddForce(transform.forward * forceAmount * Time.deltaTime);
+        rb.velocity = Vector3.ClampMagnitude(rb.velocity, speed);
         transform.LookAt(target.position);
     }
 
