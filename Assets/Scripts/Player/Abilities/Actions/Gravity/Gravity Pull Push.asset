@@ -32,6 +32,9 @@ MonoBehaviour:
   pushPullableMask:
     serializedVersion: 2
     m_Bits: 2048
+  pushAtMask:
+    serializedVersion: 2
+    m_Bits: 3121
   pushSpeed: 200
   aimAssist: 5
   pushPullDist: 81.5

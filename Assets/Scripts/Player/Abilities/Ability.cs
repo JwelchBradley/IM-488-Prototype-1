@@ -198,6 +198,21 @@ public class Ability : ScriptableObject
         get => pushPullableMask;
     }
 
+
+    [ConditionalField("abilityType", type.gravity)]
+    [Tooltip("Layers players can push or pull towards them")]
+    [SerializeField]
+    private LayerMask pushAtMask;
+
+    /// <summary>
+    /// Layers players can push or pull towards them.
+    /// </summary>
+    public LayerMask PushAtMask
+    {
+        get => pushAtMask;
+    }
+
+
     /*
     [ConditionalField("abilityType", type.gravity)]
     [Range(0.0f, 100.0f)]

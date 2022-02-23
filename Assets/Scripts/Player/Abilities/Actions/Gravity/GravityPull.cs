@@ -153,7 +153,7 @@ public class GravityPull : AbilityAction
         RaycastHit hit;
         Vector3 target;
 
-        if (Physics.BoxCast(ability.mainCam.transform.position, Vector3.one * 0.5f, ability.mainCam.transform.forward.normalized, out hit, Quaternion.identity, Mathf.Infinity) && !hit.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Held")))
+        if (Physics.BoxCast(ability.mainCam.transform.position, Vector3.one * 0.5f, ability.mainCam.transform.forward.normalized, out hit, Quaternion.identity, Mathf.Infinity, ability.PushAtMask))
         {
             target = hit.point;
         }

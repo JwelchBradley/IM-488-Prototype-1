@@ -12,22 +12,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cd4d580a4144cb4ca25c862333f1d95, type: 3}
   m_Name: Assult Rifle
   m_EditorClassIdentifier: 
+  objectPool: {fileID: 0}
+  hitEffectObjectPool: {fileID: 0}
+  hitDecalObjectPool: {fileID: 0}
+  hitSoundObjectPool: {fileID: 0}
   fireRate: 8
-  damage: 7
+  damage: 8
   tapStaggerTime: 0.2
   overheatLimit: 100
-  overheatPerShot: 3
-  waitBeforeOverheatReduction: 1
+  overheatPerShot: 4
+  waitBeforeOverheatReduction: 2.5
   overheatReductionAmount: 2
   overheatReducitonTickRate: 0.02
   zoomMod: 2
   shootShound: {fileID: 8300000, guid: a68b871de9fdd7545aefa1f40baba0c7, type: 3}
   hitSound: {fileID: 11400000, guid: 377434b8e9c85b04d9136134b9ef55be, type: 2}
   bulletInaccuracy: 0
-  bulletVelocity: 300
+  bulletVelocity: 450
   pushBackForce: 0
   bullet: {fileID: 2574761780501521635, guid: 11e21371a2fbafa47931cf0040d28298, type: 3}
   objectPoolToSpawn: {fileID: 5023310470108325871, guid: 5254c8be5e46ce04a9fd17c6a7717dd1, type: 3}
+  objectPoolAmount: 40
   bulletDecal: {fileID: 5958606127806489753, guid: 80c920d4b01eaac4c891801ac0e34773, type: 3}
   bulletDecalSize: 0.25
   decalEffectLifetime: 5

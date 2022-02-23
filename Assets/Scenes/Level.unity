@@ -406,7 +406,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2540469976343506637, guid: e2082cc8503c5be488aa7fe7d84478f0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -165.90569
+      value: -165.90623
       objectReference: {fileID: 0}
     - target: {fileID: 2540469976343506637, guid: e2082cc8503c5be488aa7fe7d84478f0, type: 3}
       propertyPath: m_LocalPosition.y
@@ -450,7 +450,7 @@ PrefabInstance:
       objectReference: {fileID: 8073223555639714750}
     - target: {fileID: 4889856415937441474, guid: e2082cc8503c5be488aa7fe7d84478f0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -164.57857
+      value: -164.58022
       objectReference: {fileID: 0}
     - target: {fileID: 4889856415937441474, guid: e2082cc8503c5be488aa7fe7d84478f0, type: 3}
       propertyPath: m_LocalPosition.y
@@ -478,7 +478,7 @@ PrefabInstance:
       objectReference: {fileID: 8073223555639714750}
     - target: {fileID: 4889856416257011467, guid: e2082cc8503c5be488aa7fe7d84478f0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -165.90569
+      value: -165.90623
       objectReference: {fileID: 0}
     - target: {fileID: 4889856416257011467, guid: e2082cc8503c5be488aa7fe7d84478f0, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1508,7 +1508,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 0.5
+  m_Intensity: 0.65
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -5115,9 +5115,9 @@ MonoBehaviour:
   startSafeRangeTurret: 100
   turretSpawnRange: 300
   amountToSpawnTurretComp: 0
-  amountToSpawnTurretHeavy: 0
-  amountToSpawnTurretMissile: 0
-  amountToSpawnTurretV2: 100
+  amountToSpawnTurretHeavy: 40
+  amountToSpawnTurretMissile: 20
+  amountToSpawnTurretV2: 40
   turretComp: {fileID: 492409351768762638, guid: 7cf50b365d4ee384184bd04617094d9d, type: 3}
   turretHeavy: {fileID: 5539413931977789809, guid: c133ab87af2a06f40911551165eb0e2d, type: 3}
   turretMissile: {fileID: 1741898651135263038, guid: e2f3212442b1f534e9ee876bcd0bfd80, type: 3}
@@ -8698,7 +8698,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 0.5
+  m_Intensity: 0.65
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
