@@ -11,7 +11,7 @@ using UnityEngine;
 
 public class BulletController : MonoBehaviour
 {
-    GunData gunData;
+    protected GunData gunData;
 
     public void InitializeBullet(Vector3 target, GunData gunData)
     {
@@ -87,7 +87,7 @@ public class BulletController : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void SpawnDecal(Collision other, ContactPoint contact)
+    protected void SpawnDecal(Collision other, ContactPoint contact)
     {
         GameObject decal = gunData.hitDecalObjectPool.SpawnObj(contact.point + contact.normal * 0.01f, Quaternion.LookRotation(contact.normal));
         decal.transform.parent = null;

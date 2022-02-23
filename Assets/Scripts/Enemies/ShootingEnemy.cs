@@ -20,6 +20,8 @@ public class ShootingEnemy : BaseEnemy
 
     private ShootingEnemy self;
 
+    private bool shouldShoot = false;
+
     protected override void Awake()
     {
         base.Awake();
@@ -38,26 +40,29 @@ public class ShootingEnemy : BaseEnemy
         if(notFrozen && (bulletSpawnPos.position - playerReference.transform.position).sqrMagnitude < enemyData.Range)
         {
             LookAtPlayer();
-
-            if(shootRoutine == null)
+            shouldShoot = true;
+            if (shootRoutine == null)
             {
                 shootRoutine = StartCoroutine(ShootRoutine());
             }
         }
         else if(shootRoutine != null)
         {
-            StopAllCoroutines();
-            shootRoutine = null;
+            shouldShoot = false;
+            //StopAllCoroutines();
+            //shootRoutine = null;
         }
     }
 
     private IEnumerator ShootRoutine()
     {
-        while (self.enabled)
+        while (self.enabled && shouldShoot)
         {
-            yield return new WaitForSeconds(1/enemyData.GunData.FireRate);
             ShootBullet();
+            yield return new WaitForSeconds(1 / enemyData.GunData.FireRate);
         }
+
+        shouldShoot = false;
         shootRoutine = null;
     }
 

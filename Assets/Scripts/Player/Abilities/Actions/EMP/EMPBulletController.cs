@@ -23,12 +23,45 @@ public class EMPBulletController : BulletController
 
     protected override void CollisionEvent(Collision other)
     {
-        if(other.gameObject.TryGetComponent(out BaseEnemy be))
+        gunData.SpawnObjectPool();
+
+        if (other.gameObject.CompareTag("Bullet"))
+        {
+            return;
+        }
+
+        ContactPoint contact = other.contacts[0];
+
+        SpawnDecal(other, contact);
+        gunData.hitEffectObjectPool.SpawnObj(contact.point + contact.normal * .1f, Quaternion.LookRotation(contact.normal), other.gameObject.transform);
+
+        Collider otherCol = other.gameObject.GetComponentInChildren<Collider>();
+
+        if (otherCol != null)
+        {
+            PlayHitSound(contact.point, otherCol.sharedMaterial);
+        }
+        else
+        {
+            PhysicMaterial physicsMat = null;
+            PlayHitSound(contact.point, physicsMat);
+        }
+
+        IDamagable damagable = other.gameObject.GetComponent<IDamagable>();
+
+        if (damagable != null)
+        {
+            damagable.UpdateHealth(-gunData.Damage);
+        }
+
+        if (other.gameObject.TryGetComponent(out BaseEnemy be))
         {
             be.enabled = false;
             StartCoroutine(reenableEnemy(be));
-            renderer.enabled = false;
         }
+
+        renderer.enabled = false;
+        gameObject.GetComponent<Collider>().enabled = false;
     } 
 
     private IEnumerator reenableEnemy(BaseEnemy be)
