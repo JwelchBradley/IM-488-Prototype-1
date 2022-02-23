@@ -16,7 +16,7 @@ MonoBehaviour:
   hitEffectObjectPool: {fileID: 0}
   hitDecalObjectPool: {fileID: 0}
   hitSoundObjectPool: {fileID: 0}
-  fireRate: 0.5
+  fireRate: 0.2
   damage: 20
   tapStaggerTime: 0.2
   overheatLimit: 100

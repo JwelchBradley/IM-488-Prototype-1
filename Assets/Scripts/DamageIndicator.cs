@@ -79,10 +79,10 @@ public class DamageIndicator : MonoBehaviour
     {
         if(indicatorCD != null)
         {
-            StopCoroutine("indicatorCD");
+            StopCoroutine(indicatorCD);
         }
         indicatorCD = Countdown();
-        StartCoroutine("indicatorCD");
+        StartCoroutine(indicatorCD);
     }
 
 
