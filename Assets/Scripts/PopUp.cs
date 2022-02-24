@@ -16,9 +16,9 @@ public class PopUp : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (popup.activeInHierarchy && (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.Escape)))
+        if ((Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.Escape)))
         {
-            popup.SetActive(false);
+            gameObject.SetActive(false);
             Time.timeScale = 1;
         }
     }

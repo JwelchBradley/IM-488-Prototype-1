@@ -11,6 +11,12 @@ public class EMPBulletController : BulletController
     private void OnEnable()
     {
         renderer = GetComponent<Renderer>();
+        Invoke("WaitForPool", 0.1f);
+    }
+
+    private void WaitForPool()
+    {
+        gunData.SpawnObjectPool();
     }
 
     public float StunDuration
@@ -23,8 +29,6 @@ public class EMPBulletController : BulletController
 
     protected override void CollisionEvent(Collision other)
     {
-        gunData.SpawnObjectPool();
-
         if (other.gameObject.CompareTag("Bullet"))
         {
             return;

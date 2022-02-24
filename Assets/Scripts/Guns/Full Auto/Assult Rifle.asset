@@ -17,7 +17,7 @@ MonoBehaviour:
   hitDecalObjectPool: {fileID: 0}
   hitSoundObjectPool: {fileID: 0}
   fireRate: 8
-  damage: 8
+  damage: 7
   tapStaggerTime: 0.2
   overheatLimit: 100
   overheatPerShot: 3.333334

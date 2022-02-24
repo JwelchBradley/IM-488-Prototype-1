@@ -4813,7 +4813,6 @@ GameObject:
   - component: {fileID: 13613378}
   - component: {fileID: 3557502422569033739}
   - component: {fileID: 752000752357526909}
-  - component: {fileID: -1835228269407964656}
   m_Layer: 3
   m_Name: missile
   m_TagString: Bullet
@@ -4884,19 +4883,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 2
---- !u!114 &-1835228269407964656
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 115386}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ecbcac9fbf18fc4699930b2fa1b02e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  destroyTimer: 20
 --- !u!1 &155060
 GameObject:
   m_ObjectHideFlags: 0
